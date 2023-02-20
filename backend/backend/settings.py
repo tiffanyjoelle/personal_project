@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'nhpp_api',
     'rest_framework',
+    'django_seed',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [

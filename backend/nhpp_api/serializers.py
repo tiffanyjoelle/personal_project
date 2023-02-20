@@ -1,24 +1,9 @@
-from rest_framework import serializers
-from .models import ProgramCode, InspectionPriority, Source, Form, AuthorizedUse, Material, AuMaterialsUse, PermitProgram, RSO, AuthorizedUser, Permit, FacilityDemographic
-
-class ProgramCodeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProgramCode
-        fields = '__all__'
-
-class InspectionPrioritySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = InspectionPriority
-        fields = '__all__'
+from rest_framework import serializers, fields
+from .models import Source, AuthorizedUse, Material, PermitProgram, RSO, AuthorizedUser, Permit
 
 class SourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Source
-        fields = '__all__'
-
-class FormSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Form
         fields = '__all__'
 
 class AuthorizedUseSerializer(serializers.ModelSerializer):
@@ -27,17 +12,9 @@ class AuthorizedUseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MaterialSerializer(serializers.ModelSerializer):
-    source = SourceSerializer(many=True)
-    form = FormSerializer(many=True)
-    authorized_use = AuthorizedUseSerializer(many=True)
-
+    form = serializers.ChoiceField(choices=Material.FORM_CHOICES)
     class Meta:
         model = Material
-        fields = '__all__'
-
-class AuMaterialsUseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AuMaterialsUse
         fields = '__all__'
 
 class PermitProgramSerializer(serializers.ModelSerializer):
@@ -45,52 +22,55 @@ class PermitProgramSerializer(serializers.ModelSerializer):
         model = PermitProgram
         fields = '__all__'
 
-class RSONameSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RSO
-        fields = ['id', 'first_name', 'middle_name', 'last_name']
-
-class RSOContactSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RSO
-        fields = ['email', 'phone', 'alt_phone']
-
-class RSOConsultingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RSO
-        fields = ['consulting_firm']
-
 class RSOSerializer(serializers.ModelSerializer):
-    name = RSONameSerializer()
-    contact = RSOContactSerializer()
-    consulting = RSOConsultingSerializer()
+    middle_name = serializers.CharField(required=False)
+    credentials = serializers.CharField(required=False)
+    alt_phone = serializers.CharField(required=False)
+    consulting_firm = serializers.CharField(required=False)
+    notes = serializers.CharField(required=False)
 
     class Meta:
         model = RSO
-        fields = ['name', 'credentials', 'contact', 'consulting', 'notes']
+        fields = '__all__'
 
 class AuthorizedUserSerializer(serializers.ModelSerializer):
+    material_and_use = serializers.MultipleChoiceField(choices=AuthorizedUser.MATERIAL_AND_USE_CHOICES)
+
     class Meta:
         model = AuthorizedUser
         fields = '__all__'
 
 class PermitSerializer(serializers.ModelSerializer):
-    program_codes = ProgramCodeSerializer(many=True)
-    inspection_priority = InspectionPrioritySerializer()
-    material = MaterialSerializer(many=True)
-    permit_program = PermitProgramSerializer(many=True)
-    primary_rso = RSONameSerializer()
-    alt_rso = RSONameSerializer()
-    authorized_user = AuthorizedUserSerializer(many=True)
-    facility = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    program_codes = serializers.MultipleChoiceField(choices=Permit.PROGRAM_CODE_CHOICES)
+    inspection_priority = serializers.ChoiceField(choices=Permit.INSPECTION_PRIORITY_CHOICES)
+    material = MaterialSerializer(many=True, required=False)
+    permit_program = PermitProgramSerializer(many=True, required=False)
+    primary_rso = serializers.PrimaryKeyRelatedField(queryset=RSO.objects.all())
+    alt_rso = RSOSerializer(required=False)
+    authorized_user = AuthorizedUserSerializer(many=True, required=False)
+    docket_num = serializers.CharField(allow_blank=True, required=False, default='N/A')
 
     class Meta:
         model = Permit
         fields = '__all__'
 
-class FacilityDemographicSerializer(serializers.ModelSerializer):
-    permit = PermitSerializer(read_only=True)
+    def create(self, validated_data):
+        materials_data = validated_data.pop('material')
+        authorized_users_data = validated_data.pop('authorized_user')
+        permit_programs_data = validated_data.pop('permit_program')
+        primary_rso = validated_data.pop('primary_rso')
+        permit = Permit.objects.create(primary_rso=primary_rso, **validated_data)
 
-    class Meta:
-        model = FacilityDemographic
-        fields = '__all__'
+        for material in materials_data:
+            material = Material.objects.create(**material)
+            permit.material.set([material])
+        
+        for authorized_user in authorized_users_data:
+            au = AuthorizedUser.objects.create(**authorized_user)
+            permit.authorized_user.set([au])
+        
+        for permit_program in permit_programs_data:
+            program = PermitProgram.objects.create(**permit_program)
+            permit.permit_program.set([program])
+
+        return permit
