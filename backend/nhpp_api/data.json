@@ -46,26 +46,26 @@
 {
     "program_codes": [
         {
-            "code": 2240,
-            "description": "Broad scope medical"
+            "code": 1111,
+            "description": "New"
+        },
+        {
+            "code": 2222,
+            "description": "New2"
         }
     ],
     "material": [
         {
             "source": 1,
-            "authorized_use": 1,
             "form": 1,
-            "amount_of_source": "10 mCi"
+            "amount_of_source": "10 mg",
+            "authorized_use": 1
         }
     ],
     "inspection_priority": {
-        "priority_num": 5
+        "priority_num": 9
     },
-    "permit_program": [
-        {
-            "title": "IC"
-        }
-    ],
+    "permit_program": [1],
     "primary_rso": 1,
     "docket_num": "permit1",
     "office_code": 456,

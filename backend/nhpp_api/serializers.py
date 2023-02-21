@@ -114,13 +114,31 @@ class InspectionPriorityField(serializers.PrimaryKeyRelatedField):
             priority = serializer.save()
             return priority.pk
 
-# create custom inspection priority/program_codes/permit_program for permit to be like rso input?? edit each under individual serializer
+class ProgramCodeField(serializers.PrimaryKeyRelatedField):
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except serializers.ValidationError:
+            serializer = ProgramCodeSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            program_code = serializer.save()
+            return program_code.pk
+
+class PermitProgramField(serializers.PrimaryKeyRelatedField):
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except serializers.ValidationError:
+            serializer = PermitProgramSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            permit_program = serializer.save()
+            return permit_program.pk
 
 class PermitSerializer(serializers.ModelSerializer):
-    program_codes = ProgramCodeSerializer(many=True)
+    program_codes = ProgramCodeField(queryset=ProgramCode.objects.all(), many=True)
     inspection_priority = InspectionPriorityField(queryset=InspectionPriority.objects.all(), required=False)
     material = MaterialSerializer(many=True, required=False)
-    permit_program = PermitProgramSerializer(many=True, required=False)
+    permit_program = PermitProgramField(queryset=PermitProgram.objects.all(), many=True, required=False)
     primary_rso = PrimaryRSOField(queryset=RSO.objects.all(), required=False)
     # alt_rso = RSOSerializer(required=False) remove alt rso
     authorized_user = AuthorizedUserSerializer(many=True, required=False)
@@ -158,21 +176,6 @@ class PermitSerializer(serializers.ModelSerializer):
         self.check_and_assign_permit_data(inspection_priority_data, InspectionPriority, validated_data, 'inspection_priority')
         permit = Permit.objects.create(**validated_data)
 
-        # if primary_rso_data:
-        #     if type(primary_rso_data) == int:
-        #         rso = RSO.objects.get(pk=primary_rso_data)
-        #     else:
-        #         rso = primary_rso_data
-        #     validated_data['primary_rso'] = rso
-
-        # if inspection_priority_data:
-        #     if type(inspection_priority_data) == int:
-        #         priority = InspectionPriority.objects.get(pk=inspection_priority_data)
-        #     else:
-        #         priority = inspection_priority_data
-        #     validated_data['inspection_priority'] = priority
-
-
         for material_data in materials_data: # could also do this under the materials view/serializer
             source_data = material_data.pop('source')
             authorized_use_data = material_data.pop('authorized_use')
@@ -181,20 +184,6 @@ class PermitSerializer(serializers.ModelSerializer):
             source = self.check_nested_data(source_data, Source)
             authorized_use = self.check_nested_data(authorized_use_data, AuthorizedUse)
             form = self.check_nested_data(form_data, Form)
-            # if type(source_data) == int:
-            #     source = Source.objects.get(pk=source_data)
-            # else:
-            #     source_serializer = SourceSerializer(data=source_data)
-            #     source_serializer.is_valid(raise_exception=True)
-            #     source = source_serializer.save()
-
-            # authorized_use_serializer = AuthorizedUseSerializer(data=authorized_use_data)
-            # authorized_use_serializer.is_valid(raise_exception=True)
-            # authorized_use = authorized_use_serializer.save()
-
-            # form_serializer = FormSerializer(data=form_data)
-            # form_serializer.is_valid(raise_exception=True)
-            # form = form_serializer.save()
 
             material = Material.objects.create(source=source, authorized_use=authorized_use, form=form, **material_data)
             permit.material.set([material])
@@ -206,13 +195,14 @@ class PermitSerializer(serializers.ModelSerializer):
         #         permit.authorized_user.set([au])
 
         # if having trouble w the double nested, perhaps make single nested and be ok w data redundancy for now
-
+        programs = []
         for permit_program in permit_programs_data:
-            program = PermitProgram.objects.create(**permit_program)
-            permit.permit_program.set([program])
+            programs.append(self.check_nested_data(permit_program, PermitProgram))
+            permit.permit_program.set(programs)
 
+        codes = []
         for program_code in program_code_data:
-            code = ProgramCode.objects.create(**program_code)
-            permit.program_codes.set([code])
+            codes.append(self.check_nested_data(program_code, ProgramCode))
+            permit.program_codes.set(codes)
 
         return permit

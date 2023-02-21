@@ -28,7 +28,7 @@ class AuthorizedUserUse(models.Model):
 class AuthorizedUser(models.Model):
   full_name = models.CharField(max_length=50)
   credentials = models.CharField(max_length=50, null=True, blank=True)
-  material_and_use = models.ManyToManyField(AuthorizedUserUse)
+  material_and_use = models.ManyToManyField(AuthorizedUserUse) # decide if I want to simplify
 
   def __str__(self):
     return f'{self.full_name}'
