@@ -91,7 +91,7 @@ class PermitSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        # materials_data = validated_data.pop('material')
+        materials_data = validated_data.pop('material')
         # authorized_users_data = validated_data.pop('authorized_user', None)
         program_code_data = validated_data.pop('program_codes')
         permit_programs_data = validated_data.pop('permit_program')
@@ -108,10 +108,26 @@ class PermitSerializer(serializers.ModelSerializer):
         priority = InspectionPriority.objects.create(**inspection_priority_data)
         permit = Permit.objects.create(**validated_data)
 
-        # for material in materials_data:
-        #     material = Material.objects.create(**material)
-        #     permit.material.set([material])
-        #     permit.inspection_priority.set([priority])
+        for material_data in materials_data:
+            source_data = material_data.pop('source')
+            authorized_use_data = material_data.pop('authorized_use')
+            form_data = material_data.pop('form')
+
+            source_serializer = SourceSerializer(data=source_data)
+            source_serializer.is_valid(raise_exception=True)
+            source = source_serializer.save()
+
+            authorized_use_serializer = AuthorizedUseSerializer(data=authorized_use_data)
+            authorized_use_serializer.is_valid(raise_exception=True)
+            authorized_use = authorized_use_serializer.save()
+
+            form_serializer = FormSerializer(data=form_data)
+            form_serializer.is_valid(raise_exception=True)
+            form = form_serializer.save()
+
+            material = Material.objects.create(source=source, authorized_use=authorized_use, form=form, **material_data)
+            permit.material.set([material])
+
 
         # if authorized_users_data:
         #     for authorized_user in authorized_users_data:
