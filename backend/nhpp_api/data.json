@@ -1,25 +1,53 @@
+Using dict data
 {
   "office_code": 1234,
   "city": "New York",
   "state_abbrev": "NY",
   "permit_num": "PERMIT-123",
-  "docket_num": "DOCKET-456",
+  "docket_num": "DOCK-45",
   "exp_date": "2023-12-31",
-  "program_codes": ["2110", "2120"],
-  "inspection_priority": 3,
+  "program_codes": [
+    {
+        "code": 1111,
+        "description": "New1"
+    },
+    {
+        "code": 2222,
+        "description": "New2"
+    }
+    ],
+  "inspection_priority": {
+    "priority_num": 5
+    },
   "material": [
       {
-          "source": 1,
-          "form": "ANY",
-          "amount_of_source": "10 mg",
-          "authorized_use": 1
-      }
+          "source": {
+            "source": "Yttrium-90"
+          },
+          "form": {
+            "form": "Sealed source"
+          },
+          "amount_of_source": "1 curie",
+          "authorized_use": {
+            "description": "For use in advanced medical procedures"
+          }
+      },
+      {
+        "source": {
+          "source": "Any byproduct material permitted by 10 CFR 35.100"
+        },
+        "form": 1,
+        "amount_of_source": "As needed",
+        "authorized_use": {
+          "description": "For use in medical procedures"
+        }
+    }
   ],
   "authorized_user": [
-      {
-          "full_name": "John Doe",
-          "material_and_use": ["100", "200"]
-      }
+    {
+      "full_name": "Authorized User 1",
+      "credentials": "M.D."
+    }
   ],
   "permit_program": [
       {
@@ -43,34 +71,33 @@
 }
 
 
+
+
+
+
+
+
+
+
+Using primary keys
 {
-    "program_codes": [
-        {
-            "code": 1111,
-            "description": "New"
-        },
-        {
-            "code": 2222,
-            "description": "New2"
-        }
-    ],
+    "program_codes": [1,2],
     "material": [
         {
             "source": 1,
             "form": 1,
-            "amount_of_source": "10 mg",
+            "amount_of_source": "100 millicuries",
             "authorized_use": 1
         }
     ],
-    "inspection_priority": {
-        "priority_num": 9
-    },
+    "inspection_priority": 1,
     "permit_program": [1],
     "primary_rso": 1,
-    "docket_num": "permit1",
-    "office_code": 456,
-    "city": "New York",
+    "authorized_user": [],
+    "docket_num": "dock2",
+    "office_code": 4567,
+    "city": "Albany",
     "state_abbrev": "NY",
-    "permit_num": "22-11111-11",
+    "permit_num": "22-22222-22",
     "exp_date": "2033-01-31"
 }

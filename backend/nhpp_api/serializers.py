@@ -46,14 +46,17 @@ class AuthorizedUseSerializer(serializers.ModelSerializer):
         model = AuthorizedUse
         fields = '__all__'
 
-class AuthorizedUserUseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AuthorizedUserUse
-        fields = '__all__'
+class AuthorizedUserField(serializers.PrimaryKeyRelatedField):
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except serializers.ValidationError:
+            serializer = AuthorizedUserSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            authorized_user = serializer.save()
+            return authorized_user.pk
 
 class AuthorizedUserSerializer(serializers.ModelSerializer):
-    material_and_use = AuthorizedUserUseSerializer(many=True)
-
     class Meta:
         model = AuthorizedUser
         fields = '__all__'
@@ -140,8 +143,7 @@ class PermitSerializer(serializers.ModelSerializer):
     material = MaterialSerializer(many=True, required=False)
     permit_program = PermitProgramField(queryset=PermitProgram.objects.all(), many=True, required=False)
     primary_rso = PrimaryRSOField(queryset=RSO.objects.all(), required=False)
-    # alt_rso = RSOSerializer(required=False) remove alt rso
-    authorized_user = AuthorizedUserSerializer(many=True, required=False)
+    authorized_user = AuthorizedUserField(queryset=AuthorizedUser.objects.all(), many=True, required=False)
     docket_num = serializers.CharField(allow_blank=True, required=False, default='N/A')
 
     class Meta:
@@ -155,7 +157,7 @@ class PermitSerializer(serializers.ModelSerializer):
             else:
                 checked_data = data
             validated_data[permit_field] = checked_data
-        return validated_data[permit_field]
+        # return validated_data[permit_field] - not needed
 
     def check_nested_data(self, data, object):
         if type(data) == int:
@@ -166,7 +168,7 @@ class PermitSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         materials_data = validated_data.pop('material')
-        # authorized_users_data = validated_data.pop('authorized_user', None)
+        authorized_user_data = validated_data.pop('authorized_user')
         program_code_data = validated_data.pop('program_codes')
         permit_programs_data = validated_data.pop('permit_program')
         inspection_priority_data = validated_data.pop('inspection_priority')
@@ -176,6 +178,7 @@ class PermitSerializer(serializers.ModelSerializer):
         self.check_and_assign_permit_data(inspection_priority_data, InspectionPriority, validated_data, 'inspection_priority')
         permit = Permit.objects.create(**validated_data)
 
+        materials = []
         for material_data in materials_data: # could also do this under the materials view/serializer
             source_data = material_data.pop('source')
             authorized_use_data = material_data.pop('authorized_use')
@@ -186,23 +189,22 @@ class PermitSerializer(serializers.ModelSerializer):
             form = self.check_nested_data(form_data, Form)
 
             material = Material.objects.create(source=source, authorized_use=authorized_use, form=form, **material_data)
-            permit.material.set([material])
+            materials.append(material)
+        permit.material.set(materials)
 
-
-        # if authorized_users_data:
-        #     for authorized_user in authorized_users_data:
-        #         au = AuthorizedUser.objects.create(**authorized_user)
-        #         permit.authorized_user.set([au])
-
-        # if having trouble w the double nested, perhaps make single nested and be ok w data redundancy for now
+        authorized_users = []
+        for user in authorized_user_data:
+            authorized_users.append(self.check_nested_data(user, AuthorizedUser))
+        permit.authorized_user.set(authorized_users)
+        
         programs = []
         for permit_program in permit_programs_data:
             programs.append(self.check_nested_data(permit_program, PermitProgram))
-            permit.permit_program.set(programs)
+        permit.permit_program.set(programs)
 
         codes = []
         for program_code in program_code_data:
             codes.append(self.check_nested_data(program_code, ProgramCode))
-            permit.program_codes.set(codes)
+        permit.program_codes.set(codes)
 
         return permit

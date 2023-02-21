@@ -19,16 +19,9 @@ class AuthorizedUse(models.Model):
   def __str__(self):
     return f'{self.description}'
 
-class AuthorizedUserUse(models.Model):
-  description = models.CharField(max_length=20)
-
-  def __str__(self):
-    return f'{self.description}'
-
 class AuthorizedUser(models.Model):
   full_name = models.CharField(max_length=50)
   credentials = models.CharField(max_length=50, null=True, blank=True)
-  material_and_use = models.ManyToManyField(AuthorizedUserUse) # decide if I want to simplify
 
   def __str__(self):
     return f'{self.full_name}'
@@ -90,8 +83,6 @@ class Permit(models.Model):
   authorized_user = models.ManyToManyField(AuthorizedUser, blank=True, related_name='permit')
   permit_program = models.ManyToManyField(PermitProgram, blank=True, related_name='permit')
   primary_rso = models.ForeignKey(RSO, models.SET_NULL, related_name='permit_rso', blank=True, null=True)
-  alt_rso = models.ForeignKey(RSO, models.SET_NULL, related_name='permit_alt_rso', blank=True, null=True)
-  # take out alt
 
   def __str__(self):
     return f'{self.city}, {self.state_abbrev}'

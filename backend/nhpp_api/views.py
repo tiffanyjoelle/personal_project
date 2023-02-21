@@ -25,6 +25,8 @@ class PermitView(APIView):
         return Response({"result": f"Permit {permit_saved.office_code}"})
 
     # make put that will take office code and allow edits to RSO assigned
+    def put(self, request, office_code):
+        pass
 
 class RSOView(APIView):
 
