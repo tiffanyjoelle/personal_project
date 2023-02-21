@@ -1,15 +1,45 @@
 from rest_framework import serializers
 from .models import *
 
+class SourceField(serializers.PrimaryKeyRelatedField):
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except serializers.ValidationError:
+            serializer = SourceSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            source = serializer.save()
+            return source.pk
+
 class SourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Source
         fields = '__all__'
 
+class FormField(serializers.PrimaryKeyRelatedField):
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except serializers.ValidationError:
+            serializer = FormSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            form = serializer.save()
+            return form.pk
+
 class FormSerializer(serializers.ModelSerializer):
     class Meta:
         model = Form
         fields = '__all__'
+
+class AuthorizedUseField(serializers.PrimaryKeyRelatedField):
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except serializers.ValidationError:
+            serializer = AuthorizedUseSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            authorized_use = serializer.save()
+            return authorized_use.pk
 
 class AuthorizedUseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,9 +59,9 @@ class AuthorizedUserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MaterialSerializer(serializers.ModelSerializer):
-    source = SourceSerializer()
-    authorized_use = AuthorizedUseSerializer()
-    form = FormSerializer()
+    source = SourceField(queryset=Source.objects.all())
+    authorized_use = AuthorizedUseField(queryset=AuthorizedUse.objects.all())
+    form = FormField(queryset=Form.objects.all())
 
     class Meta:
         model = Material
@@ -74,11 +104,21 @@ class PrimaryRSOField(serializers.PrimaryKeyRelatedField):
             rso = serializer.save()
             return rso.pk
 
+class InspectionPriorityField(serializers.PrimaryKeyRelatedField):
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except serializers.ValidationError:
+            serializer = InspectionPrioritySerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            priority = serializer.save()
+            return priority.pk
+
 # create custom inspection priority/program_codes/permit_program for permit to be like rso input?? edit each under individual serializer
 
 class PermitSerializer(serializers.ModelSerializer):
     program_codes = ProgramCodeSerializer(many=True)
-    inspection_priority = InspectionPrioritySerializer()
+    inspection_priority = InspectionPriorityField(queryset=InspectionPriority.objects.all(), required=False)
     material = MaterialSerializer(many=True, required=False)
     permit_program = PermitProgramSerializer(many=True, required=False)
     primary_rso = PrimaryRSOField(queryset=RSO.objects.all(), required=False)
@@ -90,6 +130,22 @@ class PermitSerializer(serializers.ModelSerializer):
         model = Permit
         fields = '__all__'
 
+    def check_and_assign_permit_data(self, data, object, validated_data, permit_field):
+        if data:
+            if type(data) == int:
+                checked_data = object.objects.get(pk=data)
+            else:
+                checked_data = data
+            validated_data[permit_field] = checked_data
+        return validated_data[permit_field]
+
+    def check_nested_data(self, data, object):
+        if type(data) == int:
+            field_name = object.objects.get(pk=data)
+        else:
+            field_name = data
+        return field_name
+
     def create(self, validated_data):
         materials_data = validated_data.pop('material')
         # authorized_users_data = validated_data.pop('authorized_user', None)
@@ -98,32 +154,47 @@ class PermitSerializer(serializers.ModelSerializer):
         inspection_priority_data = validated_data.pop('inspection_priority')
         primary_rso_data = validated_data.pop('primary_rso', None)
         
-        if primary_rso_data:
-            if type(primary_rso_data) == int:
-                rso = RSO.objects.get(pk=primary_rso_data)
-            else:
-                rso = primary_rso_data
-            validated_data['primary_rso'] = rso
-
-        priority = InspectionPriority.objects.create(**inspection_priority_data)
+        self.check_and_assign_permit_data(primary_rso_data, RSO, validated_data, 'primary_rso')
+        self.check_and_assign_permit_data(inspection_priority_data, InspectionPriority, validated_data, 'inspection_priority')
         permit = Permit.objects.create(**validated_data)
 
-        for material_data in materials_data:
+        # if primary_rso_data:
+        #     if type(primary_rso_data) == int:
+        #         rso = RSO.objects.get(pk=primary_rso_data)
+        #     else:
+        #         rso = primary_rso_data
+        #     validated_data['primary_rso'] = rso
+
+        # if inspection_priority_data:
+        #     if type(inspection_priority_data) == int:
+        #         priority = InspectionPriority.objects.get(pk=inspection_priority_data)
+        #     else:
+        #         priority = inspection_priority_data
+        #     validated_data['inspection_priority'] = priority
+
+
+        for material_data in materials_data: # could also do this under the materials view/serializer
             source_data = material_data.pop('source')
             authorized_use_data = material_data.pop('authorized_use')
             form_data = material_data.pop('form')
 
-            source_serializer = SourceSerializer(data=source_data)
-            source_serializer.is_valid(raise_exception=True)
-            source = source_serializer.save()
+            source = self.check_nested_data(source_data, Source)
+            authorized_use = self.check_nested_data(authorized_use_data, AuthorizedUse)
+            form = self.check_nested_data(form_data, Form)
+            # if type(source_data) == int:
+            #     source = Source.objects.get(pk=source_data)
+            # else:
+            #     source_serializer = SourceSerializer(data=source_data)
+            #     source_serializer.is_valid(raise_exception=True)
+            #     source = source_serializer.save()
 
-            authorized_use_serializer = AuthorizedUseSerializer(data=authorized_use_data)
-            authorized_use_serializer.is_valid(raise_exception=True)
-            authorized_use = authorized_use_serializer.save()
+            # authorized_use_serializer = AuthorizedUseSerializer(data=authorized_use_data)
+            # authorized_use_serializer.is_valid(raise_exception=True)
+            # authorized_use = authorized_use_serializer.save()
 
-            form_serializer = FormSerializer(data=form_data)
-            form_serializer.is_valid(raise_exception=True)
-            form = form_serializer.save()
+            # form_serializer = FormSerializer(data=form_data)
+            # form_serializer.is_valid(raise_exception=True)
+            # form = form_serializer.save()
 
             material = Material.objects.create(source=source, authorized_use=authorized_use, form=form, **material_data)
             permit.material.set([material])

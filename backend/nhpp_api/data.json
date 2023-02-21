@@ -50,6 +50,14 @@
             "description": "Broad scope medical"
         }
     ],
+    "material": [
+        {
+            "source": 1,
+            "authorized_use": 1,
+            "form": 1,
+            "amount_of_source": "10 mCi"
+        }
+    ],
     "inspection_priority": {
         "priority_num": 5
     },

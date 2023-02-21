@@ -49,7 +49,7 @@ class PermitProgram(models.Model):
     return f'{self.title}'
 
 class ProgramCode(models.Model):
-  code = models.IntegerField(max_length=4)
+  code = models.IntegerField()
   description = models.CharField(max_length=50)
 
   def __str__(self):
