@@ -1,0 +1,68 @@
+{
+  "office_code": 1234,
+  "city": "New York",
+  "state_abbrev": "NY",
+  "permit_num": "PERMIT-123",
+  "docket_num": "DOCKET-456",
+  "exp_date": "2023-12-31",
+  "program_codes": ["2110", "2120"],
+  "inspection_priority": 3,
+  "material": [
+      {
+          "source": 1,
+          "form": "ANY",
+          "amount_of_source": "10 mg",
+          "authorized_use": 1
+      }
+  ],
+  "authorized_user": [
+      {
+          "full_name": "John Doe",
+          "material_and_use": ["100", "200"]
+      }
+  ],
+  "permit_program": [
+      {
+          "title": "Permit Program A"
+      },
+      {
+          "title": "Permit Program B"
+      }
+  ],
+  "primary_rso": {
+          "first_name": "John",
+          "middle_name": "James",
+          "last_name": "Smith",
+          "credentials": "PhD",
+          "email": "john.smith@example.com",
+          "phone": "555-555-5555",
+          "alt_phone": "555-555-5556",
+          "consulting_firm": "ABC Consulting",
+          "notes": "Some notes"
+      } 
+}
+
+
+{
+    "program_codes": [
+        {
+            "code": 2240,
+            "description": "Broad scope medical"
+        }
+    ],
+    "inspection_priority": {
+        "priority_num": 5
+    },
+    "permit_program": [
+        {
+            "title": "IC"
+        }
+    ],
+    "primary_rso": 1,
+    "docket_num": "permit1",
+    "office_code": 456,
+    "city": "New York",
+    "state_abbrev": "NY",
+    "permit_num": "22-11111-11",
+    "exp_date": "2033-01-31"
+}

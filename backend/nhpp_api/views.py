@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .serializers import PermitSerializer, MaterialSerializer, AuthorizedUserSerializer
-from .models import Permit, Material
+from .serializers import PermitSerializer, RSOSerializer, MaterialSerializer
+from .models import Permit, RSO, Material
 
 
 class PermitView(APIView):
@@ -24,24 +24,22 @@ class PermitView(APIView):
             permit_saved = serializer.save()
         return Response({"result": f"Permit {permit_saved.office_code}"})
 
-# class MaterialsView(APIView):
+    # make put that will take office code and allow edits to RSO assigned
 
-#     def get(self, request, office_code):
-#         permit = Permit.objects.get(office_code=office_code)
-#         data = Material.objects.filter(permit = permit)
-#         serializer = MaterialSerializer(data)
-#         return Response({"result": serializer.data})
+class RSOView(APIView):
 
-    # def put(self, request, pk):
-    #     saved_wine = get_object_or_404(Wine.objects.all(), pk=pk)
-    #     data = request.data
-    #     serializer = FacilityDemographicSerializer(instance=saved_wine, data=data, partial=True) #partial means not all fields are required 
-    #     #The .is_valid() method takes an optional raise_exception flag that will cause it to raise a serializers.ValidationError exception if there are validation errors.
-    #     if serializer.is_valid(raise_exception=True):#
-    #         saved_wine = serializer.save()
-    #     return Response({"result": f"{saved_wine.wine_name} updated"})
+    def get(self, request, pk):  
+        data = RSO.objects.get(pk=pk)
+        serializer = RSOSerializer(data)
+        return Response({"result": serializer.data})
 
-    # def delete(self, request, pk):
-    #     wine = get_object_or_404(Wine.objects.all(), pk=pk)
-    #     wine.delete()
-    #     return Response({"result": f"Wine id {pk} deleted"},status=204)
+    # was thinking of adding new RSO this way, but can do that on facility page, just need a put/delete? maybe still add it for multiple options to post
+    def post(self, request, office_code, pk):
+        pass
+
+class MaterialView(APIView):
+
+    def get(self, request, office_code):  
+        data = Material.objects.filter(permit__office_code = office_code)
+        serializer = MaterialSerializer(data, many=True)
+        return Response({"result": serializer.data})

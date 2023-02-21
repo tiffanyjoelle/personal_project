@@ -1,9 +1,14 @@
-from rest_framework import serializers, fields
-from .models import Source, AuthorizedUse, Material, PermitProgram, RSO, AuthorizedUser, Permit
+from rest_framework import serializers
+from .models import *
 
 class SourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Source
+        fields = '__all__'
+
+class FormSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Form
         fields = '__all__'
 
 class AuthorizedUseSerializer(serializers.ModelSerializer):
@@ -11,8 +16,23 @@ class AuthorizedUseSerializer(serializers.ModelSerializer):
         model = AuthorizedUse
         fields = '__all__'
 
+class AuthorizedUserUseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AuthorizedUserUse
+        fields = '__all__'
+
+class AuthorizedUserSerializer(serializers.ModelSerializer):
+    material_and_use = AuthorizedUserUseSerializer(many=True)
+
+    class Meta:
+        model = AuthorizedUser
+        fields = '__all__'
+
 class MaterialSerializer(serializers.ModelSerializer):
-    form = serializers.ChoiceField(choices=Material.FORM_CHOICES)
+    source = SourceSerializer()
+    authorized_use = AuthorizedUseSerializer()
+    form = FormSerializer()
+
     class Meta:
         model = Material
         fields = '__all__'
@@ -20,6 +40,16 @@ class MaterialSerializer(serializers.ModelSerializer):
 class PermitProgramSerializer(serializers.ModelSerializer):
     class Meta:
         model = PermitProgram
+        fields = '__all__'
+
+class ProgramCodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramCode
+        fields = '__all__'
+
+class InspectionPrioritySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InspectionPriority
         fields = '__all__'
 
 class RSOSerializer(serializers.ModelSerializer):
@@ -33,20 +63,26 @@ class RSOSerializer(serializers.ModelSerializer):
         model = RSO
         fields = '__all__'
 
-class AuthorizedUserSerializer(serializers.ModelSerializer):
-    material_and_use = serializers.MultipleChoiceField(choices=AuthorizedUser.MATERIAL_AND_USE_CHOICES)
+# rso input for serializer can be dict or int now
+class PrimaryRSOField(serializers.PrimaryKeyRelatedField):
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except serializers.ValidationError:
+            serializer = RSOSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            rso = serializer.save()
+            return rso.pk
 
-    class Meta:
-        model = AuthorizedUser
-        fields = '__all__'
+# create custom inspection priority/program_codes/permit_program for permit to be like rso input?? edit each under individual serializer
 
 class PermitSerializer(serializers.ModelSerializer):
-    program_codes = serializers.MultipleChoiceField(choices=Permit.PROGRAM_CODE_CHOICES)
-    inspection_priority = serializers.ChoiceField(choices=Permit.INSPECTION_PRIORITY_CHOICES)
+    program_codes = ProgramCodeSerializer(many=True)
+    inspection_priority = InspectionPrioritySerializer()
     material = MaterialSerializer(many=True, required=False)
     permit_program = PermitProgramSerializer(many=True, required=False)
-    primary_rso = serializers.PrimaryKeyRelatedField(queryset=RSO.objects.all())
-    alt_rso = RSOSerializer(required=False)
+    primary_rso = PrimaryRSOField(queryset=RSO.objects.all(), required=False)
+    # alt_rso = RSOSerializer(required=False) remove alt rso
     authorized_user = AuthorizedUserSerializer(many=True, required=False)
     docket_num = serializers.CharField(allow_blank=True, required=False, default='N/A')
 
@@ -55,22 +91,41 @@ class PermitSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        materials_data = validated_data.pop('material')
-        authorized_users_data = validated_data.pop('authorized_user')
+        # materials_data = validated_data.pop('material')
+        # authorized_users_data = validated_data.pop('authorized_user', None)
+        program_code_data = validated_data.pop('program_codes')
         permit_programs_data = validated_data.pop('permit_program')
-        primary_rso = validated_data.pop('primary_rso')
-        permit = Permit.objects.create(primary_rso=primary_rso, **validated_data)
+        inspection_priority_data = validated_data.pop('inspection_priority')
+        primary_rso_data = validated_data.pop('primary_rso', None)
+        
+        if primary_rso_data:
+            if type(primary_rso_data) == int:
+                rso = RSO.objects.get(pk=primary_rso_data)
+            else:
+                rso = primary_rso_data
+            validated_data['primary_rso'] = rso
 
-        for material in materials_data:
-            material = Material.objects.create(**material)
-            permit.material.set([material])
-        
-        for authorized_user in authorized_users_data:
-            au = AuthorizedUser.objects.create(**authorized_user)
-            permit.authorized_user.set([au])
-        
+        priority = InspectionPriority.objects.create(**inspection_priority_data)
+        permit = Permit.objects.create(**validated_data)
+
+        # for material in materials_data:
+        #     material = Material.objects.create(**material)
+        #     permit.material.set([material])
+        #     permit.inspection_priority.set([priority])
+
+        # if authorized_users_data:
+        #     for authorized_user in authorized_users_data:
+        #         au = AuthorizedUser.objects.create(**authorized_user)
+        #         permit.authorized_user.set([au])
+
+        # if having trouble w the double nested, perhaps make single nested and be ok w data redundancy for now
+
         for permit_program in permit_programs_data:
             program = PermitProgram.objects.create(**permit_program)
             permit.permit_program.set([program])
+
+        for program_code in program_code_data:
+            code = ProgramCode.objects.create(**program_code)
+            permit.program_codes.set([code])
 
         return permit
