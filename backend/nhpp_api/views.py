@@ -9,9 +9,10 @@ from .models import Permit, RSO, Material
 class PermitView(APIView):
 
     def get(self, request, office_code=None):
-        if office_code:  
+        if office_code:  # can i add my tp api call here too
             data = Permit.objects.get(office_code=office_code)
             serializer = PermitSerializer(data)
+
         else:
             data = Permit.objects.all()
             serializer = PermitSerializer(data, many=True)
@@ -23,7 +24,7 @@ class PermitView(APIView):
         serializer = PermitSerializer(data=permit)
         if serializer.is_valid(raise_exception=True):
             permit_saved = serializer.save()
-        return Response({"result": f"Permit {permit_saved.office_code}"})
+        return Response({"result": f"Permit {permit_saved.office_code} created"})
 
     # make put that will take office code and allow edits to RSO assigned
     def put(self, request, office_code):
@@ -32,22 +33,52 @@ class PermitView(APIView):
         serializer = PermitSerializer(instance=saved_permit, data=data, partial=True)
         if serializer.is_valid(raise_exception=True):
             saved_permit = serializer.save()
-        return Response({"result": f"Permit {saved_permit.office_code}"})
+        return Response({"result": f"Permit {saved_permit.office_code} updated"})
+
+    def delete(self, request, office_code):
+        permit = get_object_or_404(Permit.objects.all(), office_code=office_code)
+        permit.delete()
+        return Response({"result": f"Permit deleted for Facility {office_code}"},status=204)
 
 class RSOView(APIView):
 
-    def get(self, request, pk):  
-        data = RSO.objects.get(pk=pk)
-        serializer = RSOSerializer(data)
-        return Response({"result": serializer.data})
+    def get(self, request, pk=None):
+        if pk: 
+            data = RSO.objects.get(pk=pk)
+            serializer = RSOSerializer(data)
+            return Response({"result": serializer.data})
+        else:
+            data = RSO.objects.all()
+            serializer = RSOSerializer(data, many=True)
+            return Response({"result": serializer.data})
 
-    # was thinking of adding new RSO this way, but can do that on facility page, just need a put/delete? maybe still add it for multiple options to post
-    def post(self, request, office_code, pk):
-        pass
+    def put(self, request, pk):
+        saved_rso = get_object_or_404(RSO.objects.all(), pk=pk)
+        data = request.data
+        serializer = RSOSerializer(instance=saved_rso, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            saved_rso = serializer.save()
+        return Response({"result": f"RSO {saved_rso.first_name}"})
 
-class MaterialView(APIView):
+    def delete(self, request, pk):
+        rso = get_object_or_404(RSO.objects.all(), pk=pk)
+        rso.delete()
+        return Response({"result": f"RSO {rso.first_name} deleted"},status=204)
 
-    def get(self, request, office_code):  
-        data = Material.objects.filter(permit__office_code = office_code)
-        serializer = MaterialSerializer(data, many=True)
-        return Response({"result": serializer.data})
+# class MaterialView(APIView):
+
+#     def get(self, request, office_code, pk=None): 
+#         #if pk=None: 
+#         data = Material.objects.filter(permit__office_code = office_code)
+#         serializer = MaterialSerializer(data, many=True)
+#         return Response({"result": serializer.data})
+
+#         #else: pull specific use
+
+#     def put(self, request, office_code, pk):
+#         saved_materials = (Material.objects.filter(permit__office_code = office_code))
+#         data = request.data
+#         serializer = MaterialSerializer(instance=saved_materials, many=True, data=data, partial=True)
+#         if serializer.is_valid(raise_exception=True):
+#             saved_materials = serializer.save()
+#         return Response({"result": {serializer.data}})

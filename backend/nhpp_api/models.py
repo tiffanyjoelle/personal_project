@@ -1,5 +1,4 @@
 from django.db import models
-from multiselectfield import MultiSelectField
 
 class Source(models.Model):
   source = models.CharField(max_length=100)
