@@ -2,11 +2,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from .serializers import PermitSerializer, RSOSerializer, MaterialSerializer
+from .serializers import PermitSerializer, PermitPostSerializer, RSOSerializer, MaterialSerializer
 from .models import Permit, RSO, Material
 
 
-class PermitView(APIView):
+class GetPermitView(APIView):
 
     def get(self, request, office_code=None):
         if office_code:  # can i add my tp api call here too
@@ -18,10 +18,22 @@ class PermitView(APIView):
             serializer = PermitSerializer(data, many=True)
         return Response({"result": serializer.data})
 
+class PostPermitView(APIView):
+
+    def get(self, request, office_code=None):
+        if office_code:  # can i add my tp api call here too
+            data = Permit.objects.get(office_code=office_code)
+            serializer = PermitPostSerializer(data)
+
+        else:
+            data = Permit.objects.all()
+            serializer = PermitPostSerializer(data, many=True)
+        return Response({"result": serializer.data})
+
     # can make post request w PK for RSO info to select from existing list
     def post(self, request):
         permit = request.data
-        serializer = PermitSerializer(data=permit)
+        serializer = PermitPostSerializer(data=permit)
         if serializer.is_valid(raise_exception=True):
             permit_saved = serializer.save()
         return Response({"result": f"Permit {permit_saved.office_code} created"})
@@ -30,7 +42,7 @@ class PermitView(APIView):
     def put(self, request, office_code):
         saved_permit = get_object_or_404(Permit.objects.all(), office_code=office_code)
         data = request.data
-        serializer = PermitSerializer(instance=saved_permit, data=data, partial=True)
+        serializer = PermitPostSerializer(instance=saved_permit, data=data, partial=True)
         if serializer.is_valid(raise_exception=True):
             saved_permit = serializer.save()
         return Response({"result": f"Permit {saved_permit.office_code} updated"})

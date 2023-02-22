@@ -61,6 +61,15 @@ class AuthorizedUserSerializer(serializers.ModelSerializer):
         model = AuthorizedUser
         fields = '__all__'
 
+class MaterialViewSerializer(serializers.ModelSerializer):
+    source = SourceSerializer()
+    authorized_use = AuthorizedUseSerializer()
+    form = FormSerializer()
+
+    class Meta:
+        model = Material
+        fields = '__all__'
+
 class MaterialSerializer(serializers.ModelSerializer):
     source = SourceField(queryset=Source.objects.all())
     authorized_use = AuthorizedUseField(queryset=AuthorizedUse.objects.all())
@@ -138,6 +147,19 @@ class PermitProgramField(serializers.PrimaryKeyRelatedField):
             return permit_program.pk
 
 class PermitSerializer(serializers.ModelSerializer):
+    program_codes = ProgramCodeSerializer(many=True)
+    inspection_priority = InspectionPrioritySerializer()
+    material = MaterialViewSerializer(many=True, required=False)
+    permit_program = PermitProgramSerializer(many=True, required=False)
+    primary_rso = RSOSerializer()
+    authorized_user = AuthorizedUserSerializer(many=True, required=False)
+    docket_num = serializers.CharField(allow_blank=True, required=False, default='N/A')
+
+    class Meta:
+        model = Permit
+        fields = '__all__'
+
+class PermitPostSerializer(serializers.ModelSerializer):
     program_codes = ProgramCodeField(queryset=ProgramCode.objects.all(), many=True)
     inspection_priority = InspectionPriorityField(queryset=InspectionPriority.objects.all(), required=False)
     material = MaterialSerializer(many=True, required=False)

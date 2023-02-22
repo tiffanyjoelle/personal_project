@@ -1,34 +1,40 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
 
 function FacilityRAM(props) {
-
-  //move this to the dropdown menu component and pass info down as props, make external api call under demo component
-  const [facilityInfo, setFacilityInfo] = useState()
-
-  useEffect( () => {
-    async function getFacilityInfo() {
-      if (props.facilityID){
-        const base_url = process.env.REACT_APP_BASE_URL
-        const res = await fetch(`http://127.0.0.1:8000/api/${props.facilityID}`)
-      const body = await res.json()
-      setFacilityInfo(body.result)
-      }
-    }
-    getFacilityInfo()
-  }, [props.facilityID])
   
   function createAuthorizedUsesList() {
     return (
       <div>
-        <h2>Authorized Uses:</h2>
-        {facilityInfo.permit.authorized_use.map((use) => (
+        <h2>Materials:</h2>
+        {props.permitInfo.material.map((use) => (
           <div key={use.id}>
-            <h3>{use.material[0].material}</h3>
-            <p>Form: {use.form[0].form}</p>
-            <p>Amount of Material: {use.amount_of_material}</p>
-            <p>Regulation Part: {use.use[0].regulation_part}</p>
-            <p>Description: {use.use[0].description}</p>
+            <h3>{use.source.source}</h3>
+            <p>Form: {use.form.form} | Amount of Material: {use.amount_of_source} | Description: {use.authorized_use.description}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function createAuthorizedUsersList() {
+    return (
+      <div>
+        <h2>Authorized Users:</h2>
+        {props.permitInfo.authorized_user.map((user) => (
+          <div key={user.id}>
+            <p>{user.full_name}, {user.credentials}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function createProgramCodeList() {
+    return (
+      <div>
+        {props.permitInfo.program_codes.map((item) => (
+          <div key={item.id}>
+            <li>{item.code}</li>
           </div>
         ))}
       </div>
@@ -37,20 +43,17 @@ function FacilityRAM(props) {
 
   return (
     <div>
-    {facilityInfo && 
+    {props.permitInfo && 
     <div>
-      <h1>RAM Info for Facility {props.facilityID} </h1>
+      <h1>RAM Information for {props.permitInfo.city}, {props.permitInfo.state_abbrev} </h1>
+      Program Codes:
+      <ul>{createProgramCodeList()}</ul>
+      Inspection Priority: {props.permitInfo.inspection_priority.priority_num}
       {createAuthorizedUsesList()}
-      <h2> Authorized Users</h2>
-      <ul>
-        <li>Name 1</li>
-        <li>Name 2</li>
-        <li>Name 3</li>
-        <li>Name 4</li>
-      </ul>
+      {createAuthorizedUsersList()}
+      <hr />
       <p>Options Available to only PMs: </p>
       <ul>
-        <li><Link to="/edit_rso">Edit RSO</Link></li>
         <li>Edit RAM info</li>
         <li>Generate new permit</li>
       </ul>
