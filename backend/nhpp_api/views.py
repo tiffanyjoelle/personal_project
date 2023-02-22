@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 from .serializers import PermitSerializer, RSOSerializer, MaterialSerializer
 from .models import Permit, RSO, Material
 
@@ -26,7 +27,12 @@ class PermitView(APIView):
 
     # make put that will take office code and allow edits to RSO assigned
     def put(self, request, office_code):
-        pass
+        saved_permit = get_object_or_404(Permit.objects.all(), office_code=office_code)
+        data = request.data
+        serializer = PermitSerializer(instance=saved_permit, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            saved_permit = serializer.save()
+        return Response({"result": f"Permit {saved_permit.office_code}"})
 
 class RSOView(APIView):
 

@@ -167,11 +167,11 @@ class PermitSerializer(serializers.ModelSerializer):
         return field_name
 
     def create(self, validated_data):
-        materials_data = validated_data.pop('material')
-        authorized_user_data = validated_data.pop('authorized_user')
-        program_code_data = validated_data.pop('program_codes')
-        permit_programs_data = validated_data.pop('permit_program')
-        inspection_priority_data = validated_data.pop('inspection_priority')
+        materials_data = validated_data.pop('material', None)
+        authorized_user_data = validated_data.pop('authorized_user', None)
+        program_code_data = validated_data.pop('program_codes', None)
+        permit_programs_data = validated_data.pop('permit_program', None)
+        inspection_priority_data = validated_data.pop('inspection_priority', None)
         primary_rso_data = validated_data.pop('primary_rso', None)
         
         self.check_and_assign_permit_data(primary_rso_data, RSO, validated_data, 'primary_rso')
@@ -206,5 +206,55 @@ class PermitSerializer(serializers.ModelSerializer):
         for program_code in program_code_data:
             codes.append(self.check_nested_data(program_code, ProgramCode))
         permit.program_codes.set(codes)
+
+        return permit
+
+    def update(self, permit, validated_data):
+        materials_data = validated_data.pop('material', None)
+        authorized_user_data = validated_data.pop('authorized_user', None)
+        program_code_data = validated_data.pop('program_codes', None)
+        permit_programs_data = validated_data.pop('permit_program', None)
+        inspection_priority_data = validated_data.pop('inspection_priority', None)
+        primary_rso_data = validated_data.pop('primary_rso', None)
+
+        self.check_and_assign_permit_data(primary_rso_data, RSO, validated_data, 'primary_rso')
+        self.check_and_assign_permit_data(inspection_priority_data, InspectionPriority, validated_data, 'inspection_priority')
+
+        for key, value in validated_data.items():
+            setattr(permit, key, value)
+        permit.save()
+
+        if materials_data != None:
+            materials = []
+            for material_data in materials_data: # could also do this under the materials view/serializer
+                source_data = material_data.pop('source')
+                authorized_use_data = material_data.pop('authorized_use')
+                form_data = material_data.pop('form')
+
+                source = self.check_nested_data(source_data, Source)
+                authorized_use = self.check_nested_data(authorized_use_data, AuthorizedUse)
+                form = self.check_nested_data(form_data, Form)
+
+                material = Material.objects.create(source=source, authorized_use=authorized_use, form=form, **material_data)
+                materials.append(material)
+            permit.material.set(materials)
+
+        if authorized_user_data != None:
+            authorized_users = []
+            for user in authorized_user_data:
+                authorized_users.append(self.check_nested_data(user, AuthorizedUser))
+            permit.authorized_user.set(authorized_users)
+        
+        if permit_programs_data != None:
+            programs = []
+            for permit_program in permit_programs_data:
+                programs.append(self.check_nested_data(permit_program, PermitProgram))
+            permit.permit_program.set(programs)
+
+        if program_code_data != None:
+            codes = []
+            for program_code in program_code_data:
+                codes.append(self.check_nested_data(program_code, ProgramCode))
+            permit.program_codes.set(codes)
 
         return permit
