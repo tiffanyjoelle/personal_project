@@ -24,19 +24,24 @@ function FacilityDemographics(props) {
       {props.permitInfo &&
       <div>
       <h2>Permit Information for {props.permitInfo.city}, {props.permitInfo.state_abbrev} Facility #{props.permitInfo.office_code}</h2>
-      <p>Location Name: {props.permitInfo.city}, {props.permitInfo.state_abbrev} </p>
-      <p>Phone: </p>
-      <p>
-        Address: 
-      </p>
+      <blockquote>
+        Location Name: Placeholder for VA API call <br />
+        Phone: Placeholder for VA API call <br />
+        Address: Placeholder for VA API call <br />
+      </blockquote>
       <h3>{props.permitInfo.permit_num}</h3>
       <p>Docket Number: {props.permitInfo.docket_num}</p>
       <p>Expiration Date: {props.permitInfo.exp_date}</p>
       <p>RSO Information: </p>
-        <blockquote>{props.permitInfo.primary_rso.first_name} {props.permitInfo.primary_rso.last_name} <br />
-        {props.permitInfo.primary_rso.phone}
+        <blockquote>{props.permitInfo.primary_rso.first_name} {props.permitInfo.primary_rso.middle_name} {props.permitInfo.primary_rso.last_name}, {props.permitInfo.primary_rso.credentials} <br />
+        Phone: {props.permitInfo.primary_rso.phone}
         <br />
-        {props.permitInfo.primary_rso.email}
+        Alt Phone: {props.permitInfo.primary_rso.alt_phone}
+        <br />
+        Email: {props.permitInfo.primary_rso.email}
+        <br />
+        Consulting Firm: {props.permitInfo.primary_rso.consulting_firm}
+        <br />
         </blockquote>
       {createProgramsList()}
       <hr />

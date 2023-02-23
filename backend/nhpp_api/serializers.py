@@ -1,34 +1,19 @@
 from rest_framework import serializers
 from .models import *
 
-class SourceField(serializers.PrimaryKeyRelatedField):
+class AuthorizedUserField(serializers.PrimaryKeyRelatedField):
     def to_internal_value(self, data):
         try:
             return super().to_internal_value(data)
         except serializers.ValidationError:
-            serializer = SourceSerializer(data=data)
+            serializer = AuthorizedUserSerializer(data=data)
             serializer.is_valid(raise_exception=True)
-            source = serializer.save()
-            return source.pk
+            authorized_user = serializer.save()
+            return authorized_user.pk
 
-class SourceSerializer(serializers.ModelSerializer):
+class AuthorizedUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Source
-        fields = '__all__'
-
-class FormField(serializers.PrimaryKeyRelatedField):
-    def to_internal_value(self, data):
-        try:
-            return super().to_internal_value(data)
-        except serializers.ValidationError:
-            serializer = FormSerializer(data=data)
-            serializer.is_valid(raise_exception=True)
-            form = serializer.save()
-            return form.pk
-
-class FormSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Form
+        model = AuthorizedUser
         fields = '__all__'
 
 class AuthorizedUseField(serializers.PrimaryKeyRelatedField):
@@ -46,35 +31,17 @@ class AuthorizedUseSerializer(serializers.ModelSerializer):
         model = AuthorizedUse
         fields = '__all__'
 
-class AuthorizedUserField(serializers.PrimaryKeyRelatedField):
+class MaterialField(serializers.PrimaryKeyRelatedField):
     def to_internal_value(self, data):
         try:
             return super().to_internal_value(data)
         except serializers.ValidationError:
-            serializer = AuthorizedUserSerializer(data=data)
+            serializer = MaterialSerializer(data=data)
             serializer.is_valid(raise_exception=True)
-            authorized_user = serializer.save()
-            return authorized_user.pk
-
-class AuthorizedUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AuthorizedUser
-        fields = '__all__'
-
-class MaterialViewSerializer(serializers.ModelSerializer):
-    source = SourceSerializer()
-    authorized_use = AuthorizedUseSerializer()
-    form = FormSerializer()
-
-    class Meta:
-        model = Material
-        fields = '__all__'
+            material = serializer.save()
+            return material.pk
 
 class MaterialSerializer(serializers.ModelSerializer):
-    source = SourceField(queryset=Source.objects.all())
-    authorized_use = AuthorizedUseField(queryset=AuthorizedUse.objects.all())
-    form = FormField(queryset=Form.objects.all())
-
     class Meta:
         model = Material
         fields = '__all__'
@@ -149,9 +116,10 @@ class PermitProgramField(serializers.PrimaryKeyRelatedField):
 class PermitSerializer(serializers.ModelSerializer):
     program_codes = ProgramCodeSerializer(many=True)
     inspection_priority = InspectionPrioritySerializer()
-    material = MaterialViewSerializer(many=True, required=False)
+    material = MaterialSerializer(many=True, required=False)
     permit_program = PermitProgramSerializer(many=True, required=False)
     primary_rso = RSOSerializer()
+    authorized_use = AuthorizedUseSerializer(many=True, required=False)
     authorized_user = AuthorizedUserSerializer(many=True, required=False)
     docket_num = serializers.CharField(allow_blank=True, required=False, default='N/A')
 
@@ -162,7 +130,8 @@ class PermitSerializer(serializers.ModelSerializer):
 class PermitPostSerializer(serializers.ModelSerializer):
     program_codes = ProgramCodeField(queryset=ProgramCode.objects.all(), many=True)
     inspection_priority = InspectionPriorityField(queryset=InspectionPriority.objects.all(), required=False)
-    material = MaterialSerializer(many=True, required=False)
+    material = MaterialField(queryset=Material.objects.all(), many=True, required=False)
+    authorized_use = AuthorizedUseField(queryset=AuthorizedUse.objects.all(), many=True, required=False)
     permit_program = PermitProgramField(queryset=PermitProgram.objects.all(), many=True, required=False)
     primary_rso = PrimaryRSOField(queryset=RSO.objects.all(), required=False)
     authorized_user = AuthorizedUserField(queryset=AuthorizedUser.objects.all(), many=True, required=False)
@@ -179,7 +148,6 @@ class PermitPostSerializer(serializers.ModelSerializer):
             else:
                 checked_data = data
             validated_data[permit_field] = checked_data
-        # return validated_data[permit_field] - not needed
 
     def check_nested_data(self, data, object):
         if type(data) == int:
@@ -190,6 +158,7 @@ class PermitPostSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         materials_data = validated_data.pop('material', None)
+        authorized_use_data = validated_data.pop('authorized_use', None)
         authorized_user_data = validated_data.pop('authorized_user', None)
         program_code_data = validated_data.pop('program_codes', None)
         permit_programs_data = validated_data.pop('permit_program', None)
@@ -201,18 +170,14 @@ class PermitPostSerializer(serializers.ModelSerializer):
         permit = Permit.objects.create(**validated_data)
 
         materials = []
-        for material_data in materials_data: # could also do this under the materials view/serializer
-            source_data = material_data.pop('source')
-            authorized_use_data = material_data.pop('authorized_use')
-            form_data = material_data.pop('form')
-
-            source = self.check_nested_data(source_data, Source)
-            authorized_use = self.check_nested_data(authorized_use_data, AuthorizedUse)
-            form = self.check_nested_data(form_data, Form)
-
-            material = Material.objects.create(source=source, authorized_use=authorized_use, form=form, **material_data)
-            materials.append(material)
+        for material in materials_data:
+            materials.append(self.check_nested_data(material, Material))
         permit.material.set(materials)
+
+        authorized_uses = []
+        for use in authorized_use_data:
+            authorized_uses.append(self.check_nested_data(use, AuthorizedUse))
+        permit.authorized_use.set(authorized_uses)
 
         authorized_users = []
         for user in authorized_user_data:
@@ -233,6 +198,7 @@ class PermitPostSerializer(serializers.ModelSerializer):
 
     def update(self, permit, validated_data):
         materials_data = validated_data.pop('material', None)
+        authorized_use_data = validated_data.pop('authorized_use', None)
         authorized_user_data = validated_data.pop('authorized_user', None)
         program_code_data = validated_data.pop('program_codes', None)
         permit_programs_data = validated_data.pop('permit_program', None)
@@ -248,18 +214,15 @@ class PermitPostSerializer(serializers.ModelSerializer):
 
         if materials_data != None:
             materials = []
-            for material_data in materials_data: # could also do this under the materials view/serializer
-                source_data = material_data.pop('source')
-                authorized_use_data = material_data.pop('authorized_use')
-                form_data = material_data.pop('form')
-
-                source = self.check_nested_data(source_data, Source)
-                authorized_use = self.check_nested_data(authorized_use_data, AuthorizedUse)
-                form = self.check_nested_data(form_data, Form)
-
-                material = Material.objects.create(source=source, authorized_use=authorized_use, form=form, **material_data)
-                materials.append(material)
+            for material in materials_data:
+                materials.append(self.check_nested_data(material, Material))
             permit.material.set(materials)
+
+        if authorized_user_data != None:
+            authorized_uses = []
+            for use in authorized_use_data:
+                authorized_uses.append(self.check_nested_data(use, AuthorizedUse))
+            permit.authorized_use.set(authorized_uses)
 
         if authorized_user_data != None:
             authorized_users = []

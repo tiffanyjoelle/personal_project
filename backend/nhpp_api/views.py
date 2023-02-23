@@ -2,8 +2,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from .serializers import PermitSerializer, PermitPostSerializer, RSOSerializer, MaterialSerializer
-from .models import Permit, RSO, Material
+from .serializers import *
+from .models import *
 
 
 class GetPermitView(APIView):
@@ -24,7 +24,6 @@ class PostPermitView(APIView):
         if office_code:  # can i add my tp api call here too
             data = Permit.objects.get(office_code=office_code)
             serializer = PermitPostSerializer(data)
-
         else:
             data = Permit.objects.all()
             serializer = PermitPostSerializer(data, many=True)
@@ -94,3 +93,39 @@ class RSOView(APIView):
 #         if serializer.is_valid(raise_exception=True):
 #             saved_materials = serializer.save()
 #         return Response({"result": {serializer.data}})
+
+class ProgramCodesView(APIView):
+    def get(self, request):
+        data = ProgramCode.objects.all()
+        serializer = ProgramCodeSerializer(data, many=True)
+        return Response({"result": serializer.data})
+
+class MaterialView(APIView):
+    def get(self, request):
+        data = Material.objects.all()
+        serializer = MaterialSerializer(data, many=True)
+        return Response({"result": serializer.data})
+
+class InspectionPriorityView(APIView):
+    def get(self, request):
+        data = InspectionPriority.objects.all()
+        serializer = InspectionPrioritySerializer(data, many=True)
+        return Response({"result": serializer.data})
+
+class AuthorizedUseView(APIView):
+    def get(self, request):
+        data = AuthorizedUse.objects.all()
+        serializer = AuthorizedUseSerializer(data, many=True)
+        return Response({"result": serializer.data})
+
+class AuthorizedUserView(APIView):
+    def get(self, request):
+        data = AuthorizedUser.objects.all()
+        serializer = AuthorizedUserSerializer(data, many=True)
+        return Response({"result": serializer.data})
+
+class PermitProgramView(APIView):
+    def get(self, request):
+        data = PermitProgram.objects.all()
+        serializer = PermitProgramSerializer(data, many=True)
+        return Response({"result": serializer.data})

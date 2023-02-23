@@ -1,5 +1,6 @@
 import FacilityDropdownMenu from "../components/FacilityDropdownMenu"
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function PMDash() {
 
@@ -23,6 +24,9 @@ function PMDash() {
       <h2>NRC Articles</h2>
       <p>Pull some articles from NRC's ADAMS API</p>
       <hr />
+      <Link to="/permit/new">Create New RAM Permit</Link>
+      <br />
+      <br />
       <FacilityDropdownMenu facilities={facilities}/>
     </div>
   )

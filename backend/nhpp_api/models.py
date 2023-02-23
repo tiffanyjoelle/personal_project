@@ -1,23 +1,5 @@
 from django.db import models
 
-class Source(models.Model):
-  source = models.CharField(max_length=100)
-
-  def __str__(self):
-    return f'{self.source}'
-
-class Form(models.Model):
-  form = models.CharField(max_length=20)
-
-  def __str__(self):
-    return f'{self.form}'
-
-class AuthorizedUse(models.Model):
-  description = models.CharField(max_length=255)
-
-  def __str__(self):
-    return f'{self.description}'
-
 class AuthorizedUser(models.Model):
   full_name = models.CharField(max_length=50)
   credentials = models.CharField(max_length=50, null=True, blank=True)
@@ -25,14 +7,19 @@ class AuthorizedUser(models.Model):
   def __str__(self):
     return f'{self.full_name}'
 
-class Material(models.Model):
-  source = models.ForeignKey(Source, on_delete=models.CASCADE)
-  form = models.ForeignKey(Form, on_delete=models.CASCADE)
-  amount_of_source = models.CharField(max_length=100)
-  authorized_use = models.ForeignKey(AuthorizedUse, on_delete=models.CASCADE)
+class AuthorizedUse(models.Model):
+  use = models.CharField(max_length=255, null=True, blank=True)
 
   def __str__(self):
-    return f'{self.id}: {self.source}'
+    return f'{self.use}'
+
+class Material(models.Model):
+  source = models.CharField(max_length=255)
+  form = models.CharField(max_length=50)
+  amount_of_source = models.CharField(max_length=255)
+
+  def __str__(self):
+    return f'{self.source} | {self.form} | {self.amount_of_source}'
 
 class PermitProgram(models.Model):
   title = models.CharField(max_length=100)
@@ -42,7 +29,6 @@ class PermitProgram(models.Model):
 
 class ProgramCode(models.Model):
   code = models.IntegerField()
-  description = models.CharField(max_length=50)
 
   def __str__(self):
     return f'{self.code}'
@@ -79,6 +65,7 @@ class Permit(models.Model):
   program_codes = models.ManyToManyField(ProgramCode)
   inspection_priority = models.ForeignKey(InspectionPriority, models.SET_NULL, blank=True, null=True) 
   material = models.ManyToManyField(Material, blank=True, related_name='permit')
+  authorized_use = models.ManyToManyField(AuthorizedUse, blank=True)
   authorized_user = models.ManyToManyField(AuthorizedUser, blank=True, related_name='permit')
   permit_program = models.ManyToManyField(PermitProgram, blank=True, related_name='permit')
   primary_rso = models.ForeignKey(RSO, models.SET_NULL, related_name='permit_rso', blank=True, null=True)

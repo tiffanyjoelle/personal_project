@@ -2,14 +2,26 @@ import { Link } from 'react-router-dom'
 
 function FacilityRAM(props) {
   
+  function createMaterialsList() {
+    return (
+      <div>
+        {props.permitInfo.material.map((use) => (
+          <div key={use.id}>
+            <h3>{use.source}</h3>
+            <p>Form: {use.form} | Amount of Material: {use.amount_of_source}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   function createAuthorizedUsesList() {
     return (
       <div>
-        <h2>Materials:</h2>
-        {props.permitInfo.material.map((use) => (
+        <h2>Authorized Uses:</h2>
+        {props.permitInfo.authorized_use.map((use) => (
           <div key={use.id}>
-            <h3>{use.source.source}</h3>
-            <p>Form: {use.form.form} | Amount of Material: {use.amount_of_source} | Description: {use.authorized_use.description}</p>
+            <li>{use.use}</li>
           </div>
         ))}
       </div>
@@ -49,6 +61,8 @@ function FacilityRAM(props) {
       Program Codes:
       <ul>{createProgramCodeList()}</ul>
       Inspection Priority: {props.permitInfo.inspection_priority.priority_num}
+      <h2>Materials:</h2>
+      <blockquote>{createMaterialsList()}</blockquote>
       {createAuthorizedUsesList()}
       {createAuthorizedUsersList()}
       <hr />
