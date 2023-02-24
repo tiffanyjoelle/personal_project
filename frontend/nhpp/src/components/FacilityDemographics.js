@@ -23,13 +23,13 @@ function FacilityDemographics(props) {
     <div>
       {props.permitInfo &&
       <div>
-      <h2>Permit Information for {props.permitInfo.city}, {props.permitInfo.state_abbrev} Facility #{props.permitInfo.office_code}</h2>
+      <h2>{props.permitInfo.city}, {props.permitInfo.state_abbrev} | Facility #{props.permitInfo.office_code}</h2>
       <blockquote>
         Location Name: Placeholder for VA API call <br />
         Phone: Placeholder for VA API call <br />
         Address: Placeholder for VA API call <br />
       </blockquote>
-      <h3>{props.permitInfo.permit_num}</h3>
+      <h3>Permit#: {props.permitInfo.permit_num}</h3>
       <p>Docket Number: {props.permitInfo.docket_num}</p>
       <p>Expiration Date: {props.permitInfo.exp_date}</p>
       <p>Radiation Safety Officer: <br />

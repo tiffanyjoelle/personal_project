@@ -1,6 +1,7 @@
 import FacilityDropdownMenu from "../components/FacilityDropdownMenu"
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Container, Row, Col } from 'react-bootstrap';
 
 function PMDash() {
 
@@ -19,14 +20,16 @@ function PMDash() {
 
   return (
     <div>
-      <h1>NHPP PM Dashboard</h1>
-      <h2>NRC Articles</h2>
-      <p>Pull some articles from NRC's ADAMS API</p>
-      <hr />
-      <Link to="permit/new">Create New RAM Permit</Link>
-      <br />
-      <br />
-      <FacilityDropdownMenu facilities={facilities}/>
+      <Container>
+        <Row>
+          <h1>NHPP PM Dashboard</h1>
+          <h2>NRC Articles</h2>
+          <p>Pull some articles from NRC's ADAMS API</p>
+          <hr />
+          <Link to="permit/new">Create New RAM Permit</Link>
+        </Row>
+      <Row><FacilityDropdownMenu facilities={facilities}/></Row>
+      </Container>
     </div>
   )
 }

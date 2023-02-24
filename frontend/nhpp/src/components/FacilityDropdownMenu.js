@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import FacilityDemographics from "./FacilityDemographics";
 import FacilityRAM from "./FacilityRAM";
+import Form from 'react-bootstrap/Form';
+import { Row, Col } from 'react-bootstrap';
 
 function FacilityDropdownMenu(props) {
 
@@ -30,21 +32,26 @@ function FacilityDropdownMenu(props) {
     <div>
     {props.facilities &&
     <div>
+    <Row>
     <label>
       Facility Location
-      <select value={value} onChange={handleChange}>
+      <Form.Select value={value} onChange={handleChange}>
         <option></option>
           {props.facilities.map((item) => {
             return (
-              <option key={item['id']} value={item['office_code']}>{item['city']}</option>
+              <option key={item['id']} value={item['office_code']}>{item['city']}, {item['state_abbrev']}</option>
             );
           })}
-        </select>
+        </Form.Select>
     </label>
+    </Row>
     </div>
   }
-    <FacilityDemographics permitInfo={permitInfo}/>
-    <FacilityRAM permitInfo={permitInfo}/>
+  <hr />
+  <Row>
+    <Col><FacilityDemographics permitInfo={permitInfo}/></Col>
+    <Col><FacilityRAM permitInfo={permitInfo}/></Col>
+  </Row>
     </div>
   );
 }

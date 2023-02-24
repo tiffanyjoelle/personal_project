@@ -1,19 +1,7 @@
 import { Link } from 'react-router-dom'
+import { Table } from 'react-bootstrap';
 
 function FacilityRAM(props) {
-
-  function createMaterialsList() {
-    return (
-      <div>
-        {props.permitInfo.material.map((use) => (
-          <div key={use.id}>
-            <h3>{use.source}</h3>
-            <p>Form: {use.form} | Amount of Material: {use.amount_of_source}</p>
-          </div>
-        ))}
-      </div>
-    );
-  }
 
   function createAuthorizedUsesList() {
     return (
@@ -57,7 +45,7 @@ function FacilityRAM(props) {
     <div>
     {props.permitInfo && 
     <div>
-      <h1>RAM Information for {props.permitInfo.city}, {props.permitInfo.state_abbrev} </h1>
+      <h2>RAM Information for {props.permitInfo.city}, {props.permitInfo.state_abbrev} </h2>
       <p>Options Available to only PMs: </p>
       <Link to={{pathname:`permit/${props.permitInfo.office_code}/edit`, state:props.permitInfo}}>Edit RAM info</Link>
       <p>Generate new permit</p>
@@ -65,7 +53,17 @@ function FacilityRAM(props) {
       <ul>{createProgramCodeList()}</ul>
       Inspection Priority: {props.permitInfo.inspection_priority.priority_num}
       <h2>Materials:</h2>
-      <blockquote>{createMaterialsList()}</blockquote>
+      <Table bordered hover>
+        <thead>
+          {props.permitInfo.material.map((use) => (
+            <tr>
+              <td>{use.source}</td>
+              <td>{use.form}</td>
+              <td>{use.amount_of_source}</td>
+            </tr>
+        ))}
+        </thead>
+      </Table>
       {createAuthorizedUsesList()}
       {createAuthorizedUsersList()}
       <hr />
