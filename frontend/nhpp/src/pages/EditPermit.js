@@ -186,8 +186,8 @@ function PermitForm() {
       authorized_user: selectedAuthorizedUsers,
       permit_program: selectedPermitPrograms,
     }
-    const response = await fetch('http://127.0.0.1:8000/api/new', {
-      method: 'POST',
+    const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
