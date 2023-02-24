@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 function PermitForm() {
-  //figure out why i can't set preselected values for my select fields
+
+  // states and params
   let { office_code } = useParams()
- 
+  const [permitInfo, setPermitInfo] = useState()
   const [permitData, setPermitData] = useState({
     city: "",
     state_abbrev: "",
@@ -21,20 +22,33 @@ function PermitForm() {
     permit_program: [],
   });
 
+  const [programCodes, setProgramCodes] = useState([]);
+  const [selectedProgramCodes, setSelectedProgramCodes] = useState([]);
+  const [rso, setRSO] = useState([]);
+  const [materials, setMaterials] = useState([]);
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
+  const [inspectionPriorities, setInspectionPriorities] = useState([]);
+  const [authorizedUse, setAuthorizedUses] = useState([]);
+  const [selectedAuthorizedUses, setSelectedAuthorizedUses] = useState([]);
+  const [authorizedUser, setAuthorizedUsers] = useState([]);
+  const [selectedAuthorizedUsers, setSelectedAuthorizedUsers] = useState([]);
+  const [permitPrograms, setPermitPrograms] = useState([]);
+  const [selectedPermitPrograms, setSelectedPermitPrograms] = useState([]);
+
+
+  // useEffects and handleChanges
+
   const handleChange = (event) => {
     const { name, value } = event.target
     setPermitData({ ...permitData, [name]: value })
   }
   
-  const [permitInfo, setPermitInfo] = useState()
-  // console.log(office_code)
   useEffect( () => {
     async function getPermitInfo() {
       // const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}`)
+      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`)
       const body = await response.json()
       setPermitInfo(body.result)
-      // console.log(body.result)
     }
     getPermitInfo()
   }, [])
@@ -48,36 +62,27 @@ function PermitForm() {
         permit_num: permitInfo.permit_num,
         docket_num: permitInfo.docket_num,
         exp_date: permitInfo.exp_date,
-        program_codes: permitInfo.program_codes,
         inspection_priority: permitInfo.inspection_priority,
         primary_rso: permitInfo.primary_rso,
-        material: permitInfo.material,
-        authorized_use: permitInfo.authorized_use,
-        authorized_user: permitInfo.authorized_user,
-        permit_program: permitInfo.permit_program,
       });
-  }
+    }
   }, [permitInfo]);
-
-  const [programCodes, setProgramCodes] = useState([]);
-  const [selectedProgramCodes, setSelectedProgramCodes] = useState([]);
-  const [rso, setRSO] = useState([]);
-  const [materials, setMaterials] = useState([]);
-  const [selectedMaterials, setSelectedMaterials] = useState([]);
-  const [inspectionPriorities, setInspectionPriorities] = useState([]);
-  const [authorizedUse, setAuthorizedUses] = useState([]);
-  const [selectedAuthorizedUses, setSelectedAuthorizedUses] = useState([]);
-  const [authorizedUser, setAuthorizedUsers] = useState([]);
-  const [selectedAuthorizedUsers, setSelectedAuthorizedUsers] = useState([]);
-  const [permitPrograms, setPermitPrograms] = useState([]);
-  const [selectedPermitPrograms, setSelectedPermitPrograms] = useState([]);
+  
+  useEffect(() => {
+    if (permitInfo) {
+      setSelectedProgramCodes(permitInfo.program_codes);
+      setSelectedAuthorizedUsers(permitInfo.authorized_user);
+      setSelectedAuthorizedUses(permitInfo.authorized_use);
+      setSelectedMaterials(permitInfo.material);
+      setSelectedPermitPrograms(permitInfo.permit_program);
+    }
+  }, [permitInfo]);
   
   useEffect(() => {
     async function fetchInspectionPriorities() {
       const response = await fetch('http://127.0.0.1:8000/api/inspection_priorities')
       const data = await response.json();
       setInspectionPriorities(data.result)
-      // console.log(data.result)
     }
     fetchInspectionPriorities();
   }, []);
@@ -87,7 +92,6 @@ function PermitForm() {
       const response = await fetch('http://127.0.0.1:8000/api/RSO')
       const data = await response.json();
       setRSO(data.result)
-      // console.log(data.result)
     }
     fetchRSOs();
   }, []);
@@ -97,7 +101,6 @@ function PermitForm() {
       const response = await fetch('http://127.0.0.1:8000/api/program_codes')
       const data = await response.json();
       setProgramCodes(data.result)
-      // console.log(data.result)
     }
     fetchProgramCodes();
   }, []);
@@ -112,7 +115,6 @@ function PermitForm() {
       const response = await fetch('http://127.0.0.1:8000/api/materials')
       const data = await response.json();
       setMaterials(data.result)
-      // console.log(data.result)
     }
     fetchMaterials();
   }, []);
@@ -127,7 +129,6 @@ function PermitForm() {
       const response = await fetch('http://127.0.0.1:8000/api/authorized_uses')
       const data = await response.json();
       setAuthorizedUses(data.result)
-      // console.log(data.result)
     }
     fetchAuthorizedUses();
   }, []);
@@ -142,7 +143,6 @@ function PermitForm() {
       const response = await fetch('http://127.0.0.1:8000/api/authorized_users')
       const data = await response.json();
       setAuthorizedUsers(data.result)
-      // console.log(data.result)
     }
     fetchAuthorizedUsers();
   }, []);
@@ -157,7 +157,6 @@ function PermitForm() {
       const response = await fetch('http://127.0.0.1:8000/api/permit_programs')
       const data = await response.json();
       setPermitPrograms(data.result)
-      // console.log(data.result)
     }
     fetchPermitPrograms();
   }, []);
@@ -167,6 +166,8 @@ function PermitForm() {
     setSelectedPermitPrograms(selectedValues)
   }
   
+
+  // handle submit
   async function handleSubmit(event) {
     event.preventDefault();
     //compile data to send
@@ -245,7 +246,7 @@ function PermitForm() {
       <br />
       <br />
       <label>Program Code(s): <br />
-      <select id="program_codes" name="program_codes" multiple value={permitData.program_codes} onChange={handleProgramCodeSelect}>
+      <select id="program_codes" name="program_codes" multiple value={selectedProgramCodes} onChange={handleProgramCodeSelect}>
         {programCodes.map(programCode => (
           <option key={programCode.id} value={programCode.id}>{programCode.code}</option>
         ))}
@@ -276,7 +277,7 @@ function PermitForm() {
       <label>
         Material(s): <br />
         Source, Form, Amount<br />
-        <select id="material" name="material" value={permitData.material} multiple onChange={handleMaterialSelect}>
+        <select id="material" name="material" value={selectedMaterials} multiple onChange={handleMaterialSelect}>
         {materials.map(material => (
           <option key={material.id} value={material.id}>{material.source}, {material.form}, {material.amount_of_source} </option>
         ))}
@@ -286,7 +287,7 @@ function PermitForm() {
       <br />
       <label>
         Authorized Use(s):
-        <select id="authorized_use" name="authorized_use" multiple onChange={handleAuthorizedUseSelect}>
+        <select id="authorized_use" name="authorized_use" multiple value={selectedAuthorizedUses} onChange={handleAuthorizedUseSelect}>
         {authorizedUse.map(use => (
           <option key={use.id} value={use.id}>{use.use}</option>
         ))}
@@ -296,7 +297,7 @@ function PermitForm() {
       <br />
       <label>
         Authorized User(s):
-        <select id="authorized_user" name="authorized_user" multiple onChange={handleAuthorizedUserSelect}>
+        <select id="authorized_user" name="authorized_user" multiple value={selectedAuthorizedUsers} onChange={handleAuthorizedUserSelect}>
         {authorizedUser.map(user => (
           <option key={user.id} value={user.id}>{user.full_name}, {user.credentials}</option>
         ))}
@@ -306,7 +307,7 @@ function PermitForm() {
       <br />
       <label>
         Programs:
-        <select id="permit_program" name="permit_program" multiple onChange={handlePermitProgramSelect}>
+        <select id="permit_program" name="permit_program" multiple value={selectedPermitPrograms} onChange={handlePermitProgramSelect}>
         {permitPrograms.map(program => (
           <option key={program.id} value={program.id}>{program.title}</option>
         ))}
