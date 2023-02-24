@@ -5,8 +5,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage';
 import RSODash from './pages/RSODash';
 import PMDash from './pages/PMDash';
-import ViewPermit from './pages/ViewPermit';
+import ViewPermitDoc from './pages/ViewPermitDoc';
 import AddPermit from './pages/AddPermit';
+import EditPermit from './pages/EditPermit';
 
 function App() {
 
@@ -18,7 +19,8 @@ function App() {
         {/* <Route path="/RSO/:rsoID" element={<EditRSO />} /> */}
         <Route path="/PM" element={<PMDash />} />
         <Route path="/permit/new" element={<AddPermit />} />
-        <Route path="/permit/:permitID" element={<ViewPermit />} />
+        <Route path="PM/permit/:office_code/edit" element={<EditPermit />} />
+        <Route path="/permit/:office_code/view" element={<ViewPermitDoc />} />
       </Routes>
     </Router>
   );

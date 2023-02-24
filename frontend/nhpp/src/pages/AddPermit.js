@@ -165,7 +165,7 @@ function PermitForm() {
     });
     const result = await response.json();
     // add in handle success or error
-    console.log(JSON.stringify(data))
+    // console.log(JSON.stringify(data))
   }
   
   return (

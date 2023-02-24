@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 function FacilityRAM(props) {
-  
+
   function createMaterialsList() {
     return (
       <div>
@@ -67,8 +67,8 @@ function FacilityRAM(props) {
       {createAuthorizedUsersList()}
       <hr />
       <p>Options Available to only PMs: </p>
+      <Link to={{pathname:`permit/${props.permitInfo.office_code}/edit`, state:props.permitInfo}}>Edit RAM info</Link>
       <ul>
-        <li>Edit RAM info</li>
         <li>Generate new permit</li>
       </ul>
     </div>
