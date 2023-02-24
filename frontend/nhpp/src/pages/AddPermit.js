@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import Select from "react-select";
 
 function PermitForm() {
 
@@ -167,6 +169,8 @@ function PermitForm() {
   
   return (
     <div>
+    <Container>
+      <Row>
     <h1>New RAM Permit</h1>
       <hr />
       <p>* required<br /><br />
@@ -174,9 +178,12 @@ function PermitForm() {
 items. If you click on an item in the list while not holding the key down, that item will
 be selected and all of the other selections made will be removed. 
       </p>
+      </Row>
       <hr />
       <br />
-    <form onSubmit={handleSubmit}>
+    <Form>
+      <Row>
+      <Col>
       <label>
         Facility City:
         <input
@@ -241,6 +248,24 @@ be selected and all of the other selections made will be removed.
           onChange={handleChange}
         /> *
       </label>
+      </Col>
+      <Col>
+      <label>
+        Inspection Priority: <select id="inspection_priority" name="inspection_priority" onChange={handleChange}><option></option>
+        {inspectionPriorities.map(priority => (
+          <option key={priority.id} value={priority.id}>{priority.priority_num}</option>
+        ))}
+      </select> *
+      </label>
+      <br />
+      <br />
+      <label>
+        Radiation Safety Officer: <select id="primary_rso" name="primary_rso" onChange={handleChange}><option></option>
+        {rso.map(rso => (
+          <option key={rso.id} value={rso.id}>{rso.last_name}, {rso.first_name}</option>
+        ))}
+        </select> *
+      </label>
       <br />
       <br />
       <label>Program Code(s): *<br />
@@ -253,21 +278,18 @@ be selected and all of the other selections made will be removed.
       <br />
       <br />
       <label>
-        Inspection Priority: <select id="inspection_priority" name="inspection_priority" onChange={handleChange}>
-        {inspectionPriorities.map(priority => (
-          <option key={priority.id} value={priority.id}>{priority.priority_num}</option>
+        Programs: <br />
+        <select id="permit_program" name="permit_program" multiple onChange={handlePermitProgramSelect}>
+        {permitPrograms.map(program => (
+          <option key={program.id} value={program.id}>{program.title}</option>
         ))}
-      </select> *
+      </select>
       </label>
       <br />
       <br />
-      <label>
-        Radiation Safety Officer: <select id="primary_rso" name="primary_rso" onChange={handleChange}>
-        {rso.map(rso => (
-          <option key={rso.id} value={rso.id}>{rso.last_name}, {rso.first_name}</option>
-        ))}
-        </select>
-      </label>
+      </Col>
+      </Row>
+      <Row>
       <br />
       <br />
       <label>
@@ -299,20 +321,15 @@ be selected and all of the other selections made will be removed.
         ))}
       </select>
       </label>
-      <br />
-      <br />
-      <label>
-        Programs: <br />
-        <select id="permit_program" name="permit_program" multiple onChange={handlePermitProgramSelect}>
-        {permitPrograms.map(program => (
-          <option key={program.id} value={program.id}>{program.title}</option>
-        ))}
-      </select>
-      </label>
-      <br />
-      <br />
-      <button type="submit">Create Permit</button>
-    </form>
+      </Row>
+      <Row>
+        <Col>
+        <hr />
+      <Button onClick={handleSubmit}>Create Permit</Button>
+      </Col>
+      </Row>
+    </Form>
+    </Container>
     </div>
   );
 }

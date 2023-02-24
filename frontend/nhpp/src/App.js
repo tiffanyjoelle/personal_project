@@ -16,7 +16,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/RSO/:rsoID" element={<RSODash />} />
+        <Route path="/RSO/:office_code" element={<RSODash />} />
         {/* <Route path="/RSO/:rsoID" element={<EditRSO />} /> */}
         <Route path="/PM" element={<PMDash />} />
         <Route path="/PM/permit/new" element={<AddPermit />} />

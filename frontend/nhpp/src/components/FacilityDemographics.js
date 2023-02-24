@@ -24,16 +24,18 @@ function FacilityDemographics(props) {
       {props.permitInfo &&
       <div>
       <h2>{props.permitInfo.city}, {props.permitInfo.state_abbrev} | Facility #{props.permitInfo.office_code}</h2>
-      <blockquote>
+      <p>
         Location Name: Placeholder for VA API call <br />
         Phone: Placeholder for VA API call <br />
         Address: Placeholder for VA API call <br />
-      </blockquote>
+      </p>
       <h3>Permit#: {props.permitInfo.permit_num}</h3>
-      <p>Docket Number: {props.permitInfo.docket_num}</p>
-      <p>Expiration Date: {props.permitInfo.exp_date}</p>
-      <p>Radiation Safety Officer: <br />
-      <Link to={`/RSO/${props.permitInfo.primary_rso.id}`}>Edit contact information</Link> <br /><br />
+      <p>
+        Docket Number: {props.permitInfo.docket_num} <br />
+        Expiration Date: {props.permitInfo.exp_date}
+        </p>
+      <h3>Radiation Safety Officer:</h3>
+      <p>
         {props.permitInfo.primary_rso.first_name} {props.permitInfo.primary_rso.middle_name} {props.permitInfo.primary_rso.last_name}, {props.permitInfo.primary_rso.credentials} <br />
         Phone: {props.permitInfo.primary_rso.phone}
         <br />
@@ -43,7 +45,9 @@ function FacilityDemographics(props) {
         <br />
         Consulting Firm: {props.permitInfo.primary_rso.consulting_firm}
         <br />
+        <Link to={`/RSO/${props.permitInfo.primary_rso.id}`}>Edit contact information</Link>
         </p>
+        
       {createProgramsList()}
       <hr />
       <p>Options Available to both PM and RSO: <br />

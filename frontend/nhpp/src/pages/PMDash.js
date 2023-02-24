@@ -1,7 +1,7 @@
 import FacilityDropdownMenu from "../components/FacilityDropdownMenu"
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 function PMDash() {
 
@@ -18,6 +18,10 @@ function PMDash() {
     getFacilities()
   }, [])
 
+  function handleNewButtonClick(event) {
+    window.location.href = "PM/permit/new"
+  }
+
   return (
     <div>
       <Container>
@@ -26,7 +30,7 @@ function PMDash() {
           <h2>NRC Articles</h2>
           <p>Pull some articles from NRC's ADAMS API</p>
           <hr />
-          <Link to="permit/new">Create New RAM Permit</Link>
+          <Col><Button onClick={handleNewButtonClick}>Create New RAM Permit</Button></Col>
         </Row>
       <Row><FacilityDropdownMenu facilities={facilities}/></Row>
       </Container>
