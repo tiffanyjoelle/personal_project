@@ -194,13 +194,22 @@ function PermitForm() {
       body: JSON.stringify(data),
     });
     const result = await response.json();
-    // add in handle success or error
-    // console.log(JSON.stringify(data))
+    // console.log(result)
+    window.location.href = '/PM'
   }
 
   return (
+    <div>
+    <h1>Edit RAM Permit# {permitData.permit_num}</h1>
+      <hr />
+      <p>
+      Note: For fields with multiple selection options, be sure to hold the Ctrl (PC) or Command (Mac) key down while selecting multiple
+items. If you click on an item in the list while not holding the key down, that item will
+be selected and all of the other selections made will be removed. 
+      </p>
+      <hr />
+      <br />
     <form onSubmit={handleSubmit}>
-      <h1>Edit RAM Permit# {permitData.permit_num}</h1>
       <label>
         Facility City:
         <input
@@ -317,6 +326,7 @@ function PermitForm() {
       <br />
       <button type="submit">Update Permit</button>
     </form>
+    </div>
   );
 }
 

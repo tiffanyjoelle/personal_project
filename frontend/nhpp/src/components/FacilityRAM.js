@@ -58,7 +58,10 @@ function FacilityRAM(props) {
     {props.permitInfo && 
     <div>
       <h1>RAM Information for {props.permitInfo.city}, {props.permitInfo.state_abbrev} </h1>
-      Program Codes:
+      <p>Options Available to only PMs: </p>
+      <Link to={{pathname:`permit/${props.permitInfo.office_code}/edit`, state:props.permitInfo}}>Edit RAM info</Link>
+      <p>Generate new permit</p>
+      <p>Program Codes:</p>
       <ul>{createProgramCodeList()}</ul>
       Inspection Priority: {props.permitInfo.inspection_priority.priority_num}
       <h2>Materials:</h2>
@@ -66,11 +69,6 @@ function FacilityRAM(props) {
       {createAuthorizedUsesList()}
       {createAuthorizedUsersList()}
       <hr />
-      <p>Options Available to only PMs: </p>
-      <Link to={{pathname:`permit/${props.permitInfo.office_code}/edit`, state:props.permitInfo}}>Edit RAM info</Link>
-      <ul>
-        <li>Generate new permit</li>
-      </ul>
     </div>
     }
     </div>

@@ -20,11 +20,10 @@ function PMDash() {
   return (
     <div>
       <h1>NHPP PM Dashboard</h1>
-      <p>PMs will have extra options underneath the base FacilityDemographics component.</p>
       <h2>NRC Articles</h2>
       <p>Pull some articles from NRC's ADAMS API</p>
       <hr />
-      <Link to="/permit/new">Create New RAM Permit</Link>
+      <Link to="permit/new">Create New RAM Permit</Link>
       <br />
       <br />
       <FacilityDropdownMenu facilities={facilities}/>

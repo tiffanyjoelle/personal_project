@@ -96,13 +96,13 @@ class RSOView(APIView):
 
 class ProgramCodesView(APIView):
     def get(self, request):
-        data = ProgramCode.objects.all()
+        data = ProgramCode.objects.all().order_by('code')
         serializer = ProgramCodeSerializer(data, many=True)
         return Response({"result": serializer.data})
 
 class MaterialView(APIView):
     def get(self, request):
-        data = Material.objects.all()
+        data = Material.objects.all().order_by('source')
         serializer = MaterialSerializer(data, many=True)
         return Response({"result": serializer.data})
 
@@ -120,12 +120,12 @@ class AuthorizedUseView(APIView):
 
 class AuthorizedUserView(APIView):
     def get(self, request):
-        data = AuthorizedUser.objects.all()
+        data = AuthorizedUser.objects.all().order_by('full_name')
         serializer = AuthorizedUserSerializer(data, many=True)
         return Response({"result": serializer.data})
 
 class PermitProgramView(APIView):
     def get(self, request):
-        data = PermitProgram.objects.all()
+        data = PermitProgram.objects.all().order_by('title')
         serializer = PermitProgramSerializer(data, many=True)
         return Response({"result": serializer.data})

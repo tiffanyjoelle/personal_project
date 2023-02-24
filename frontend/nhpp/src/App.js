@@ -18,7 +18,7 @@ function App() {
         <Route path="/RSO/:rsoID" element={<RSODash />} />
         {/* <Route path="/RSO/:rsoID" element={<EditRSO />} /> */}
         <Route path="/PM" element={<PMDash />} />
-        <Route path="/permit/new" element={<AddPermit />} />
+        <Route path="/PM/permit/new" element={<AddPermit />} />
         <Route path="PM/permit/:office_code/edit" element={<EditPermit />} />
         <Route path="/permit/:office_code/view" element={<ViewPermitDoc />} />
       </Routes>

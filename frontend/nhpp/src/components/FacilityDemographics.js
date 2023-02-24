@@ -32,8 +32,9 @@ function FacilityDemographics(props) {
       <h3>{props.permitInfo.permit_num}</h3>
       <p>Docket Number: {props.permitInfo.docket_num}</p>
       <p>Expiration Date: {props.permitInfo.exp_date}</p>
-      <p>RSO Information: </p>
-        <blockquote>{props.permitInfo.primary_rso.first_name} {props.permitInfo.primary_rso.middle_name} {props.permitInfo.primary_rso.last_name}, {props.permitInfo.primary_rso.credentials} <br />
+      <p>Radiation Safety Officer: <br />
+      <Link to={`/RSO/${props.permitInfo.primary_rso.id}`}>Edit contact information</Link> <br /><br />
+        {props.permitInfo.primary_rso.first_name} {props.permitInfo.primary_rso.middle_name} {props.permitInfo.primary_rso.last_name}, {props.permitInfo.primary_rso.credentials} <br />
         Phone: {props.permitInfo.primary_rso.phone}
         <br />
         Alt Phone: {props.permitInfo.primary_rso.alt_phone}
@@ -42,14 +43,12 @@ function FacilityDemographics(props) {
         <br />
         Consulting Firm: {props.permitInfo.primary_rso.consulting_firm}
         <br />
-        </blockquote>
+        </p>
       {createProgramsList()}
       <hr />
-      <p>Options Available to both PM and RSO: </p>
-      <ul>
-        <li><Link to={`/RSO/${props.permitInfo.primary_rso.id}`}>Edit RSO</Link></li> 
-        <li><Link to={`/permit/${props.permitInfo.id}`}>View current RAM permit</Link></li>
-      </ul>
+      <p>Options Available to both PM and RSO: <br />
+      <Link to={`/permit/${props.permitInfo.id}`}>View current RAM permit</Link>
+      </p>
       <hr />
       </div>
       }
