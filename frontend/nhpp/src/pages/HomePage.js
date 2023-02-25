@@ -1,43 +1,72 @@
 import { Container, Row, Col, Nav } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import PMDashboard from "../components/PMDashboard"
+import RSODashboard from "../components/RSODashboard"
 import NavBar from "../components/NavBar";
 
 function HomePage() {
 
   const [user, setUser] = useState()
+  const [staff, setStaff] = useState()
+  const [RSO, setRSO] = useState()
 
   useEffect( () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // fetch user details using the token
-      fetch('http://127.0.0.1:8000/accounts/details', {
-        headers: {
-          'Authorization': `Token ${token}`,
-          'Content-Type': 'application/json'
+    async function fetchUserDetails() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await fetch('http://127.0.0.1:8000/accounts/details', {
+            headers: {
+              'Authorization': `Token ${token}`,
+              'Content-Type': 'application/json'
+            }
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setUser(data);
+          } else {
+            throw new Error('Failed to fetch user details');
+          }
+        } catch (error) {
+          console.error(error);
         }
-      })
-        .then(response => response.json())
-        .then(data => setUser(data))
-        .catch(error => console.error(error));
-    } else {
-      // redirect user to login page if not authenticated
-      window.location.href = '/login';
+      } else {
+        // redirect user to login page if not authenticated
+        window.location.href = '/login';
+      }
     }
+    fetchUserDetails();
   }, []);
 
-  // console.log(user)
-
+  useEffect( () => {
+    if(user) {
+      if (user.is_staff) {
+        setStaff("True")
+      } else {
+        setRSO("True")
+      }
+    }
+  }, [user]);
+ 
   return (
     <div>
-      {user &&
       <Container>
-        <NavBar />
+      <NavBar />
+      {staff &&
         <Row>
-          <Col><PMDashboard /></Col>
+          <Col>
+          <PMDashboard />
+          </Col>
         </Row>
-      </Container>
       }
+      {RSO &&
+        <Row>
+          <Col>
+          <RSODashboard />
+          </Col>
+        </Row>
+      }
+       </Container>
     </div>
   )
 }
