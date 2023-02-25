@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import *
+from .models import * 
+from django.contrib.auth.models import User
 
 class AuthorizedUserField(serializers.PrimaryKeyRelatedField):
     def to_internal_value(self, data):

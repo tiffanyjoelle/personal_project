@@ -9,6 +9,7 @@ import PMDash from './pages/PMDash';
 import ViewPermitDoc from './pages/ViewPermitDoc';
 import AddPermit from './pages/AddPermit';
 import EditPermit from './pages/EditPermit';
+import Login from './pages/UserLogin';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/RSO/:office_code" element={<RSODash />} />
         {/* <Route path="/RSO/:rsoID" element={<EditRSO />} /> */}
         <Route path="/PM" element={<PMDash />} />
