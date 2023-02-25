@@ -1,47 +1,46 @@
-import { Link } from "react-router-dom"
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Nav } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import PMDashboard from "../components/PMDashboard"
 
 function HomePage() {
 
   const [user, setUser] = useState()
 
   useEffect( () => {
-    async function getUserDetails() {
-      const token = localStorage.getItem('token');
-      const requestOptions = {
-        method: 'GET',
+    const token = localStorage.getItem('token');
+    if (token) {
+      // fetch user details using the token
+      fetch('http://127.0.0.1:8000/accounts/details', {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'
         }
-      };
-      try {
-        const response = await fetch('http://127.0.0.1:8000/accounts/details', requestOptions);
-        if (!response.ok) {
-          throw new Error('Failed to retrieve user details');
-        }
-        const data = await response.json();
-        setUser(data)
-      } catch (error) {
-        console.error(error);
-      }
+      })
+        .then(response => response.json())
+        .then(data => setUser(data))
+        .catch(error => console.error(error));
+    } else {
+      // redirect user to login page if not authenticated
+      window.location.href = '/login';
     }
-    getUserDetails()
-  }, [])
+  }, []);
 
-  console.log(user)
+  // console.log(user)
+
   return (
     <div>
+      {user &&
       <Container>
         <Row>
-          <h1>NHPP's Web-Based Licensing</h1>
+          <Nav className="bg-primary">
+            <h3>Home | Logout</h3>
+          </Nav>
         </Row>
         <Row>
-          <Col><Link to="/RSO/598"> Radiation Safety Officer</Link></Col>
-          <Col><Link to="PM">NHPP Program Manager</Link></Col>
+          <Col><PMDashboard /></Col>
         </Row>
       </Container>
+      }
     </div>
   )
 }
