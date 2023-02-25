@@ -1,6 +1,7 @@
 import { Container, Row, Col, Nav } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import PMDashboard from "../components/PMDashboard"
+import NavBar from "../components/NavBar";
 
 function HomePage() {
 
@@ -31,11 +32,7 @@ function HomePage() {
     <div>
       {user &&
       <Container>
-        <Row>
-          <Nav className="bg-primary">
-            <h3>Home | Logout</h3>
-          </Nav>
-        </Row>
+        <NavBar />
         <Row>
           <Col><PMDashboard /></Col>
         </Row>

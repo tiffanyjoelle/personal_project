@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import NavBar from "../components/NavBar";
 
-function PermitForm() {
+function EditPermitForm() {
 
   // states and params
   let { office_code } = useParams()
@@ -200,6 +202,9 @@ function PermitForm() {
 
   return (
     <div>
+      <Container>
+      <NavBar />
+      <Row>
     <h1>Edit RAM Permit# {permitData.permit_num}</h1>
       <hr />
       <p>
@@ -207,9 +212,12 @@ function PermitForm() {
 items. If you click on an item in the list while not holding the key down, that item will
 be selected and all of the other selections made will be removed. 
       </p>
+      </Row>
       <hr />
       <br />
-    <form onSubmit={handleSubmit}>
+    <Form>
+      <Row>
+        <Col>
       <label>
         Facility City:
         <input
@@ -254,15 +262,6 @@ be selected and all of the other selections made will be removed.
       </label>
       <br />
       <br />
-      <label>Program Code(s): <br />
-      <select id="program_codes" name="program_codes" multiple value={selectedProgramCodes} onChange={handleProgramCodeSelect}>
-        {programCodes.map(programCode => (
-          <option key={programCode.id} value={programCode.id}>{programCode.code}</option>
-        ))}
-      </select>
-      </label>
-      <br />
-      <br />
       <label>
         Inspection Priority:
         <select id="inspection_priority" name="inspection_priority" value={permitData.inspection_priority} onChange={handleChange}>
@@ -283,6 +282,30 @@ be selected and all of the other selections made will be removed.
       </label>
       <br />
       <br />
+      </Col>
+      <Col>
+      <label>Program Code(s): <br />
+      <select id="program_codes" name="program_codes" multiple value={selectedProgramCodes} onChange={handleProgramCodeSelect}>
+        {programCodes.map(programCode => (
+          <option key={programCode.id} value={programCode.id}>{programCode.code}</option>
+        ))}
+      </select>
+      </label>
+      <br />
+      <br />
+      <label>
+        Programs: <br />
+        <select id="permit_program" name="permit_program" multiple value={selectedPermitPrograms} onChange={handlePermitProgramSelect}>
+        {permitPrograms.map(program => (
+          <option key={program.id} value={program.id}>{program.title}</option>
+        ))}
+      </select>
+      </label>
+      <br />
+      <br />
+      </Col>
+      </Row>
+      <Row>
       <label>
         Material(s): <br />
         Source, Form, Amount<br />
@@ -312,22 +335,17 @@ be selected and all of the other selections made will be removed.
         ))}
       </select>
       </label>
-      <br />
-      <br />
-      <label>
-        Programs:
-        <select id="permit_program" name="permit_program" multiple value={selectedPermitPrograms} onChange={handlePermitProgramSelect}>
-        {permitPrograms.map(program => (
-          <option key={program.id} value={program.id}>{program.title}</option>
-        ))}
-      </select>
-      </label>
-      <br />
-      <br />
-      <button type="submit">Update Permit</button>
-    </form>
+      </Row>
+      <Row>
+        <Col>
+        <hr />
+        <Button onClick={handleSubmit}>Update Permit</Button>
+        </Col>
+      </Row>
+      </Form>
+    </Container>
     </div>
   );
 }
 
-export default PermitForm;
+export default EditPermitForm;

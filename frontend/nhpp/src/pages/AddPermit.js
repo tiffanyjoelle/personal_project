@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import Select from "react-select";
+import NavBar from "../components/NavBar";
 
-function PermitForm() {
+function NewPermitForm() {
 
   // states
   const [permitData, setPermitData] = useState({
@@ -170,6 +171,7 @@ function PermitForm() {
   return (
     <div>
     <Container>
+      <NavBar />
       <Row>
     <h1>New RAM Permit</h1>
       <hr />
@@ -248,15 +250,6 @@ be selected and all of the other selections made will be removed.
           onChange={handleChange}
         /> *
       </label>
-      </Col>
-      <Col>
-      <label>
-        Inspection Priority: <select id="inspection_priority" name="inspection_priority" onChange={handleChange}><option></option>
-        {inspectionPriorities.map(priority => (
-          <option key={priority.id} value={priority.id}>{priority.priority_num}</option>
-        ))}
-      </select> *
-      </label>
       <br />
       <br />
       <label>
@@ -265,6 +258,17 @@ be selected and all of the other selections made will be removed.
           <option key={rso.id} value={rso.id}>{rso.last_name}, {rso.first_name}</option>
         ))}
         </select> *
+      </label>
+      <br />
+      <br />
+      </Col>
+      <Col>
+      <label>
+        Inspection Priority: <select id="inspection_priority" name="inspection_priority" onChange={handleChange}><option></option>
+        {inspectionPriorities.map(priority => (
+          <option key={priority.id} value={priority.id}>{priority.priority_num}</option>
+        ))}
+      </select> *
       </label>
       <br />
       <br />
@@ -334,4 +338,4 @@ be selected and all of the other selections made will be removed.
   );
 }
 
-export default PermitForm;
+export default NewPermitForm;

@@ -24,7 +24,6 @@ function PMDashboard() {
 
   return (
     <div>
-      <Container>
         <Row>
           <h1>NHPP PM Dashboard</h1>
           <h2>NRC Articles</h2>
@@ -33,7 +32,6 @@ function PMDashboard() {
           <Col><Button onClick={handleNewButtonClick}>Create New RAM Permit</Button></Col>
         </Row>
       <Row><FacilityDropdownMenu facilities={facilities}/></Row>
-      </Container>
     </div>
   )
 }
