@@ -90,7 +90,6 @@ function FacilityRAM(props) {
       </Table>
       {createAuthorizedUsesList()}
       {createAuthorizedUsersList()}
-      <hr />
     </div>
     }
     </div>

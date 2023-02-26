@@ -1,4 +1,9 @@
-function ViewPermit() {
+import { useParams } from "react-router-dom";
+
+function PermitDoc() {
+
+  
+
     return (
       <div>
         <div align="center" style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif'}}>
@@ -6,13 +11,13 @@ function ViewPermit() {
             <tbody>
               <tr>
                 <td style={{width: '1.6in', border: '1.5pt solid windowtext', padding: '0in 5.4pt', height: '0.5in', verticalAlign: 'bottom'}}>
-                  <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>Page&nbsp;</span><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>1</span><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>&nbsp;of&nbsp;</span><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>2</span><span style={{fontSize: '13px'}}>&nbsp;pages</span></p>
+                  <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>&nbsp;</span><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}></span><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>&nbsp;&nbsp;</span><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}></span><span style={{fontSize: '13px'}}>&nbsp;</span></p>
                 </td>
                 <td colSpan={4} style={{width: '4.0in', border: 'solid windowtext 1.5pt', borderLeft: 'none', padding: '0in 5.4pt 0in 5.4pt', height: '.5in'}}>
                   <h2 style={{margin: '0in', fontSize: '13px', fontFamily: '"Arial",sans-serif', textAlign: 'center'}}><span style={{fontSize: '21px'}}>MATERIALS PERMIT</span></h2>
                 </td>
                 <td style={{width: '1.6in', borderTop: '1.5pt solid windowtext', borderRight: '1.5pt solid windowtext', borderBottom: '1.5pt solid windowtext', borderImage: 'initial', borderLeft: 'none', padding: '0in 5.4pt', height: '0.5in', verticalAlign: 'bottom'}}>
-                  <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', textAlign: 'right'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>Amendment No. 46</span></p>
+                  <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', textAlign: 'right'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}></span></p>
                 </td>
               </tr>
               <tr>
@@ -160,4 +165,4 @@ function ViewPermit() {
     );
   }
 
-export default ViewPermit
+export default PermitDoc

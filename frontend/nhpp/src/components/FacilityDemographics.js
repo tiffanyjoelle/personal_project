@@ -1,6 +1,23 @@
 import { Link } from 'react-router-dom'
+import PermitDoc from "../components/PermitDoc";
+import ReactDOM from 'react-dom';
+import { Button } from "react-bootstrap";
 
 function FacilityDemographics(props) {
+
+  function openPermitWindow() {
+    const permitWindow = window.open('', 'permitWindow', 'width=600,height=400');
+    permitWindow.document.write('<html><head><title>Permit</title></head><body>');
+    permitWindow.document.write('<div>');
+    // permitWindow.document.write('<button onClick="window.close()">Close Window</button>');
+    permitWindow.document.write('<br /><br />');
+    permitWindow.document.write('<div id="permitContainer"></div>');
+    permitWindow.document.write('</div>');
+    permitWindow.document.write('</body></html>');
+
+    const permitContainer = permitWindow.document.getElementById('permitContainer');
+    ReactDOM.render(<PermitDoc permitInfo={props.permitInfo}/>, permitContainer);
+  }
 
   function createProgramsList() {
     return (
@@ -49,11 +66,8 @@ function FacilityDemographics(props) {
         </p>
         
       {createProgramsList()}
-      <hr />
-      <p>Options Available to both PM and RSO: <br />
-      {/* <Link to={`/permit/${props.permitInfo.id}`}>View current RAM permit</Link> */}
-      </p>
-      <hr />
+      <br />
+      <Button onClick={openPermitWindow}>View Radioactive Materials Permit</Button>
       </div>
       }
     </div>
