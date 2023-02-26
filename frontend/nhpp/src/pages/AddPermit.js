@@ -165,7 +165,12 @@ function NewPermitForm() {
     const result = await response.json();
     // add in handle success or error
     // console.log(JSON.stringify(data))
-    window.location.href = '/PM'
+    const confirmed = window.confirm('Permit added successfully! Would you like to view this permit?')
+    if (confirmed) {
+      window.location.href = `${data.office_code}`
+    } else {
+      window.location.href = '/'
+    }
   }
   
   return (

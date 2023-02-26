@@ -63,11 +63,11 @@ class InspectionPrioritySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RSOSerializer(serializers.ModelSerializer):
-    middle_name = serializers.CharField(required=False)
-    credentials = serializers.CharField(required=False)
-    alt_phone = serializers.CharField(required=False)
-    consulting_firm = serializers.CharField(required=False)
-    notes = serializers.CharField(required=False)
+    middle_name = serializers.CharField(required=False, allow_blank=True)
+    credentials = serializers.CharField(required=False, allow_blank=True)
+    alt_phone = serializers.CharField(required=False, allow_blank=True)
+    consulting_firm = serializers.CharField(required=False, allow_blank=True)
+    notes = serializers.CharField(required=False, allow_blank=True)
 
     class Meta:
         model = RSO

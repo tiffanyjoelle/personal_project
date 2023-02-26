@@ -6,7 +6,7 @@ urlpatterns = [
     path('new', views.PostPermitView.as_view()), # add new permit
     path('<int:office_code>', views.GetPermitView.as_view()), # view permit
     path('<int:office_code>/edit', views.PostPermitView.as_view()), # edit/delete permit, change RSO on permit, create new RSO
-    path('RSO', views.RSOView.as_view()), # just a get to see all
+    path('RSO', views.RSOView.as_view()), # see all and add new (only for PM)
     path('RSO/<int:pk>', views.RSOView.as_view()), # edit/delete RSO
     path('program_codes', views.ProgramCodesView.as_view()), # get all program codes
     path('materials', views.MaterialView.as_view()), # get all materials

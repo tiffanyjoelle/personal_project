@@ -25,8 +25,6 @@ function RSODashboard(props) {
     <div>
       <Container>
       <h1>RSO Dashboard</h1>
-      <p> RSOs can only see base FacilityDemographics component, which will allow for editing RSO contact info.</p>
-      <p>Will need to pass facilityID parameter automatically from login, perhaps something I can pass w the django login permissions??</p>
       <FacilityDemographics permitInfo={permitInfo}/>
       </Container>
     </div>

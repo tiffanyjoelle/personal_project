@@ -7,26 +7,32 @@ function FacilityRAM(props) {
     return (
       <div>
         <h2>Authorized Uses:</h2>
+        <ul>
         {props.permitInfo.authorized_use.map((use) => (
           <div key={use.id}>
             <li>{use.use}</li>
           </div>
         ))}
+        </ul>
       </div>
     );
   }
 
   function createAuthorizedUsersList() {
-    return (
-      <div>
-        <h2>Authorized Users:</h2>
-        {props.permitInfo.authorized_user.map((user) => (
-          <div key={user.id}>
-            <p>{user.full_name}, {user.credentials}</p>
-          </div>
-        ))}
-      </div>
-    );
+    if (props.permitInfo.authorized_user.length > 0) {
+      return (
+        <div>
+          <h2>Authorized Users:</h2>
+          <ul>
+          {props.permitInfo.authorized_user.map((user) => (
+            <div key={user.id}>
+              <li>{user.full_name}, {user.credentials}</li>
+            </div>
+          ))}
+          </ul>
+        </div>
+      )
+    }
   }
 
   function createProgramCodeList() {
@@ -42,7 +48,7 @@ function FacilityRAM(props) {
   }
 
   function handleEditButtonClick(event) {
-    window.location.href = `PM/permit/${props.permitInfo.office_code}/edit`
+    window.location.href = `${props.permitInfo.office_code}/edit`
   }
 
   async function handleDelete(event) {
@@ -56,7 +62,7 @@ function FacilityRAM(props) {
       },
     });
     // console.log(result)
-    window.location.href = '/PM'
+    window.location.href = '/'
     }
   }
 

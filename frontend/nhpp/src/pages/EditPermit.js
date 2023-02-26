@@ -197,7 +197,7 @@ function EditPermitForm() {
     });
     const result = await response.json();
     // console.log(result)
-    window.location.href = '/PM'
+    window.location.href = `/permit/${permitInfo.office_code}`
   }
 
   return (

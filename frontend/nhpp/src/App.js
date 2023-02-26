@@ -4,11 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 //pages
 import HomePage from './pages/HomePage';
-import ViewPermitDoc from './pages/ViewPermitDoc';
+import PermitView from './pages/PermitView';
 import AddPermit from './pages/AddPermit';
 import EditPermit from './pages/EditPermit';
 import Login from './pages/UserLogin';
 import Signup from './pages/UserSignup';
+import AddRSO from './pages/AddRSO';
+import EditRSO from './pages/EditRSO';
 
 function App() {
 
@@ -18,11 +20,11 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/RSO/:office_code" element={<RSODash />} /> */}
-        {/* <Route path="/RSO/:rsoID" element={<EditRSO />} /> */}
-        <Route path="/PM/permit/new" element={<AddPermit />} />
-        <Route path="PM/permit/:office_code/edit" element={<EditPermit />} />
-        <Route path="/permit/:office_code/view" element={<ViewPermitDoc />} />
+        <Route path="/RSO/new" element={<AddRSO />} />
+        <Route path="/RSO/:rsoID" element={<EditRSO />} />
+        <Route path="/permit/new" element={<AddPermit />} />
+        <Route path="/permit/:office_code" element={<PermitView />} />
+        <Route path="/permit/:office_code/edit" element={<EditPermit />} />
       </Routes>
     </Router>
   );

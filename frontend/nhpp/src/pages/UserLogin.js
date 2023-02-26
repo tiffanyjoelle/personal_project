@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Button } from "react-bootstrap";
 
 function Login() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   
-  console.log(username, password)
+  function handleSignupBtnClick(event) {
+    window.location.href = "/signup"
+  }
 
   async function loginSubmit(e) {
     e.preventDefault();
@@ -67,8 +70,8 @@ function Login() {
                 />
               </div>
               <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
+                Login
+              </button> <Button onClick={handleSignupBtnClick}>Sign up</Button>
             </form>
           </div>
         </div>

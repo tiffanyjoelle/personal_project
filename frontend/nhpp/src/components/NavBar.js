@@ -1,5 +1,4 @@
 import { Row, Nav, Button, Container } from "react-bootstrap";
-import { Link } from "react-router-dom"
 
 function NavBar() {
 
@@ -14,12 +13,10 @@ function NavBar() {
 
   return (
     <div>
-        <Row>
           <Nav>
             <Button onClick={handleHomeBtnClick}>Home</Button>
             <Button onClick={handleLogoutBtnClick}>Logout</Button>
           </Nav>
-        </Row>
     </div>
   )
 }
