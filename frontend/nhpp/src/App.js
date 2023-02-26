@@ -11,6 +11,7 @@ import Login from './pages/UserLogin';
 import Signup from './pages/UserSignup';
 import AddRSO from './pages/AddRSO';
 import EditRSO from './pages/EditRSO';
+import ViewPermit from './pages/ViewPermitDoc';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/permit/new" element={<AddPermit />} />
         <Route path="/permit/:office_code" element={<PermitView />} />
         <Route path="/permit/:office_code/edit" element={<EditPermit />} />
+        <Route path="/permit/view" element={<ViewPermit />} />
       </Routes>
     </Router>
   );
