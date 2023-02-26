@@ -14,6 +14,6 @@ urlpatterns = [
     path('authorized_uses', views.AuthorizedUseView.as_view()), #get all authorized uses
     path('authorized_users', views.AuthorizedUserView.as_view()), #get all authorized users
     path('permit_programs', views.PermitProgramView.as_view()), #get all permit programs
-    # path('<int:office_code>/materials', views.MaterialView.as_view()), # add/edit/delete materials
+    path('facility/<int:office_code>', views.FacilityInfoView.as_view()),
     # path('<int:office_code>/authorized_users', views.AUView.as_view()), # add/edit/delete authorized users
 ]

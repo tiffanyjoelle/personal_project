@@ -1,9 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+import requests
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .serializers import *
 from .models import *
+import os
 
 
 class GetPermitView(APIView):
@@ -83,24 +86,6 @@ class RSOView(APIView):
         rso.delete()
         return Response({"result": f"RSO {rso.first_name} deleted"},status=204)
 
-# class MaterialView(APIView):
-
-#     def get(self, request, office_code, pk=None): 
-#         #if pk=None: 
-#         data = Material.objects.filter(permit__office_code = office_code)
-#         serializer = MaterialSerializer(data, many=True)
-#         return Response({"result": serializer.data})
-
-#         #else: pull specific use
-
-#     def put(self, request, office_code, pk):
-#         saved_materials = (Material.objects.filter(permit__office_code = office_code))
-#         data = request.data
-#         serializer = MaterialSerializer(instance=saved_materials, many=True, data=data, partial=True)
-#         if serializer.is_valid(raise_exception=True):
-#             saved_materials = serializer.save()
-#         return Response({"result": {serializer.data}})
-
 class ProgramCodesView(APIView):
     def get(self, request):
         data = ProgramCode.objects.all().order_by('code')
@@ -136,3 +121,13 @@ class PermitProgramView(APIView):
         data = PermitProgram.objects.all().order_by('title')
         serializer = PermitProgramSerializer(data, many=True)
         return Response({"result": serializer.data})
+
+class FacilityInfoView(APIView):
+    def get(self, request, office_code):
+        url = f"https://sandbox-api.va.gov/services/va_facilities/v0/facilities/vha_{office_code}"
+        headers = {
+            "apikey": os.environ.get('VA_API_KEY')
+        }
+        response = requests.get(url, headers=headers)
+        data = response.json()["data"] if response.status_code == 200 else None
+        return JsonResponse({"data": data})

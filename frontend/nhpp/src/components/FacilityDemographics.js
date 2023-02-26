@@ -1,8 +1,4 @@
-// Put here what both pages will share (ie. facility demographics from VA API, RSO info, ability to download most recent permit)
-
 import { Link } from 'react-router-dom'
-
-// pass in param from url as props for this component
 
 function FacilityDemographics(props) {
 
@@ -18,17 +14,21 @@ function FacilityDemographics(props) {
       </div>
     );
   }
-  
+
   return (
     <div>
       {props.permitInfo &&
       <div>
       <h2>{props.permitInfo.city}, {props.permitInfo.state_abbrev} | Facility #{props.permitInfo.office_code}</h2>
+      {props.facilityInfo &&
       <p>
-        Location Name: Placeholder for VA API call <br />
-        Phone: Placeholder for VA API call <br />
-        Address: Placeholder for VA API call <br />
+        Location Name: {props.facilityInfo.attributes.name} <br />
+        Phone: {props.facilityInfo.attributes.phone.main} <br />
+        Address: <br />
+        {props.facilityInfo.attributes.address.physical.address_1} <br />
+        {props.facilityInfo.attributes.address.physical.city}, {props.facilityInfo.attributes.address.physical.state} {props.facilityInfo.attributes.address.physical.zip} <br />
       </p>
+      }
       <h3>Permit#: {props.permitInfo.permit_num}</h3>
       <p>
         Docket Number: {props.permitInfo.docket_num} <br />
@@ -51,7 +51,7 @@ function FacilityDemographics(props) {
       {createProgramsList()}
       <hr />
       <p>Options Available to both PM and RSO: <br />
-      <Link to={`/permit/${props.permitInfo.id}`}>View current RAM permit</Link>
+      {/* <Link to={`/permit/${props.permitInfo.id}`}>View current RAM permit</Link> */}
       </p>
       <hr />
       </div>
