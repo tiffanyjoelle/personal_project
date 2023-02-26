@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import UserSerializer,RegisterSerializer
 from django.contrib.auth.models import User
+from .models import CustomUser
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
 
@@ -12,7 +13,7 @@ class UserDetailAPI(APIView):
   permission_classes = (AllowAny,)
   
   def get(self,request,*args,**kwargs):
-    user = User.objects.get(id=request.user.id)
+    user = CustomUser.objects.get(id=request.user.id)
     serializer = UserSerializer(user)
     return Response(serializer.data)
 

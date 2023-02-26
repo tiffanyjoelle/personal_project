@@ -8,12 +8,12 @@ function RSODashboard(props) {
 
   // const office_code = props.user.office_code // add to user model and pass in from homepage after sign in
   const [permitInfo, setPermitInfo] = useState()
-  
+  console.log(props)
   useEffect( () => {
     async function getPermitInfo() {
       // if (office_code){
         // const base_url = process.env.REACT_APP_BASE_URL
-        const res = await fetch(`http://127.0.0.1:8000/api/598`)
+        const res = await fetch(`http://127.0.0.1:8000/api/${props.office_code}`)
       const body = await res.json()
       setPermitInfo(body.result)
       // }

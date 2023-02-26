@@ -53,26 +53,18 @@ function Login() {
                   className="form-control"
                   id="UsernameInput"
                   name="UsernameInput"
-                  aria-describedby="UsernameHelp"
                   placeholder="Enter username"
                   onChange={(event) => setUsername(event.target.value)}
                 />
-                {/* <small id="emailHelp" className="text-danger form-text">
-                  {emailError}
-                </small> */}
               </div>
               <div className="form-group">
                 <label>Password</label>
                 <input
                   type="password"
                   className="form-control"
-                  id="exampleInputPassword1"
                   placeholder="Password"
                   onChange={(event) => setPassword(event.target.value)}
                 />
-                {/* <small id="passworderror" className="text-danger form-text">
-                  {passwordError}
-                </small> */}
               </div>
               <button type="submit" className="btn btn-primary">
                 Submit

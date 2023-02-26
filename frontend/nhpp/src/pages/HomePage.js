@@ -43,11 +43,13 @@ function HomePage() {
       if (user.is_staff) {
         setStaff("True")
       } else {
-        setRSO("True")
+        const office_code = user.office_code
+        setRSO(office_code)
       }
     }
   }, [user]);
  
+  // console.log(RSO)
   return (
     <div>
       <Container>
@@ -62,7 +64,7 @@ function HomePage() {
       {RSO &&
         <Row>
           <Col>
-          <RSODashboard />
+          <RSODashboard office_code={RSO}/>
           </Col>
         </Row>
       }

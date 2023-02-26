@@ -139,3 +139,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 #         'rest_framework.authentication.TokenAuthentication', # how we will authenticate
 #     ]
 # }
+
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
