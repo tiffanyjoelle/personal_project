@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import PermitDoc from "../components/PermitDoc";
+import PermitDoc from "./PermitDoc";
 import ReactDOM from 'react-dom';
 import { Button } from "react-bootstrap";
 
@@ -7,9 +7,8 @@ function FacilityDemographics(props) {
 
   function openPermitWindow(props) {
     const permitWindow = window.open('', 'permitWindow', 'width=600,height=400');
-    permitWindow.document.write('<html><head><title>Permit</title></head><body>');
+    permitWindow.document.write('<html><head><title>Permit Document</title></head><body>');
     permitWindow.document.write('<div>');
-    // permitWindow.document.write('<button onClick="window.close()">Close Window</button>');
     permitWindow.document.write('<br /><br />');
     permitWindow.document.write('<div id="permitContainer"></div>');
     permitWindow.document.write('</div>');

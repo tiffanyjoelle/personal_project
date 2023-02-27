@@ -1,9 +1,9 @@
-import FacilityDropdownMenu from "./FacilityDropdownMenu"
+import FacilityDropdownMenu from "../components/FacilityDropdownMenu"
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
-function PMDashboard() {
+function PMDash() {
 
   const [facilities, setFacilities] = useState('')
 
@@ -18,22 +18,26 @@ function PMDashboard() {
     getFacilities()
   }, [])
 
+  function handleNewButtonClick(event) {
+    window.location.href = "PM/permit/new"
+  }
+
   return (
     <div>
+      <Container>
         <Row>
           <h1>NHPP PM Dashboard</h1>
-        </Row>
-        <hr />
-      <Row><FacilityDropdownMenu facilities={facilities}/></Row>
-      <Row>
-      <h2>NRC Articles</h2>
+          <h2>NRC Articles</h2>
           <p>Pull some articles from NRC's ADAMS API</p>
           <hr />
-      </Row>
+          <Col><Button onClick={handleNewButtonClick}>Create New RAM Permit</Button></Col>
+        </Row>
+      <Row><FacilityDropdownMenu facilities={facilities}/></Row>
+      </Container>
     </div>
   )
 }
 
-export default PMDashboard
+export default PMDash
 
 // use class names to target each section w css to style page layout
