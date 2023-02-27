@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 
 function FacilityDemographics(props) {
 
-  function openPermitWindow() {
+  function openPermitWindow(props) {
     const permitWindow = window.open('', 'permitWindow', 'width=600,height=400');
     permitWindow.document.write('<html><head><title>Permit</title></head><body>');
     permitWindow.document.write('<div>');
@@ -67,7 +67,7 @@ function FacilityDemographics(props) {
         
       {createProgramsList()}
       <br />
-      <Button onClick={openPermitWindow}>View Radioactive Materials Permit</Button>
+      <Button onClick={() => openPermitWindow({permitInfo: props.permitInfo})}>View Radioactive Materials Permit</Button>
       </div>
       }
     </div>

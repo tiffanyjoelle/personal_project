@@ -244,3 +244,5 @@ class PermitPostSerializer(serializers.ModelSerializer):
             permit.program_codes.set(codes)
 
         return permit
+
+
