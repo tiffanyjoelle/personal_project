@@ -16,7 +16,7 @@ function FacilityDemographics(props) {
     permitWindow.document.write('</body></html>');
 
     const permitContainer = permitWindow.document.getElementById('permitContainer');
-    ReactDOM.render(<PermitDoc permitInfo={props.permitInfo}/>, permitContainer);
+    ReactDOM.render(<PermitDoc facilityInfo={props.facilityInfo} permitInfo={props.permitInfo}/>, permitContainer);
   }
 
   function createProgramsList() {
