@@ -26,29 +26,37 @@ function FacilityDropdownMenu(props) {
 
   return (
     <div>
-    <Row><Col><Button onClick={handleNewButtonClick}>Create New RAM Permit</Button></Col></Row><br />
-    {props.facilities &&
-    <div>
-    <Row>
-    <label>
-      Facility Location
-      <Form.Select value={value} onChange={handleChange}>
-        <option></option>
-          {props.facilities.map((item) => {
-            return (
-              <option key={item['id']} value={item['office_code']}>{item['city']}, {item['state_abbrev']}</option>
-            );
-          })}
-        </Form.Select>
-    </label>
-    <Col><Button onClick={handleViewBtnClick}>View RAM Permit</Button></Col>
-    </Row>
+      <Row>
+        <Col>
+          {props.facilities ? (
+            <>
+            <Form.Group>
+              <Form.Label>
+                View Facility Permit:
+                </Form.Label>
+                  <Form.Select value={value} onChange={handleChange}>
+                    <option></option>
+                    {props.facilities.map((item) => {
+                      return (
+                        <option key={item['id']} value={item['office_code']}>
+                          {item['city']}, {item['state_abbrev']}
+                        </option>
+                      );
+                    })}
+                  </Form.Select>
+                  </Form.Group>
+                  <Button variant="outline-primary" onClick={handleViewBtnClick}>Submit</Button>
+              
+            </>
+          ) : (
+            <p>Loading facilities...</p>
+          )}
+        </Col>
+      </Row>
+      <br />
+      <hr />
     </div>
-  }
-    <br />
-  <hr />
-  </div>
-  );
+  )
 }
 
-export default FacilityDropdownMenu;
+export default FacilityDropdownMenu

@@ -36,8 +36,8 @@ function FacilityDemographics(props) {
     <div>
       {props.permitInfo &&
       <div>
-      <h2>{props.permitInfo.city}, {props.permitInfo.state_abbrev} | Facility #{props.permitInfo.office_code}</h2>
-      <Button onClick={() => openPermitWindow({permitInfo: props.permitInfo, facilityInfo: props.facilityInfo})}>View Radioactive Materials Permit</Button>
+        <h2>Permit#: {props.permitInfo.permit_num}</h2>
+      <Button onClick={() => openPermitWindow({permitInfo: props.permitInfo, facilityInfo: props.facilityInfo})}>View Radioactive Materials Permit Document</Button><br /> <br />
       {props.facilityInfo &&
       <p>
         Location Name: {props.facilityInfo.attributes.name} <br />
@@ -47,7 +47,6 @@ function FacilityDemographics(props) {
         {props.facilityInfo.attributes.address.physical.city}, {props.facilityInfo.attributes.address.physical.state} {props.facilityInfo.attributes.address.physical.zip} <br />
       </p>
       }
-      <h3>Permit#: {props.permitInfo.permit_num}</h3>
       <p>
         Docket Number: {props.permitInfo.docket_num} <br />
         Expiration Date: {props.permitInfo.exp_date}

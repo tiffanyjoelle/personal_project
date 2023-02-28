@@ -48,64 +48,55 @@ const AddRSOForm = () => {
       <PMNavBar />
       <Row><h1>New Radiation Safety Officer</h1></Row>
       <Row>
+        <p><span style={{color: "red"}}>* required</span></p>
     <Form onSubmit={handleSubmit}>
       <Form.Group>
-        <Form.Label>First Name:</Form.Label>
+        <Form.Label><span style={{color: "red"}}>*</span> First Name:</Form.Label>
         <Form.Control name='first_name' placeholder='Enter first name' value={formData.first_name} onChange={handleChange}></Form.Control>
       </Form.Group>
-      {/* <label>
-        First Name:
-        <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} />
-      </label> */}
+  
       <br />
+      <Form.Group>
+        <Form.Label>Middle Name:</Form.Label>
+        <Form.Control name='middle_name' placeholder='Enter middle name' value={formData.middle_name} onChange={handleChange}></Form.Control>
+      </Form.Group>
+   
       <br />
-      <label>
-        Middle Name:
-        <input type="text" name="middle_name" value={formData.middle_name} onChange={handleChange} />
-      </label>
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Last Name:</Form.Label>
+        <Form.Control name='last_name' placeholder='Enter last name' value={formData.last_name} onChange={handleChange}></Form.Control>
+      </Form.Group>
+
       <br />
+      <Form.Group>
+        <Form.Label>Credentials:</Form.Label>
+        <Form.Control name='credentials' placeholder='Enter credentials' value={formData.credentials} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
-      <label>
-        Last Name:
-        <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} />
-      </label>
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Email:</Form.Label>
+        <Form.Control name='email' placeholder='example@email.com' value={formData.email} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Phone:</Form.Label>
+        <Form.Control name='phone' placeholder='111-111-1111' value={formData.phone} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
-      <label>
-        Credentials:
-        <input type="text" name="credentials" value={formData.credentials} onChange={handleChange} />
-      </label>
+      <Form.Group>
+        <Form.Label>Alternate Phone:</Form.Label>
+        <Form.Control name='alt_phone' placeholder='111-111-1111' value={formData.alt_phone} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
+      <Form.Group>
+        <Form.Label>Consulting Firm (if applicable):</Form.Label>
+        <Form.Control name='consulting_firm' placeholder='Enter consulting firm' value={formData.consulting_firm} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
-      <label>
-        Email:
-        <input type="email" name="email" value={formData.email} onChange={handleChange} />
-      </label>
-      <br />
-      <br />
-      <label>
-        Phone:
-        <input type="text" name="phone" value={formData.phone} onChange={handleChange} />
-      </label>
-      <br />
-      <br />
-      <label>
-        Alt Phone:
-        <input type="text" name="alt_phone" value={formData.alt_phone} onChange={handleChange} />
-      </label>
-      <br />
-      <br />
-      <label>
-        Consulting Firm:
-        <input type="text" name="consulting_firm" value={formData.consulting_firm} onChange={handleChange} />
-      </label>
-      <br />
-      <br />
-      <label>
-        Notes:
-        <textarea name="notes" value={formData.notes} onChange={handleChange} />
-      </label>
-      <br />
+      <Form.Group>
+        <Form.Label>Notes:</Form.Label>
+        <Form.Control name='notes' placeholder='Enter notes' value={formData.notes} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
       <Button type="submit">Add RSO</Button>
     </Form>

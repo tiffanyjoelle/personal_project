@@ -10,7 +10,6 @@ function PermitView() {
   let { office_code }  = useParams()
   const [permitInfo, setPermitInfo] = useState()
   const [facilityInfo, setFacilityInfo] = useState()
-  const [permitToggle, setPermitToggle] = useState(false);
 
   // useEffect( () => {
   //   async function getFacilityInfo() {
@@ -42,13 +41,13 @@ function PermitView() {
     <div>
       <PMNavBar />
       <Container>
-        <Row>
-          <h1>Facility #{office_code} </h1>
-          <hr />
+        <Row style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '20vh', backgroundColor: '#4682B4', color: 'whitesmoke'}}>
+          <h1 style={{ textAlign: 'center' }}>Facility #{office_code} {permitInfo && permitInfo.city}, {permitInfo && permitInfo.state_abbrev}</h1>
         </Row>
+        <hr />
         <Row>
           <Col><FacilityDemographics permitInfo={permitInfo} facilityInfo={facilityInfo}/></Col>
-          <Col><FacilityRAM permitInfo={permitInfo}/></Col>
+          <Col style={{backgroundColor: '#F5F5F5'}}><FacilityRAM permitInfo={permitInfo}/></Col>
         </Row>
         </Container>
     </div>

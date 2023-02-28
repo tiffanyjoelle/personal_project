@@ -163,6 +163,7 @@ function NewPermitForm() {
       },
       body: JSON.stringify(data),
     });
+    console.log(JSON.stringify(data))
     const result = await response.json();
     if (response.ok) {
       const confirmed = window.confirm('Permit added successfully! Would you like to view this permit?')
@@ -184,7 +185,7 @@ function NewPermitForm() {
       <Row>
     <h1>New RAM Permit</h1>
       <hr />
-      <p>* required<br /><br />
+      <p><span style={{color: "red"}}>* required</span><br /><br />
       Note: For fields with multiple selection options, be sure to hold the Ctrl (PC) or Command (Mac) key down while selecting multiple
 items. If you click on an item in the list while not holding the key down, that item will
 be selected and all of the other selections made will be removed. 
@@ -195,145 +196,95 @@ be selected and all of the other selections made will be removed.
     <Form>
       <Row>
       <Col>
-      <label>
-        Facility City:
-        <input
-          type="text"
-          name="city"
-          value={permitData.city}
-          onChange={handleChange}
-        /> *
-      </label>
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Facility City:</Form.Label>
+        <Form.Control name='city' placeholder='Enter City' value={permitData.city} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Facility State Abbreviation:</Form.Label>
+        <Form.Control name='state_abbrev' placeholder='ex. AL' value={permitData.state_abbrev} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
-      <label>
-        Facility State:
-        <input
-          type="text"
-          name="state_abbrev"
-          value={permitData.state_abbrev}
-          onChange={handleChange}
-        /> *
-      </label>
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Office Code:</Form.Label>
+        <Form.Control name='office_code' placeholder='Enter facility office code' value={permitData.office_code} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Permit Number:</Form.Label>
+        <Form.Control name='permit_num' placeholder='ex. 11-11111-11' value={permitData.permit_num} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
-      <label>
-        Office Code:
-        <input
-          type="text"
-          name="office_code"
-          value={permitData.office_code}
-          onChange={handleChange}
-        /> *
-      </label>
+      <Form.Group>
+        <Form.Label>Docket Number:</Form.Label>
+        <Form.Control name='docket_num' placeholder='ex. 111-11111' value={permitData.docket_num} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
-      <br />
-      <label>
-        Permit Number:
-        <input
-          type="text"
-          name="permit_num"
-          value={permitData.permit_num}
-          onChange={handleChange}
-        /> *
-      </label>
-      <br />
-      <br />
-      <label>
-        Docket Number:
-        <input
-          type="text"
-          name="docket_num"
-          value={permitData.docket_num}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <br />
-      <label>
-        Expiration Date:
-        <input
-          type="text"
-          name="exp_date"
-          value={permitData.exp_date}
-          onChange={handleChange}
-        /> *
-      </label>
-      <br />
-      <br />
-      <label>
-        Radiation Safety Officer: <select id="primary_rso" name="primary_rso" onChange={handleChange}><option></option>
-        {rso.map(rso => (
-          <option key={rso.id} value={rso.id}>{rso.last_name}, {rso.first_name}</option>
-        ))}
-        </select> *
-      </label>
-      <br />
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Permit Expiration Date:</Form.Label>
+        <Form.Control name='exp_date' placeholder='YYYY-MM-DD' value={permitData.exp_date} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
       </Col>
       <Col>
-      <label>
-        Inspection Priority: <select id="inspection_priority" name="inspection_priority" onChange={handleChange}><option></option>
-        {inspectionPriorities.map(priority => (
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Radiation Safety Officer:</Form.Label>
+        <Form.Select id="primary_rso" name='primary_rso' onChange={handleChange}>{rso.map(rso => (
+          <option key={rso.id} value={rso.id}>{rso.last_name}, {rso.first_name}</option>
+        ))}</Form.Select>
+      </Form.Group>
+      <br />
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Inspection Priority:</Form.Label>
+        <Form.Select id="inspection_priority" name='inspection_priority' onChange={handleChange}>{inspectionPriorities.map(priority => (
           <option key={priority.id} value={priority.id}>{priority.priority_num}</option>
         ))}
-      </select> *
-      </label>
+        </Form.Select>
+      </Form.Group>
       <br />
-      <br />
-      <label>Program Code(s): *<br />
-      <select id="program_codes" name="program_codes" multiple onChange={handleProgramCodeSelect}>
-        {programCodes.map(programCode => (
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Program Code(s):</Form.Label>
+        <Form.Select id="program_codes" name='program_codes' multiple onChange={handleProgramCodeSelect}>{programCodes.map(programCode => (
           <option key={programCode.id} value={programCode.id}>{programCode.code}</option>
         ))}
-      </select>
-      </label>
+        </Form.Select>
+      </Form.Group>
       <br />
-      <br />
-      <label>
-        Programs: <br />
-        <select id="permit_program" name="permit_program" multiple onChange={handlePermitProgramSelect}>
-        {permitPrograms.map(program => (
+      <Form.Group>
+        <Form.Label>Notable Program(s):</Form.Label>
+        <Form.Select id="permit_program" name='permit_program' multiple onChange={handlePermitProgramSelect}>{permitPrograms.map(program => (
           <option key={program.id} value={program.id}>{program.title}</option>
         ))}
-      </select>
-      </label>
-      <br />
+        </Form.Select>
+      </Form.Group>
       <br />
       </Col>
       </Row>
       <Row>
-      <br />
-      <br />
-      <label>
-        Material(s): <br />
-        Source, Form, Amount<br />
-        <select id="material" name="material" multiple onChange={handleMaterialSelect}>
-        {materials.map(material => (
+      <Form.Group>
+        <Form.Label>Material(s):</Form.Label>
+        <Form.Select id="material" name='material' multiple onChange={handleMaterialSelect}>{materials.map(material => (
           <option key={material.id} value={material.id}>{material.source}, {material.form}, {material.amount_of_source} </option>
         ))}
-      </select>
-      </label>
+        </Form.Select>
+      </Form.Group>
       <br />
-      <br />
-      <label>
-        Authorized Use(s): <br />
-        <select id="authorized_use" name="authorized_use" multiple onChange={handleAuthorizedUseSelect}>
-        {authorizedUse.map(use => (
+      <Form.Group>
+        <Form.Label>Authorized Use(s):</Form.Label>
+        <Form.Select id="authorized_use" name='authorized_use' multiple onChange={handleAuthorizedUseSelect}>{authorizedUse.map(use => (
           <option key={use.id} value={use.id}>{use.use}</option>
         ))}
-      </select>
-      </label>
+        </Form.Select>
+      </Form.Group>
       <br />
-      <br />
-      <label>
-        Authorized User(s): <br />
-        <select id="authorized_user" name="authorized_user" multiple onChange={handleAuthorizedUserSelect}>
-        {authorizedUser.map(user => (
+      <Form.Group>
+        <Form.Label>Authorized User(s):</Form.Label>
+        <Form.Select id="authorized_user" name='authorized_user' multiple onChange={handleAuthorizedUserSelect}>{authorizedUser.map(user => (
           <option key={user.id} value={user.id}>{user.full_name}, {user.credentials}</option>
         ))}
-      </select>
-      </label>
+        </Form.Select>
+      </Form.Group>
       </Row>
       <Row>
         <Col>

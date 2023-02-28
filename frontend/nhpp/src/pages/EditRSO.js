@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Button } from 'react-bootstrap';
+import { Container, Row, Form, Button } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
 import NavBar from '../components/NavBar';
 
@@ -72,50 +72,42 @@ const EditRSOForm = () => {
       <NavBar />
       <Row><h1>Edit RSO Contact Information </h1></Row>
       <Row>
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name: {formData.first_name} {formData.middle_name} {formData.last_name}
-      </label>
+      <Form onSubmit={handleSubmit}>
+        <br />
+      <h3>For: {formData.first_name} {formData.middle_name} {formData.last_name}</h3>
+      <p><span style={{color: "red"}}>* required</span></p>
+      <Form.Group>
+        <Form.Label>Credentials:</Form.Label>
+        <Form.Control name='credentials' value={formData.credentials} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Email:</Form.Label>
+        <Form.Control name='email' value={formData.email} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
-      <label>
-        Credentials:
-        <input type="text" name="credentials" value={formData.credentials} onChange={handleChange} />
-      </label>
+      <Form.Group>
+        <Form.Label><span style={{color: "red"}}>*</span> Phone:</Form.Label>
+        <Form.Control name='phone' value={formData.phone} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
+      <Form.Group>
+        <Form.Label>Alternate Phone:</Form.Label>
+        <Form.Control name='alt_phone' value={formData.alt_phone} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
-      <label>
-        Email:
-        <input type="email" name="email" value={formData.email} onChange={handleChange} />
-      </label>
+      <Form.Group>
+        <Form.Label>Consulting Firm (if applicable):</Form.Label>
+        <Form.Control name='consulting_firm' value={formData.consulting_firm} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
-      <br />
-      <label>
-        Phone:
-        <input type="text" name="phone" value={formData.phone} onChange={handleChange} />
-      </label>
-      <br />
-      <br />
-      <label>
-        Alt Phone:
-        <input type="text" name="alt_phone" value={formData.alt_phone} onChange={handleChange} />
-      </label>
-      <br />
-      <br />
-      <label>
-        Consulting Firm:
-        <input type="text" name="consulting_firm" value={formData.consulting_firm} onChange={handleChange} />
-      </label>
-      <br />
-      <br />
-      <label>
-        Notes:
-        <textarea name="notes" value={formData.notes} onChange={handleChange} />
-      </label>
-      <br />
+      <Form.Group>
+        <Form.Label>Notes:</Form.Label>
+        <Form.Control name='notes' value={formData.notes} onChange={handleChange}></Form.Control>
+      </Form.Group>
       <br />
       <Button type="submit">Update contact information</Button>
-    </form>
+    </Form>
     </Row>
     </Container>
   );

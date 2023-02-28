@@ -6,7 +6,7 @@ function FacilityRAM(props) {
   function createAuthorizedUsesList() {
     return (
       <div>
-        <h2>Authorized Uses:</h2>
+        <h3>Authorized Uses:</h3>
         <ul>
         {props.permitInfo.authorized_use.map((use) => (
           <div key={use.id}>
@@ -22,7 +22,7 @@ function FacilityRAM(props) {
     if (props.permitInfo.authorized_user.length > 0) {
       return (
         <div>
-          <h2>Authorized Users:</h2>
+          <h3>Authorized Users:</h3>
           <ul>
           {props.permitInfo.authorized_user.map((user) => (
             <div key={user.id}>
@@ -79,8 +79,8 @@ function FacilityRAM(props) {
       <br />
       <p>Program Codes:</p>
       <ul>{createProgramCodeList()}</ul>
-      Inspection Priority: {props.permitInfo.inspection_priority.priority_num}
-      <h2>Materials:</h2>
+      <p>Inspection Priority: {props.permitInfo.inspection_priority.priority_num}</p>
+      <h3>Materials:</h3>
       <Table bordered hover>
         <thead>
           {props.permitInfo.material.map((use) => (
