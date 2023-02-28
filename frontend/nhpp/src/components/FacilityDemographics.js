@@ -16,6 +16,7 @@ function FacilityDemographics(props) {
 
     const permitContainer = permitWindow.document.getElementById('permitContainer');
     ReactDOM.render(<PermitDoc facilityInfo={props.facilityInfo} permitInfo={props.permitInfo}/>, permitContainer);
+
   }
 
   function createProgramsList() {
@@ -36,6 +37,7 @@ function FacilityDemographics(props) {
       {props.permitInfo &&
       <div>
       <h2>{props.permitInfo.city}, {props.permitInfo.state_abbrev} | Facility #{props.permitInfo.office_code}</h2>
+      <Button onClick={() => openPermitWindow({permitInfo: props.permitInfo, facilityInfo: props.facilityInfo})}>View Radioactive Materials Permit</Button>
       {props.facilityInfo &&
       <p>
         Location Name: {props.facilityInfo.attributes.name} <br />
@@ -66,7 +68,6 @@ function FacilityDemographics(props) {
         
       {createProgramsList()}
       <br />
-      <Button onClick={() => openPermitWindow({permitInfo: props.permitInfo})}>View Radioactive Materials Permit</Button>
       </div>
       }
     </div>

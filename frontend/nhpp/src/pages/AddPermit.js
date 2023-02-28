@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import Select from "react-select";
-import NavBar from "../components/NavBar";
+import PMNavBar from "../components/PMNavBar";
 
 function NewPermitForm() {
 
   // states
+  // const [token, setToken] = useState(localStorage.getItem('token'))
   const [permitData, setPermitData] = useState({
     city: "",
     state_abbrev: "",
@@ -163,20 +164,23 @@ function NewPermitForm() {
       body: JSON.stringify(data),
     });
     const result = await response.json();
-    // add in handle success or error
-    // console.log(JSON.stringify(data))
-    const confirmed = window.confirm('Permit added successfully! Would you like to view this permit?')
-    if (confirmed) {
-      window.location.href = `${data.office_code}`
+    if (response.ok) {
+      const confirmed = window.confirm('Permit added successfully! Would you like to view this permit?')
+      if (confirmed) {
+        window.location.href = `${data.office_code}`
+      } else {
+        window.location.href = '/'
+      }
     } else {
-      window.location.href = '/'
+      alert('An error occurred while adding permit. Please check your form inputs.');
     }
   }
   
   return (
     <div>
+      {/* {token && */}
     <Container>
-      <NavBar />
+      <PMNavBar />
       <Row>
     <h1>New RAM Permit</h1>
       <hr />
@@ -339,6 +343,7 @@ be selected and all of the other selections made will be removed.
       </Row>
     </Form>
     </Container>
+
     </div>
   );
 }

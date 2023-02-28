@@ -2,6 +2,7 @@ import FacilityDropdownMenu from "./FacilityDropdownMenu"
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import PMNavBar from "./PMNavBar";
 
 function PMDashboard() {
 
@@ -20,8 +21,9 @@ function PMDashboard() {
 
   return (
     <div>
+      <PMNavBar />
         <Row>
-          <h1>NHPP PM Dashboard</h1>
+          <h1>Program Manager Dashboard</h1>
         </Row>
         <hr />
       <Row><FacilityDropdownMenu facilities={facilities}/></Row>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
-import NavBar from '../components/NavBar';
+import PMNavBar from '../components/PMNavBar';
 
 const AddRSOForm = () => {
   const [formData, setFormData] = useState({
@@ -18,14 +18,22 @@ const AddRSOForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch('/api/RSO', {
+      const response = await fetch('http://127.0.0.1:8000/api/RSO', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-      alert('RSO added successfully!');
+      // console.log(JSON.stringify(formData))
+      if (response.ok) {
+        const confirmed = window.confirm('RSO added successfully!')
+        if (confirmed) {
+          window.history.back()
+        }
+      } else {
+        alert('An error occurred while adding RSO. Please check your form inputs.');
+      }
     } catch (err) {
       alert('An error occurred while adding RSO.');
     }
@@ -37,14 +45,18 @@ const AddRSOForm = () => {
 
   return (
     <Container>
-      <NavBar />
+      <PMNavBar />
       <Row><h1>New Radiation Safety Officer</h1></Row>
       <Row>
     <Form onSubmit={handleSubmit}>
-      <label>
+      <Form.Group>
+        <Form.Label>First Name:</Form.Label>
+        <Form.Control name='first_name' placeholder='Enter first name' value={formData.first_name} onChange={handleChange}></Form.Control>
+      </Form.Group>
+      {/* <label>
         First Name:
         <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} />
-      </label>
+      </label> */}
       <br />
       <br />
       <label>

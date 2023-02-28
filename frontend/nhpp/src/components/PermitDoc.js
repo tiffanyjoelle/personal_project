@@ -1,4 +1,4 @@
-
+import React, { useState } from 'react';
 
 function PermitDoc(props) {
     
@@ -87,9 +87,9 @@ function PermitDoc(props) {
               <tr>
                 <td colSpan={3} rowSpan={3} style={{width: '3.6in', borderRight: '1.5pt solid windowtext', borderBottom: '1.5pt solid windowtext', borderLeft: '1.5pt solid windowtext', borderImage: 'initial', borderTop: 'none', padding: '0in 5.4pt', height: '0.6in', verticalAlign: 'top'}}>
                   <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', textAlign: 'center', lineHeight: '200%'}}><span style={{fontSize: '13px', lineHeight: '200%', fontFamily: '"Arial",sans-serif'}}>Permittee</span></p>
-                  <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', lineHeight: '150%'}}><span style={{fontSize: '13px', lineHeight: '150%', fontFamily: '"Arial",sans-serif'}}>1. &nbsp; &nbsp; &nbsp; &nbsp; {props.facilityInfo && props.facilityInfo.attributes.name} </span></p>
-                  <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', lineHeight: '150%'}}><span style={{fontSize: '13px', lineHeight: '150%', fontFamily: '"Arial",sans-serif'}}>2. &nbsp; &nbsp; &nbsp; &nbsp; {props.facilityInfo && props.facilityInfo.attributes.address.physical.address_1}</span></p>
-                  <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', lineHeight: '150%'}}><span style={{fontSize: '13px', lineHeight: '150%', fontFamily: '"Arial",sans-serif'}}>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {props.facilityInfo && props.facilityInfo.attributes.address.physical.city}, {props.facilityInfo && props.facilityInfo.attributes.address.physical.state} {props.facilityInfo && props.facilityInfo.attributes.address.physical.zip}</span></p>
+                  <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', lineHeight: '150%'}}><span style={{fontSize: '13px', lineHeight: '150%', fontFamily: '"Arial",sans-serif'}}>1. {props.facilityInfo && props.facilityInfo.attributes.name} </span></p>
+                  <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', lineHeight: '150%'}}><span style={{fontSize: '13px', lineHeight: '150%', fontFamily: '"Arial",sans-serif'}}>2. {props.facilityInfo && props.facilityInfo.attributes.address.physical.address_1}</span></p>
+                  <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', lineHeight: '150%'}}><span style={{fontSize: '13px', lineHeight: '150%', fontFamily: '"Arial",sans-serif'}}>{props.facilityInfo && props.facilityInfo.attributes.address.physical.city}, {props.facilityInfo && props.facilityInfo.attributes.address.physical.state} {props.facilityInfo && props.facilityInfo.attributes.address.physical.zip}</span></p>
                   <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', textIndent: '.25in', lineHeight: '150%'}}><span style={{fontSize: '13px', lineHeight: '150%', fontFamily: '"Arial",sans-serif'}}>&nbsp;</span></p>
                 </td>
                 <td colSpan={3} style={{width: '3.6in', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.5pt', borderRight: 'solid windowtext 1.5pt', padding: '0in 5.4pt 0in 5.4pt', height: '.6in'}}>
@@ -159,7 +159,7 @@ function PermitDoc(props) {
         <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginLeft: '.5in', textIndent: '-.25in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>C. &nbsp; The following individuals are authorized users for nonmedical uses:</span></p>
         <p style={{margin: '0in', fontSize: '5px', fontFamily: '"Times New Roman",serif', marginLeft: '2.75in', textIndent: '-2.25in'}}><span style={{fontSize: '5px', fontFamily: '"Arial",sans-serif'}}>&nbsp;</span></p>
         <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginLeft: '.25in', textAlign: 'justify', textIndent: '.25in'}}><u><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>Authorized User&nbsp;</span></u><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></p>
-        <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginLeft: '.25in', textIndent: '.25in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>&nbsp;</span></p>
+    
         <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginLeft: '.25in', textIndent: '.25in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>Radiation Safety Officer &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></p>
         <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginLeft: '2.75in', textIndent: '-2.25in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>&nbsp;</span></p>
         </>}

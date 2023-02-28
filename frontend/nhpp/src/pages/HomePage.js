@@ -53,7 +53,6 @@ function HomePage() {
   return (
     <div>
       <Container>
-      <NavBar />
       {staff &&
         <Row>
           <Col>

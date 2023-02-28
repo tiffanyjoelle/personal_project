@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import React from "react";
 import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
+import NavBar from "./NavBar";
 
 function RSODashboard(props) {
 
@@ -23,8 +24,9 @@ function RSODashboard(props) {
 
   return (
     <div>
+      <NavBar />
       <Container>
-      <h1>RSO Dashboard</h1>
+      <h1>Radiation Safety Officer Dashboard</h1>
       <FacilityDemographics permitInfo={permitInfo}/>
       </Container>
     </div>

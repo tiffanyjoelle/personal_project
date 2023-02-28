@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import NavBar from "../components/NavBar";
+import PMNavBar from "../components/PMNavBar";
 
 function EditPermitForm() {
 
@@ -203,7 +203,7 @@ function EditPermitForm() {
   return (
     <div>
       <Container>
-      <NavBar />
+      <PMNavBar />
       <Row>
     <h1>Edit RAM Permit# {permitData.permit_num}</h1>
       <hr />

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Row, Col, Container } from 'react-bootstrap';
 import FacilityDemographics from "../components/FacilityDemographics";
 import FacilityRAM from "../components/FacilityRAM";
-import NavBar from "../components/NavBar";
+import PMNavBar from "../components/PMNavBar";
 
 function PermitView() {
 
@@ -40,7 +40,7 @@ function PermitView() {
 
   return (
     <div>
-      <NavBar />
+      <PMNavBar />
       <Container>
         <Row>
           <h1>Facility #{office_code} </h1>

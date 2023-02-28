@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, redirect } from 'react-router-dom'
 import { Table, Button } from 'react-bootstrap';
 
 function FacilityRAM(props) {
@@ -51,6 +51,10 @@ function FacilityRAM(props) {
     window.location.href = `${props.permitInfo.office_code}/edit`
   }
 
+  function handleAddRSOButtonClick(event) {
+    window.location.href = '/RSO/new'
+  }
+
   async function handleDelete(event) {
     event.preventDefault();
     const confirmed = window.confirm('Are you sure you want to delete this permit?')
@@ -72,7 +76,7 @@ function FacilityRAM(props) {
     <div>
       <h2>RAM Information for {props.permitInfo.city}, {props.permitInfo.state_abbrev} </h2>
       <Button onClick={handleEditButtonClick}>Edit RAM info</Button> <Button onClick={handleDelete}>Delete this RAM Permit</Button> <br />
-      <Link to="">Generate new permit</Link> <br /><br />
+      <br />
       <p>Program Codes:</p>
       <ul>{createProgramCodeList()}</ul>
       Inspection Priority: {props.permitInfo.inspection_priority.priority_num}
