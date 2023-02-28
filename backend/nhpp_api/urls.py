@@ -12,8 +12,8 @@ urlpatterns = [
     path('materials', views.MaterialView.as_view()), # get all materials
     path('inspection_priorities', views.InspectionPriorityView.as_view()), #get all inspection priorities
     path('authorized_uses', views.AuthorizedUseView.as_view()), #get all authorized uses
-    path('authorized_users', views.AuthorizedUserView.as_view()), #get all authorized users
+    path('authorized_users', views.AuthorizedUserView.as_view()), #get all authorized users and add
     path('permit_programs', views.PermitProgramView.as_view()), #get all permit programs
     path('facility/<int:office_code>', views.FacilityInfoView.as_view()),
-    # path('<int:office_code>/authorized_users', views.AUView.as_view()), # add/edit/delete authorized users
+    path('nrc', views.NRCArticlesView.as_view()),
 ]

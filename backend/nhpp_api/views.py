@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .serializers import *
 from .models import *
-import os
+import xml.etree.ElementTree as ET
 
 
 class GetPermitView(APIView):
@@ -71,7 +71,7 @@ class RSOView(APIView):
         serializer = RSOSerializer(data=rso)
         if serializer.is_valid(raise_exception=True):
             rso_saved = serializer.save()
-        return Response({"result": f"Permit {rso_saved.first_name} {rso_saved.last_name} created"})
+        return Response({"result": f"{rso_saved.first_name} {rso_saved.last_name} created"})
 
     def put(self, request, pk):
         saved_rso = get_object_or_404(RSO.objects.all(), pk=pk)
@@ -115,7 +115,24 @@ class AuthorizedUserView(APIView):
         data = AuthorizedUser.objects.all().order_by('full_name')
         serializer = AuthorizedUserSerializer(data, many=True)
         return Response({"result": serializer.data})
+    
+    def get(self, request, pk=None):
+        if pk: 
+            data = AuthorizedUser.objects.get(pk=pk)
+            serializer = AuthorizedUserSerializer(data)
+            return Response({"result": serializer.data})
+        else:
+            data = AuthorizedUser.objects.all()
+            serializer = AuthorizedUserSerializer(data, many=True)
+            return Response({"result": serializer.data})
 
+    def post(self, request):
+        au = request.data
+        serializer = AuthorizedUserSerializer(data=au)
+        if serializer.is_valid(raise_exception=True):
+            au_saved = serializer.save()
+        return Response({"result": f"{au_saved.full_name} created"})
+        
 class PermitProgramView(APIView):
     def get(self, request):
         data = PermitProgram.objects.all().order_by('title')
@@ -131,3 +148,20 @@ class FacilityInfoView(APIView):
         response = requests.get(url, headers=headers)
         data = response.json()["data"] if response.status_code == 200 else None
         return JsonResponse({"data": data})
+    
+class NRCArticlesView(APIView):
+    def get(self, request):
+        url = "https://adams.nrc.gov/wba/services/search/advanced/nrc?q=%28mode%3Asections%2Csections%3A%28filters%3A%28public-library%3A%21t%29%2Csingle_content_search%3A%27Veteran+Affairs%27%29%29&qn=New&tab=content-search-pars&s=PublishDatePARS&so=DESC"
+
+        response = requests.get(url)
+        xml_data = response.content
+        print(xml_data)
+        
+        # Parse the XML data into a tree structure
+        root = ET.fromstring(xml_data)
+    
+        # Get all document title elements
+        document_titles = [result.find('DocumentTitle').text for result in root.findall('.//result')]
+        
+        # Do something with the document titles (e.g. return them in a JSON response)
+        return JsonResponse({'document_titles': document_titles})

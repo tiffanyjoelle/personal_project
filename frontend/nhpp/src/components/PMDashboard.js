@@ -7,6 +7,7 @@ import PMNavBar from "./PMNavBar";
 function PMDashboard() {
 
   const [facilities, setFacilities] = useState('')
+  const [articles, setArticles] = useState()
 
   useEffect( () => {
     async function getFacilities() {
@@ -17,6 +18,17 @@ function PMDashboard() {
       setFacilities(body.result)
     }
     getFacilities()
+  }, [])
+
+  useEffect( () => {
+    async function getNRCArticles() {
+      // const base_url = process.env.REACT_APP_BASE_URL
+      const res = await fetch('http://127.0.0.1:8000/api/nrc')
+      const body = await res.json()
+      console.log(body.result)
+      setArticles(body.result)
+    }
+    getNRCArticles()
   }, [])
 
   return (
