@@ -144,7 +144,7 @@ class FacilityInfoView(APIView):
     def get(self, request, office_code):
         url = f'https://sandbox-api.va.gov/services/va_facilities/v0/facilities/vha_{office_code}'
         headers = {
-            "apikey": os.environ.get('VA_API_KEY') # not working to grab the API key anymore
+            "apikey": os.getenv("VA_API_KEY")
         }
         response = requests.get(url, headers=headers)
         data = response.json()["data"] if response.status_code == 200 else None

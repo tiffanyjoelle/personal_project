@@ -1,4 +1,4 @@
-FROM python:alpine
+FROM python:3.11-buster
 
 WORKDIR /src
 COPY ./requirements.txt .
@@ -12,7 +12,5 @@ ENV SECRET_KEY=abc123
 ENV DEBUG=True
 
 COPY . .
-RUN python manage.py makemigrations && python manage.py migrate
 
-
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "personal_project_drf.wsgi:application"]
+CMD gunicorn --bind 0.0.0.0:8000 --workers 3 backend.wsgi:application

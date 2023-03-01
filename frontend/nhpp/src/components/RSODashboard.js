@@ -27,7 +27,7 @@ function RSODashboard(props) {
     async function getPermitInfo() {
       // if (office_code){
         const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/${props.office_code}`)
+      const res = await fetch(`http://${base_url}/api/${props.office_code}`)
       const body = await res.json()
       setPermitInfo(body.result)
       // }

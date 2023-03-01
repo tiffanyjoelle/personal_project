@@ -1,20 +1,4 @@
-from nhpp_api.models import AuthorizedUser, AuthorizedUse, Material, PermitProgram, ProgramCode, InspectionPriority, RSO, Permit
-
-# Create some authorized users
-user1 = AuthorizedUser.objects.create(full_name='John Smith', credentials='M.D.')
-user2 = AuthorizedUser.objects.create(full_name='Jane Doe', credentials='M.D.')
-
-# Create some authorized uses
-use1 = AuthorizedUse.objects.create(use='Research')
-use2 = AuthorizedUse.objects.create(use='Medical')
-
-# Create some materials
-material1 = Material.objects.create(source='Lutetium-177', form='Any', amount_of_source='10 curies')
-material2 = Material.objects.create(source='Plutonium', form='Solid', amount_of_source='100 milligrams')
-
-# Create some permit programs
-program1 = PermitProgram.objects.create(title='Y-90')
-program2 = PermitProgram.objects.create(title='Nuclear Medicine')
+from nhpp_api.models import Material, PermitProgram, ProgramCode, InspectionPriority, RSO, Permit
 
 # Create some program codes
 code1 = ProgramCode.objects.create(code=2110)

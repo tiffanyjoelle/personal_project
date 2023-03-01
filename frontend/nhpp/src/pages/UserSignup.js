@@ -17,7 +17,7 @@ function Signup() {
   // console.log(username, password)
   async function getMatchingFacilities(firstName, lastName) {
     const base_url = process.env.REACT_APP_BASE_URL
-    const response = await fetch(`http://${base_url}/api/`);
+    const res = await fetch(`http://${base_url}/api/`);
     const body = await res.json();
   
     // Filter facilities based on first and last name matches

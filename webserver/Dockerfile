@@ -17,9 +17,9 @@ WORKDIR /frontend
 ARG REACT_APP_BASE_URL=localhost
 ENV REACT_APP_BASE_URL=$REACT_APP_BASE_URL
 
-COPY ./frontend/package.json .
+COPY ./frontend/nhpp/package.json .
 RUN npm install
-COPY ./frontend .
+COPY ./frontend/nhpp .
 RUN npm run build
 
 ###########################

@@ -11,7 +11,7 @@ function PMDashboard() {
   useEffect( () => {
     async function getFacilities() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api`)
+      const res = await fetch(`http://${base_url}/api`)
       const body = await res.json()
       // console.log(body.result)
       setFacilities(body.result)
@@ -19,20 +19,20 @@ function PMDashboard() {
     getFacilities()
   }, [])
 
-  // useEffect( () => {
-  //   async function getNRCArticles() {
-  //     try {
-  //     const base_url = process.env.REACT_APP_BASE_URL
-  //     const response = await fetch(`http://${base_url}/api/nrc')
-  //     const body = await res.json()
-  //     // console.log(body.result)
-  //     setArticles(body.documents.slice(0,10))
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  //   getNRCArticles()
-  // }, [])
+  useEffect( () => {
+    async function getNRCArticles() {
+      try {
+      const base_url = process.env.REACT_APP_BASE_URL
+      const res = await fetch(`http://${base_url}/api/nrc`)
+      const body = await res.json()
+      // console.log(body.result)
+      setArticles(body.documents.slice(0,10))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getNRCArticles()
+  }, [])
 
   return (
     <div>

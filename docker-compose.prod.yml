@@ -7,6 +7,7 @@ services:
     environment:
       - SECRET_KEY=$SECRET_KEY
       - DEBUG=$DEBUG
+      - VA_API_KEY=$VA_API_KEY
     depends_on:
       - db
   nginx:

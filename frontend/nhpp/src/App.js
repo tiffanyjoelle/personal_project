@@ -12,6 +12,7 @@ import Signup from './pages/UserSignup';
 import AddRSO from './pages/AddRSO';
 import EditRSO from './pages/EditRSO';
 import AddAUForm from './pages/AddAU';
+import AddAuthorizedUseForm from './pages/AddAuthorizedUse';
 
 function App() {
 
@@ -24,6 +25,11 @@ function App() {
         <Route path="/RSO/new" element={<AddRSO />} />
         <Route path="/RSO/:rsoID" element={<EditRSO />} />
         <Route path="/AU/new" element={<AddAUForm />} />
+        <Route path="/use/new" element={<AddAuthorizedUseForm />} />
+        <Route path="/inspection_priority/new"  />
+        <Route path="/material/new"  />
+        <Route path="/program_code/new"  />
+        <Route path="/permit_program/new"  />
         <Route path="/permit/new" element={<AddPermit />} />
         <Route path="/permit/:office_code" element={<PermitView />} />
         <Route path="/permit/:office_code/edit" element={<EditPermit />} />
