@@ -20,16 +20,20 @@ function PMDashboard() {
     getFacilities()
   }, [])
 
-  useEffect( () => {
-    async function getNRCArticles() {
-      // const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch('http://127.0.0.1:8000/api/nrc')
-      const body = await res.json()
-      console.log(body.result)
-      setArticles(body.result)
-    }
-    getNRCArticles()
-  }, [])
+  // useEffect( () => {
+  //   async function getNRCArticles() {
+  //     try {
+  //       // const base_url = process.env.REACT_APP_BASE_URL
+  //     const res = await fetch('http://127.0.0.1:8000/api/nrc')
+  //     const body = await res.json()
+  //     // console.log(body.result)
+  //     setArticles(body.documents.slice(0,10))
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   getNRCArticles()
+  // }, [])
 
   return (
     <div>
@@ -38,11 +42,22 @@ function PMDashboard() {
           <h1>Program Manager Dashboard</h1>
         </Row>
         <hr />
-      <Row><FacilityDropdownMenu facilities={facilities}/></Row>
-      <Row>
-      <h2>NRC Articles</h2>
-          <p>Pull some articles from NRC's ADAMS API</p>
+      <Row style={{backgroundColor: '#F5F5F5'}}><FacilityDropdownMenu facilities={facilities}/></Row>
+     
+      <Row style={{ display: 'flex', marginTop: '1.5rem'}}>
+      <h2>NRC Documents Related to the VA</h2>
+      <hr />
+      {articles &&
+      <>
+        {articles.map((article, index) => (
+          <div key={index}>
+          <h4>{article.title}</h4>
+          <p><a href={article.url}>View Document</a></p>
           <hr />
+          </div>
+        ))}
+      </>
+      }
       </Row>
     </div>
   )

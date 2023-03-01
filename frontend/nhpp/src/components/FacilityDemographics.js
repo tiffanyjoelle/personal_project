@@ -39,31 +39,44 @@ function FacilityDemographics(props) {
         <h2>Permit#: {props.permitInfo.permit_num}</h2>
       <Button onClick={() => openPermitWindow({permitInfo: props.permitInfo, facilityInfo: props.facilityInfo})}>View Radioactive Materials Permit Document</Button><br /> <br />
       {props.facilityInfo &&
-      <p>
-        Location Name: {props.facilityInfo.attributes.name} <br />
-        Phone: {props.facilityInfo.attributes.phone.main} <br />
-        Address: <br />
-        {props.facilityInfo.attributes.address.physical.address_1} <br />
-        {props.facilityInfo.attributes.address.physical.city}, {props.facilityInfo.attributes.address.physical.state} {props.facilityInfo.attributes.address.physical.zip} <br />
-      </p>
-      }
-      <p>
-        Docket Number: {props.permitInfo.docket_num} <br />
-        Expiration Date: {props.permitInfo.exp_date}
+      <div className="card" style={{marginBottom: "30px"}}>
+      <div className="card-header">{props.facilityInfo.attributes.name}</div>
+      <div className="card-body">
+        <p className="card-text">
+          Phone: {props.facilityInfo.attributes.phone.main}
         </p>
+        <p className="card-text">
+          Address:
+          <br />
+          {props.facilityInfo.attributes.address.physical.address_1}
+          <br />
+          {props.facilityInfo.attributes.address.physical.city}, {props.facilityInfo.attributes.address.physical.state} {props.facilityInfo.attributes.address.physical.zip}
+        </p>
+      </div>
+    </div>
+      }
+      
       <h3>Radiation Safety Officer:</h3>
-      <p>
-        {props.permitInfo.primary_rso.first_name} {props.permitInfo.primary_rso.middle_name} {props.permitInfo.primary_rso.last_name}, {props.permitInfo.primary_rso.credentials} <br />
-        Phone: {props.permitInfo.primary_rso.phone}
-        <br />
-        Alt Phone: {props.permitInfo.primary_rso.alt_phone}
-        <br />
-        Email: {props.permitInfo.primary_rso.email}
-        <br />
-        Consulting Firm: {props.permitInfo.primary_rso.consulting_firm}
-        <br />
+      <div className="card" style={{marginBottom: "30px"}}>
+      <div className="card-header">{props.permitInfo.primary_rso.first_name} {props.permitInfo.primary_rso.middle_name} {props.permitInfo.primary_rso.last_name}, {props.permitInfo.primary_rso.credentials}</div>
+      <div className="card-body">
+        <p className="card-text">
+          Phone: {props.permitInfo.primary_rso.phone}
+        </p>
+        <p className="card-text">
+          Alt Phone: {props.permitInfo.primary_rso.alt_phone}
+        </p>
+        <p className="card-text">
+          Email: {props.permitInfo.primary_rso.email}
+        </p>
+        <p className="card-text">
+          Consulting Firm: {props.permitInfo.primary_rso.consulting_firm}
+        </p>
+        <p className="card-text">
         <Link to={`/RSO/${props.permitInfo.primary_rso.id}`}>Edit contact information</Link>
         </p>
+      </div>
+    </div>
         
       {createProgramsList()}
       <br />

@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from .serializers import *
 from .models import *
 import xml.etree.ElementTree as ET
+import os
 
 
 class GetPermitView(APIView):
@@ -151,17 +152,17 @@ class FacilityInfoView(APIView):
     
 class NRCArticlesView(APIView):
     def get(self, request):
-        url = "https://adams.nrc.gov/wba/services/search/advanced/nrc?q=%28mode%3Asections%2Csections%3A%28filters%3A%28public-library%3A%21t%29%2Csingle_content_search%3A%27Veteran+Affairs%27%29%29&qn=New&tab=content-search-pars&s=PublishDatePARS&so=DESC"
+        url = "https://adams.nrc.gov/wba/services/search/advanced/nrc?q=(mode%3Asections,sections%3A(filters%3A(public-library%3A!t),single_content_search%3A'Veteran%2BAffairs'))&tab=content-search-pars&s=PublishDatePARS&so=DESC&max_results=10"
 
         response = requests.get(url)
         xml_data = response.content
-        print(xml_data)
+        # print(xml_data)
         
         # Parse the XML data into a tree structure
         root = ET.fromstring(xml_data)
     
-        # Get all document title elements
-        document_titles = [result.find('DocumentTitle').text for result in root.findall('.//result')]
-        
-        # Do something with the document titles (e.g. return them in a JSON response)
-        return JsonResponse({'document_titles': document_titles})
+        # Get all document title elements and their corresponding URLs
+        document_info = [{'title': result.find('DocumentTitle').text, 'url': result.find('URI').text} for result in root.findall('.//result')]
+
+        # Do something with the document titles and URLs (e.g. return them in a JSON response)
+        return JsonResponse({'documents': document_info})

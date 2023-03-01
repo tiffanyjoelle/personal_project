@@ -45,7 +45,7 @@ const AddAUForm = () => {
     <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Label><span style={{color: "red"}}>*</span> Full Name:</Form.Label>
-        <Form.Control name='full_name' placeholder='First Middle Last' value={formData.full_name} onChange={handleChange}></Form.Control>
+        <Form.Control name='full_name' placeholder='Enter your first and last name' value={formData.full_name} onChange={handleChange}></Form.Control>
       </Form.Group>
       <br />
       <Form.Group>

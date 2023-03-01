@@ -1,5 +1,5 @@
 import { Link, redirect } from 'react-router-dom'
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Row, Col } from 'react-bootstrap';
 
 function FacilityRAM(props) {
 
@@ -77,9 +77,13 @@ function FacilityRAM(props) {
       <h2>RAM Information for {props.permitInfo.city}, {props.permitInfo.state_abbrev} </h2>
       <Button onClick={handleEditButtonClick}>Edit RAM info</Button> <Button onClick={handleDelete}>Delete this RAM Permit</Button> <br />
       <br />
+      <p>
+        Docket Number: {props.permitInfo.docket_num} <br />
+        Expiration Date: {props.permitInfo.exp_date} <br />
+        <p>Inspection Priority: {props.permitInfo.inspection_priority.priority_num}</p>
+        </p>
       <p>Program Codes:</p>
       <ul>{createProgramCodeList()}</ul>
-      <p>Inspection Priority: {props.permitInfo.inspection_priority.priority_num}</p>
       <h3>Materials:</h3>
       <Table bordered hover>
         <thead>

@@ -54,7 +54,6 @@ function FacilityDropdownMenu(props) {
         </Col>
       </Row>
       <br />
-      <hr />
     </div>
   )
 }
