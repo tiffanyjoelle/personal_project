@@ -16,7 +16,8 @@ function Signup() {
   
   // console.log(username, password)
   async function getMatchingFacilities(firstName, lastName) {
-    const res = await fetch('http://127.0.0.1:8000/api/');
+    const base_url = process.env.REACT_APP_BASE_URL
+    const response = await fetch(`http://${base_url}/api/`);
     const body = await res.json();
   
     // Filter facilities based on first and last name matches
@@ -37,7 +38,8 @@ function Signup() {
       console.log(matchingFacilities);
       if (matchingFacilities.length === 1) {
         const officeCode = matchingFacilities[0].office_code;
-        const response = await fetch('http://127.0.0.1:8000/accounts/register', {
+        const base_url = process.env.REACT_APP_BASE_URL
+        const response = await fetch(`http://${base_url}/accounts/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

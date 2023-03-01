@@ -13,7 +13,6 @@ const EditRSOForm = () => {
     phone: '',
     alt_phone: '',
     consulting_firm: '',
-    notes: '',
   });
 
   const [rsoInfo, setRSOInfo] = useState()
@@ -21,8 +20,8 @@ const EditRSOForm = () => {
 
   useEffect( () => {
     async function getRSOInfo() {
-      // const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/RSO/${rsoID}`)
+      const base_url = process.env.REACT_APP_BASE_URL
+      const response = await fetch(`http://${base_url}/api/RSO/${rsoID}`)
       const body = await response.json()
       setRSOInfo(body.result)
     }
@@ -40,7 +39,6 @@ const EditRSOForm = () => {
         phone: rsoInfo.phone || '',
         alt_phone: rsoInfo.alt_phone || '',
         consulting_firm: rsoInfo.consulting_firm || '',
-        notes: rsoInfo.notes || '',
       };
       setFormData(cleanedData);
     }
@@ -99,11 +97,6 @@ const EditRSOForm = () => {
       <Form.Group>
         <Form.Label>Consulting Firm (if applicable):</Form.Label>
         <Form.Control name='consulting_firm' value={formData.consulting_firm} onChange={handleChange}></Form.Control>
-      </Form.Group>
-      <br />
-      <Form.Group>
-        <Form.Label>Notes:</Form.Label>
-        <Form.Control name='notes' value={formData.notes} onChange={handleChange}></Form.Control>
       </Form.Group>
       <br />
       <Button type="submit">Update contact information</Button>

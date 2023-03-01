@@ -1,5 +1,4 @@
-import { Link, redirect } from 'react-router-dom'
-import { Table, Button, Row, Col } from 'react-bootstrap';
+import { Table, Button, Col, Row } from 'react-bootstrap';
 
 function FacilityRAM(props) {
 
@@ -59,7 +58,8 @@ function FacilityRAM(props) {
     event.preventDefault();
     const confirmed = window.confirm('Are you sure you want to delete this permit?')
     if (confirmed) {
-      const response = await fetch(`http://127.0.0.1:8000/api/${props.permitInfo.office_code}/edit`, {
+      const base_url = process.env.REACT_APP_BASE_URL
+      const response = await fetch(`http://${base_url}/api/${props.permitInfo.office_code}/edit`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

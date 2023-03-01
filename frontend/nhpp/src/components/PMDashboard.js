@@ -1,7 +1,6 @@
 import FacilityDropdownMenu from "./FacilityDropdownMenu"
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import PMNavBar from "./PMNavBar";
 
 function PMDashboard() {
@@ -11,8 +10,8 @@ function PMDashboard() {
 
   useEffect( () => {
     async function getFacilities() {
-      // const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch('http://127.0.0.1:8000/api/')
+      const base_url = process.env.REACT_APP_BASE_URL
+      const response = await fetch(`http://${base_url}/api`)
       const body = await res.json()
       // console.log(body.result)
       setFacilities(body.result)
@@ -23,8 +22,8 @@ function PMDashboard() {
   // useEffect( () => {
   //   async function getNRCArticles() {
   //     try {
-  //       // const base_url = process.env.REACT_APP_BASE_URL
-  //     const res = await fetch('http://127.0.0.1:8000/api/nrc')
+  //     const base_url = process.env.REACT_APP_BASE_URL
+  //     const response = await fetch(`http://${base_url}/api/nrc')
   //     const body = await res.json()
   //     // console.log(body.result)
   //     setArticles(body.documents.slice(0,10))

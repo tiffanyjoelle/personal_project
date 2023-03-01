@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import Select from "react-select";
 import PMNavBar from "../components/PMNavBar";
 
 function NewPermitForm() {
@@ -156,7 +155,8 @@ function NewPermitForm() {
       authorized_user: selectedAuthorizedUsers,
       permit_program: selectedPermitPrograms,
     }
-    const response = await fetch('http://127.0.0.1:8000/api/new', {
+    const base_url = process.env.REACT_APP_BASE_URL
+    const response = await fetch(`http://${base_url}/api/new`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

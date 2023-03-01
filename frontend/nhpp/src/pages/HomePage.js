@@ -1,8 +1,7 @@
-import { Container, Row, Col, Nav } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import PMDashboard from "../components/PMDashboard"
 import RSODashboard from "../components/RSODashboard"
-import NavBar from "../components/NavBar";
 
 function HomePage() {
 
@@ -15,7 +14,8 @@ function HomePage() {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await fetch('http://127.0.0.1:8000/accounts/details', {
+          const base_url = process.env.REACT_APP_BASE_URL
+          const response = await fetch(`http://${base_url}/accounts/details`, {
             headers: {
               'Authorization': `Token ${token}`,
               'Content-Type': 'application/json'

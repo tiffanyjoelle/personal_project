@@ -12,13 +12,13 @@ const AddRSOForm = () => {
     phone: '',
     alt_phone: '',
     consulting_firm: '',
-    notes: '',
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/RSO', {
+      const base_url = process.env.REACT_APP_BASE_URL
+      const response = await fetch(`http://${base_url}/api/RSO`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,11 +91,6 @@ const AddRSOForm = () => {
       <Form.Group>
         <Form.Label>Consulting Firm (if applicable):</Form.Label>
         <Form.Control name='consulting_firm' placeholder='Enter consulting firm' value={formData.consulting_firm} onChange={handleChange}></Form.Control>
-      </Form.Group>
-      <br />
-      <Form.Group>
-        <Form.Label>Notes:</Form.Label>
-        <Form.Control name='notes' placeholder='Enter notes' value={formData.notes} onChange={handleChange}></Form.Control>
       </Form.Group>
       <br />
       <Button type="submit">Add RSO</Button>

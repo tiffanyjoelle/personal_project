@@ -58,7 +58,7 @@ function FacilityDemographics(props) {
       
       <h3>Radiation Safety Officer:</h3>
       <div className="card" style={{marginBottom: "30px"}}>
-      <div className="card-header">{props.permitInfo.primary_rso.first_name} {props.permitInfo.primary_rso.middle_name} {props.permitInfo.primary_rso.last_name}, {props.permitInfo.primary_rso.credentials}</div>
+      <div className="card-header">{props.permitInfo.primary_rso.first_name} {props.permitInfo.primary_rso.middle_name} {props.permitInfo.primary_rso.last_name}{props.permitInfo.primary_rso.credentials && <>, {props.permitInfo.primary_rso.credentials}</>}</div>
       <div className="card-body">
         <p className="card-text">
           Phone: {props.permitInfo.primary_rso.phone}
