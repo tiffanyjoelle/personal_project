@@ -34,8 +34,8 @@ function FacilityDropdownMenu(props) {
               <Form.Label>
                 View Facility Permit:
                 </Form.Label>
-                  <Form.Select value={value} onChange={handleChange}>
-                    <option></option>
+                  <Form.Select value={value} onChange={handleChange} isSearchable={true}>
+                  <option value="" disabled>Select a facility</option>
                     {props.facilities.map((item) => {
                       return (
                         <option key={item['id']} value={item['office_code']}>

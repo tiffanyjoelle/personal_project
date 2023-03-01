@@ -1,8 +1,8 @@
 from nhpp_api.models import AuthorizedUser, AuthorizedUse, Material, PermitProgram, ProgramCode, InspectionPriority, RSO, Permit
 
 # Create some authorized users
-user1 = AuthorizedUser.objects.create(full_name='John Smith', credentials='PhD')
-user2 = AuthorizedUser.objects.create(full_name='Jane Doe')
+user1 = AuthorizedUser.objects.create(full_name='John Smith', credentials='M.D.')
+user2 = AuthorizedUser.objects.create(full_name='Jane Doe', credentials='M.D.')
 
 # Create some authorized uses
 use1 = AuthorizedUse.objects.create(use='Research')

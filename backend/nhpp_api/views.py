@@ -18,7 +18,7 @@ class GetPermitView(APIView):
             serializer = PermitSerializer(data)
 
         else:
-            data = Permit.objects.all()
+            data = Permit.objects.all().order_by('city')
             serializer = PermitSerializer(data, many=True)
         return Response({"result": serializer.data})
 
