@@ -98,6 +98,13 @@ class MaterialView(APIView):
         data = Material.objects.all().order_by('source')
         serializer = MaterialSerializer(data, many=True)
         return Response({"result": serializer.data})
+    
+    def post(self, request):
+        material = request.data
+        serializer = MaterialSerializer(data=material)
+        if serializer.is_valid(raise_exception=True):
+            material_saved = serializer.save()
+        return Response({"result": f"{material_saved.source} created"})
 
 class InspectionPriorityView(APIView):
     def get(self, request):
@@ -110,22 +117,19 @@ class AuthorizedUseView(APIView):
         data = AuthorizedUse.objects.all()
         serializer = AuthorizedUseSerializer(data, many=True)
         return Response({"result": serializer.data})
+    
+    def post(self, request):
+        use = request.data
+        serializer = AuthorizedUseSerializer(data=use)
+        if serializer.is_valid(raise_exception=True):
+            use_saved = serializer.save()
+        return Response({"result": f"{use_saved.use} created"})
 
 class AuthorizedUserView(APIView):
     def get(self, request):
         data = AuthorizedUser.objects.all().order_by('full_name')
         serializer = AuthorizedUserSerializer(data, many=True)
         return Response({"result": serializer.data})
-    
-    def get(self, request, pk=None):
-        if pk: 
-            data = AuthorizedUser.objects.get(pk=pk)
-            serializer = AuthorizedUserSerializer(data)
-            return Response({"result": serializer.data})
-        else:
-            data = AuthorizedUser.objects.all()
-            serializer = AuthorizedUserSerializer(data, many=True)
-            return Response({"result": serializer.data})
 
     def post(self, request):
         au = request.data
@@ -139,6 +143,13 @@ class PermitProgramView(APIView):
         data = PermitProgram.objects.all().order_by('title')
         serializer = PermitProgramSerializer(data, many=True)
         return Response({"result": serializer.data})
+    
+    def post(self, request):
+        program = request.data
+        serializer = PermitProgramSerializer(data=program)
+        if serializer.is_valid(raise_exception=True):
+            program_saved = serializer.save()
+        return Response({"result": f"{program_saved.source} created"})
 
 class FacilityInfoView(APIView):
     def get(self, request, office_code):
