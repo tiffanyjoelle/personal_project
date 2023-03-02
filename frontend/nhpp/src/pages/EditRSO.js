@@ -47,7 +47,8 @@ const EditRSOForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch(`http://127.0.0.1:8000/api/RSO/${rsoID}`, {
+      const base_url = process.env.REACT_APP_BASE_URL
+      const response = await fetch(`http://${base_url}/api/RSO/${rsoID}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

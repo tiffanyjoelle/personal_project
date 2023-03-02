@@ -237,7 +237,8 @@ be selected and all of the other selections made will be removed.
       <Col>
       <Form.Group>
         <Form.Label><span style={{color: "red"}}>*</span> Radiation Safety Officer:</Form.Label>
-        <Form.Select id="primary_rso" name='primary_rso' onChange={handleChange}><option value="" disabled>Select an RSO</option>
+        <Form.Select id="primary_rso" name='primary_rso' onChange={handleChange}>
+          <option value="" disabled selected>Select an RSO</option>
           {rso.map(rso => (
           <option key={rso.id} value={rso.id}>{rso.last_name}, {rso.first_name}</option>
         ))}</Form.Select>
@@ -245,7 +246,9 @@ be selected and all of the other selections made will be removed.
       <br />
       <Form.Group>
         <Form.Label><span style={{color: "red"}}>*</span> Inspection Priority:</Form.Label>
-        <Form.Select id="inspection_priority" name='inspection_priority' onChange={handleChange}><option value="" disabled>Select an inspection priority</option> {inspectionPriorities.map(priority => (
+        <Form.Select id="inspection_priority" name='inspection_priority' onChange={handleChange}>
+          <option value="" disabled selected>Select an inspection priority</option>
+          {inspectionPriorities.map(priority => (
           <option key={priority.id} value={priority.id}>{priority.priority_num}</option>
         ))}
         </Form.Select>

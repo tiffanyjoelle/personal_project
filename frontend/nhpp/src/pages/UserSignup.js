@@ -51,7 +51,7 @@ function Signup() {
           window.location.href = '/';
         } else {
           localStorage.removeItem('token');
-          throw new Error('Cannot create account');
+          throw new Error('Cannot create account. Username and/or facility may be taken.');
         }
       } else {
         alert('Cannot locate your assigned facility; please reach out to NHPP for assistance.');

@@ -5,13 +5,15 @@ import { Button } from "react-bootstrap";
 function Login() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
   
   function handleSignupBtnClick(event) {
     window.location.href = "/signup"
   }
 
   async function loginSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
+    setLoading(true)
     // handleValidation();
     try {
       const base_url = process.env.REACT_APP_BASE_URL
@@ -39,6 +41,8 @@ function Login() {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false)
     }
   }
   // console.log(localStorage.getItem('token'))
@@ -73,6 +77,7 @@ function Login() {
               <button type="submit" className="btn btn-primary">
                 Login
               </button> <Button onClick={handleSignupBtnClick}>Sign up</Button>
+              {loading && <div>Loading...</div>}
             </form>
           </div>
         </div>
