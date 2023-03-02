@@ -20,7 +20,7 @@ const AddAuthorizedUseForm = () => {
       });
       // console.log(JSON.stringify(formData))
       if (response.ok) {
-        const confirmed = window.confirm('AU added successfully!')
+        const confirmed = window.confirm('Use added successfully!')
         if (confirmed) {
           window.history.back()
         }

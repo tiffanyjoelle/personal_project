@@ -50,7 +50,7 @@ const AddAUForm = () => {
       </Form.Group>
       <br />
       <Form.Group>
-        <Form.Label>Credentials:</Form.Label>
+        <Form.Label><span style={{color: "red"}}>*</span> Credentials:</Form.Label>
         <Form.Control name='credentials' placeholder='Enter credentials' value={formData.credentials} onChange={handleChange}></Form.Control>
       </Form.Group>
       <br />

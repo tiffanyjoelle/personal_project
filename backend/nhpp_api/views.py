@@ -149,7 +149,7 @@ class PermitProgramView(APIView):
         serializer = PermitProgramSerializer(data=program)
         if serializer.is_valid(raise_exception=True):
             program_saved = serializer.save()
-        return Response({"result": f"{program_saved.source} created"})
+        return Response({"result": f"{program_saved.title} created"})
 
 class FacilityInfoView(APIView):
     def get(self, request, office_code):

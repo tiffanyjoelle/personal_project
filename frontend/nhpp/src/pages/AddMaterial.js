@@ -51,12 +51,12 @@ const AddMaterialForm = () => {
       </Form.Group>
       <br />
       <Form.Group>
-        <Form.Label>Form:</Form.Label>
+        <Form.Label><span style={{color: "red"}}>*</span> Form:</Form.Label>
         <Form.Control name='form' placeholder='Enter chemical and/or physical form' value={formData.form} onChange={handleChange}></Form.Control>
       </Form.Group>
       <br />
       <Form.Group>
-        <Form.Label>Amount of Source:</Form.Label>
+        <Form.Label><span style={{color: "red"}}>*</span> Amount of Source:</Form.Label>
         <Form.Control name='amount_of_source' placeholder='Maximum amount permittee may posses at any one time under permit' value={formData.amount_of_source} onChange={handleChange}></Form.Control>
       </Form.Group>
       <br />
