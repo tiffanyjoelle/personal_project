@@ -45,7 +45,7 @@ const AddAuthorizedUseForm = () => {
     <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Label><span style={{color: "red"}}>*</span> Authorized Use:</Form.Label>
-        <Form.Control name='use' placeholder='Enter description of use' value={formData.full_name} onChange={handleChange}></Form.Control>
+        <Form.Control name='use' placeholder='Enter description of use' value={formData.use} onChange={handleChange}></Form.Control>
       </Form.Group>
       <br />
       <Button type="submit">Add Authorized Use</Button>

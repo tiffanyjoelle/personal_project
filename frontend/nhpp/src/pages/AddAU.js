@@ -26,10 +26,10 @@ const AddAUForm = () => {
           window.history.back()
         }
       } else {
-        alert('An error occurred while adding RSO. Please check your form inputs.');
+        alert('An error occurred while adding AU. Please check your form inputs.');
       }
     } catch (err) {
-      alert('An error occurred while adding RSO.');
+      alert('An error occurred while adding AU.');
     }
   };
 
