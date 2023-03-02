@@ -15,7 +15,7 @@ function HomePage() {
       if (token) {
         try {
           const base_url = process.env.REACT_APP_BASE_URL
-          const response = await fetch(`http://${base_url}/accounts/details`, {
+          const response = await fetch(`http://${base_url}/api/accounts/details`, {
             headers: {
               'Authorization': `Token ${token}`,
               'Content-Type': 'application/json'

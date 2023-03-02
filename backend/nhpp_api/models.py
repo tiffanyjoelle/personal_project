@@ -2,13 +2,13 @@ from django.db import models
 
 class AuthorizedUser(models.Model):
   full_name = models.CharField(max_length=50)
-  credentials = models.CharField(max_length=50, null=True, blank=True)
+  credentials = models.CharField(max_length=50)
 
   def __str__(self):
     return f'{self.full_name}'
 
 class AuthorizedUse(models.Model):
-  use = models.CharField(max_length=255, null=True, blank=True)
+  use = models.CharField(max_length=255)
 
   def __str__(self):
     return f'{self.use}'

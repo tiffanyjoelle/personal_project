@@ -15,7 +15,7 @@ function Login() {
     // handleValidation();
     try {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/accounts/api-token-auth`, {
+      const response = await fetch(`http://${base_url}/api/accounts/api-token-auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

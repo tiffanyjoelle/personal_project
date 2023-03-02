@@ -9,20 +9,20 @@ function RSODashboard(props) {
   const [permitInfo, setPermitInfo] = useState()
   const [facilityInfo, setFacilityInfo] = useState()
 
-  // useEffect( () => {
-  //   async function getFacilityInfo() {
-  //     if (office_code){
-  //       const base_url = process.env.REACT_APP_BASE_URL
-  //       const response = await fetch(`http://${base_url}/api/facility/${office_code}`)
-  //     const body = await res.json()
-  //     setFacilityInfo(body.data)
-  //     // console.log(body)
-  //     }
-  //   }
-  //   getFacilityInfo()
-  // }, [office_code])
+  useEffect( () => {
+    async function getFacilityInfo() {
+      if (props.office_code){
+        const base_url = process.env.REACT_APP_BASE_URL
+        const response = await fetch(`http://${base_url}/api/facility/${props.office_code}`)
+      const body = await response.json()
+      setFacilityInfo(body.data)
+      // console.log(body)
+      }
+    }
+    getFacilityInfo()
+  }, [props])
 
-  console.log(props)
+  // console.log(props)
   useEffect( () => {
     async function getPermitInfo() {
       // if (office_code){

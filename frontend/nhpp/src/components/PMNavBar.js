@@ -21,7 +21,7 @@ function NavBar() {
               <NavDropdown.Item href="/AU/new">Authorized User (AU)</NavDropdown.Item>
               <NavDropdown.Item href="/material/new">Material/Source</NavDropdown.Item>
               <NavDropdown.Item href="/permit/new">Permit</NavDropdown.Item>
-              <NavDropdown.Item href="/permit_program/new">Permit Program</NavDropdown.Item>
+              <NavDropdown.Item href="/permit_program/new">Program</NavDropdown.Item>
               <NavDropdown.Item href="/RSO/new">Radiation Safety Officer</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link onClick={handleLogoutBtnClick}>Logout</Nav.Link>

@@ -1,9 +1,3 @@
-// user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')  
-// user.is_staff=True 
-// user.save()
-
-//When signing up, please make sure to enter name exactly as it appears on the permit.
-
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -39,7 +33,7 @@ function Signup() {
       if (matchingFacilities.length === 1) {
         const officeCode = matchingFacilities[0].office_code;
         const base_url = process.env.REACT_APP_BASE_URL
-        const response = await fetch(`http://${base_url}/accounts/register`, {
+        const response = await fetch(`http://${base_url}/api/accounts/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -52,13 +46,6 @@ function Signup() {
             office_code: officeCode
           })
         });
-      // console.log(JSON.stringify({
-      //     username: username,
-      //     password: password,
-      //     first_name: firstName,
-      //     last_name: lastName,
-      //     office_code: officeCode
-      //   }))
         if (response.ok) {
           //set success message
           window.location.href = '/';
@@ -67,7 +54,7 @@ function Signup() {
           throw new Error('Cannot create account');
         }
       } else {
-        // handle error when there are multiple matching facilities or no matching facilities
+        alert('Cannot locate your assigned facility; please reach out to NHPP for assistance.');
       }
     } catch (error) {
       console.error(error);
@@ -81,7 +68,8 @@ function Signup() {
       <div className="container">
         <div className="row d-flex justify-content-center">
           <div className="col-md-4">
-            <h1>Login</h1>
+            <h1>Signup</h1>
+            <p>When signing up, please make sure to enter name exactly as it appears on the permit.</p>
             <form id="loginform" onSubmit={signupSubmit}>
               <div className="form-group">
                 <label>Username</label>

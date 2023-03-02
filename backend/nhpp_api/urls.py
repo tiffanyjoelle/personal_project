@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -16,4 +16,5 @@ urlpatterns = [
     path('permit_programs', views.PermitProgramView.as_view()), #get all permit programs
     path('facility/<int:office_code>', views.FacilityInfoView.as_view()),
     path('nrc', views.NRCArticlesView.as_view()),
+    path('accounts/', include('accounts.urls')),
 ]
