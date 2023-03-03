@@ -1,60 +1,43 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Form from 'react-bootstrap/Form';
-import { Row, Col, Button } from 'react-bootstrap';
+import { NavDropdown } from 'react-bootstrap';
 
 
-function FacilityDropdownMenu(props) {
+function FacilityDropdownMenu() {
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('')
+  const [facilities, setFacilities] = useState('')
+
+  useEffect( () => {
+    async function getFacilities() {
+      const base_url = process.env.REACT_APP_BASE_URL
+      const res = await fetch('http://127.0.0.1:8000/api/')
+      const body = await res.json()
+      // console.log(body.result)
+      setFacilities(body.result)
+    }
+    getFacilities()
+  }, [])
 
   const handleChange = (e) => {
     setValue(e.target.value)
   }
 
-  function handleNewButtonClick(event) {
-    window.location.href = "permit/new"
-  }
-
-  const handleViewBtnClick = (e) => {
-    if (value) {
-      window.location.href = `/permit/${value}`
-    } else {
-      window.location.href = '/'
-    }
-  }
-
   return (
-    <div>
-      <Row>
-        <Col>
-          {props.facilities ? (
-            <>
-            <Form.Group>
-              <Form.Label>
-                View Facility Permit:
-                </Form.Label>
-                  <Form.Select value={value} onChange={handleChange} isSearchable={true}>
-                  <option value="" disabled>Select a facility</option>
-                    {props.facilities.map((item) => {
-                      return (
-                        <option key={item['id']} value={item['office_code']}>
-                          {item['city']}, {item['state_abbrev']}
-                        </option>
-                      );
-                    })}
-                  </Form.Select>
-                  </Form.Group>
-                  <Button variant="outline-primary" onClick={handleViewBtnClick}>Submit</Button>
-              
-            </>
+    <NavDropdown title="Facilities">
+          {facilities ? (
+            facilities.map((item) => {
+              return (
+                <NavDropdown.Item key={item['id']} href={`/permit/${item['office_code']}`}>
+                  {item['city']}, {item['state_abbrev']}
+                </NavDropdown.Item>
+              );
+            })
           ) : (
-            <p>Loading facilities...</p>
+            <option disabled>Loading facilities...</option>
           )}
-        </Col>
-      </Row>
-      <br />
-    </div>
+    </NavDropdown>
   )
 }
 

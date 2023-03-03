@@ -15,6 +15,7 @@ import AddAUForm from './pages/AddAU';
 import AddAuthorizedUseForm from './pages/AddAuthorizedUse';
 import AddMaterialsForm from './pages/AddMaterial';
 import AddPermitProgramForm from './pages/AddPermitProgram';
+import RSO from './pages/RSO';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/RSO" element={<RSO />} />
         <Route path="/RSO/new" element={<AddRSO />} />
         <Route path="/RSO/:rsoID" element={<EditRSO />} />
         <Route path="/AU/new" element={<AddAUForm />} />

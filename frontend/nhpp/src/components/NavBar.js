@@ -2,10 +2,11 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 
 function NavBar() {
 
-  function handleLogoutBtnClick(event) {
+  function handleLogoutBtnClick() {
     localStorage.setItem('token', '');
     window.location.href = "/"
   }
+
 
   return (
     <div>

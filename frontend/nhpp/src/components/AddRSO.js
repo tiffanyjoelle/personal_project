@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
-import PMNavBar from '../components/PMNavBar';
+import PMNavBar from './PMNavBar';
 
-const AddRSOForm = () => {
+const AddRSOForm = (props) => {
   const [formData, setFormData] = useState({
     first_name: '',
     middle_name: '',
@@ -27,10 +27,19 @@ const AddRSOForm = () => {
       });
       // console.log(JSON.stringify(formData))
       if (response.ok) {
-        const confirmed = window.confirm('RSO added successfully!')
-        if (confirmed) {
-          window.history.back()
+        const data = await response.json()
+        const newRSOId = data.id
+        const permitData = {
+          primary_rso: newRSOId,
         }
+        await fetch(`http://127.0.0.1:8000/api/${props.permitID}/edit`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+        alert('RSO added successfully!')
       } else {
         alert('An error occurred while adding RSO. Please check your form inputs.');
       }
@@ -45,7 +54,6 @@ const AddRSOForm = () => {
 
   return (
     <Container>
-      <PMNavBar />
       <Row><h1>New Radiation Safety Officer</h1></Row>
       <Row>
         <p><span style={{color: "red"}}>* required</span></p>

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
-import { useParams } from "react-router-dom";
-import NavBar from '../components/NavBar';
 
-const EditRSOForm = () => {
+const EditRSOForm = (props) => {
   const [formData, setFormData] = useState({
     first_name: '',
     middle_name: '',
@@ -16,12 +14,11 @@ const EditRSOForm = () => {
   });
 
   const [rsoInfo, setRSOInfo] = useState()
-  let { rsoID } = useParams()
-
+  
   useEffect( () => {
     async function getRSOInfo() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/RSO/${rsoID}`)
+      const response = await fetch(`http://127.0.0.1:8000/api/RSO/${props.rso.id}`)
       const body = await response.json()
       setRSOInfo(body.result)
     }
@@ -48,7 +45,7 @@ const EditRSOForm = () => {
     e.preventDefault();
     try {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/RSO/${rsoID}`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/RSO/${props.rso.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -68,13 +65,11 @@ const EditRSOForm = () => {
 
   return (
     <Container>
-      <NavBar />
-      <Row><h1>Edit RSO Contact Information </h1></Row>
+      <Row><h3>Edit Current RSO's Contact Information </h3></Row>
       <Row>
-      <Form onSubmit={handleSubmit}>
-        <br />
-      <h3>For: {formData.first_name} {formData.middle_name} {formData.last_name}</h3>
       <p><span style={{color: "red"}}>* required</span></p>
+      <Form onSubmit={handleSubmit}>
+      <h4>{formData.first_name} {formData.middle_name} {formData.last_name}, {formData.credentials}</h4>
       <Form.Group>
         <Form.Label>Credentials:</Form.Label>
         <Form.Control name='credentials' value={formData.credentials} onChange={handleChange}></Form.Control>

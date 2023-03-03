@@ -48,7 +48,7 @@ function EditPermitForm() {
   useEffect( () => {
     async function getPermitInfo() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/${office_code}/edit`)
+      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`)
       const body = await response.json()
       setPermitInfo(body.result)
     }
@@ -83,7 +83,7 @@ function EditPermitForm() {
   useEffect(() => {
     async function fetchInspectionPriorities() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/inspection_priorities`)
+      const response = await fetch(`http://127.0.0.1:8000/api/inspection_priorities`)
       const data = await response.json();
       setInspectionPriorities(data.result)
     }
@@ -93,7 +93,7 @@ function EditPermitForm() {
   useEffect(() => {
     async function fetchRSOs() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/RSO`)
+      const response = await fetch(`http://127.0.0.1:8000/api/RSO`)
       const data = await response.json();
       setRSO(data.result)
     }
@@ -103,7 +103,7 @@ function EditPermitForm() {
   useEffect(() => {
     async function fetchProgramCodes() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/program_codes`)
+      const response = await fetch(`http://127.0.0.1:8000/api/program_codes`)
       const data = await response.json();
       setProgramCodes(data.result)
     }
@@ -118,7 +118,7 @@ function EditPermitForm() {
   useEffect(() => {
     async function fetchMaterials() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/materials`)
+      const response = await fetch(`http://127.0.0.1:8000/api/materials`)
       const data = await response.json();
       setMaterials(data.result)
     }
@@ -133,7 +133,7 @@ function EditPermitForm() {
   useEffect(() => {
     async function fetchAuthorizedUses() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/authorized_uses`)
+      const response = await fetch(`http://127.0.0.1:8000/api/authorized_uses`)
       const data = await response.json();
       setAuthorizedUses(data.result)
     }
@@ -148,7 +148,7 @@ function EditPermitForm() {
   useEffect(() => {
     async function fetchAuthorizedUsers() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/authorized_users`)
+      const response = await fetch(`http://127.0.0.1:8000/api/authorized_users`)
       const data = await response.json();
       setAuthorizedUsers(data.result)
     }
@@ -163,7 +163,7 @@ function EditPermitForm() {
   useEffect(() => {
     async function fetchPermitPrograms() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/permit_programs`)
+      const response = await fetch(`http://127.0.0.1:8000/api/permit_programs`)
       const data = await response.json();
       setPermitPrograms(data.result)
     }
@@ -196,7 +196,7 @@ function EditPermitForm() {
       permit_program: selectedPermitPrograms,
     }
     const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/${office_code}/edit`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

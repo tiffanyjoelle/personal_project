@@ -5,19 +5,19 @@ import { Button } from "react-bootstrap";
 
 function FacilityDemographics(props) {
 
-  function openPermitWindow(props) {
-    const permitWindow = window.open('', 'permitWindow', 'width=600,height=400');
-    permitWindow.document.write('<html><head><title>Permit Document</title></head><body>');
-    permitWindow.document.write('<div>');
-    permitWindow.document.write('<br /><br />');
-    permitWindow.document.write('<div id="permitContainer"></div>');
-    permitWindow.document.write('</div>');
-    permitWindow.document.write('</body></html>');
+  // function openPermitWindow(props) {
+  //   const permitWindow = window.open('', 'permitWindow', 'width=600,height=400');
+  //   permitWindow.document.write('<html><head><title>Permit Document</title></head><body>');
+  //   permitWindow.document.write('<div>');
+  //   permitWindow.document.write('<br /><br />');
+  //   permitWindow.document.write('<div id="permitContainer"></div>');
+  //   permitWindow.document.write('</div>');
+  //   permitWindow.document.write('</body></html>');
 
-    const permitContainer = permitWindow.document.getElementById('permitContainer');
-    ReactDOM.render(<PermitDoc facilityInfo={props.facilityInfo} permitInfo={props.permitInfo}/>, permitContainer);
+  //   const permitContainer = permitWindow.document.getElementById('permitContainer');
+  //   ReactDOM.render(<PermitDoc facilityInfo={props.facilityInfo} permitInfo={props.permitInfo}/>, permitContainer);
 
-  }
+  // }
 
   function createProgramsList() {
     return (
@@ -37,7 +37,7 @@ function FacilityDemographics(props) {
       {props.permitInfo &&
       <div>
         <h2>Permit#: {props.permitInfo.permit_num}</h2>
-      <Button onClick={() => openPermitWindow({permitInfo: props.permitInfo, facilityInfo: props.facilityInfo})}>View Radioactive Materials Permit Document</Button><br /> <br />
+      {/* <Button onClick={() => openPermitWindow({permitInfo: props.permitInfo, facilityInfo: props.facilityInfo})}>View Radioactive Materials Permit Document</Button><br /> <br /> */}
       {props.facilityInfo &&
       <div className="card" style={{marginBottom: "30px"}}>
       <div className="card-header">{props.facilityInfo.attributes.name}</div>

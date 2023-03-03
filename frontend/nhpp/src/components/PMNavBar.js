@@ -1,4 +1,5 @@
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import FacilityDropdownMenu from "./FacilityDropdownMenu"
 
 function NavBar() {
 
@@ -24,6 +25,7 @@ function NavBar() {
               <NavDropdown.Item href="/permit_program/new">Program</NavDropdown.Item>
               <NavDropdown.Item href="/RSO/new">Radiation Safety Officer</NavDropdown.Item>
             </NavDropdown>
+            <FacilityDropdownMenu />
             <Nav.Link onClick={handleLogoutBtnClick}>Logout</Nav.Link>
           </Nav>
         </Navbar.Collapse>
@@ -34,5 +36,3 @@ function NavBar() {
 }
 
 export default NavBar
-
-

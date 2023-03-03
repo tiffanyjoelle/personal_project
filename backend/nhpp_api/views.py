@@ -72,7 +72,7 @@ class RSOView(APIView):
         serializer = RSOSerializer(data=rso)
         if serializer.is_valid(raise_exception=True):
             rso_saved = serializer.save()
-        return Response({"result": f"{rso_saved.first_name} {rso_saved.last_name} created"})
+        return Response({"id": {rso_saved.id}})
 
     def put(self, request, pk):
         saved_rso = get_object_or_404(RSO.objects.all(), pk=pk)
