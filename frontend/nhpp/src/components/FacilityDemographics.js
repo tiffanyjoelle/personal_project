@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import PermitDoc from "./PermitDoc";
 import ReactDOM from 'react-dom';
-import { Button } from "react-bootstrap";
+import { Row,Col } from "react-bootstrap";
 
 function FacilityDemographics(props) {
 
@@ -35,9 +35,9 @@ function FacilityDemographics(props) {
   return (
     <div>
       {props.permitInfo &&
-      <div>
+      <Row>
         <h2>Permit#: {props.permitInfo.permit_num}</h2>
-      {/* <Button onClick={() => openPermitWindow({permitInfo: props.permitInfo, facilityInfo: props.facilityInfo})}>View Radioactive Materials Permit Document</Button><br /> <br /> */}
+      <Col>
       {props.facilityInfo &&
       <div className="card" style={{marginBottom: "30px"}}>
       <div className="card-header">{props.facilityInfo.attributes.name}</div>
@@ -77,10 +77,11 @@ function FacilityDemographics(props) {
         </p>
       </div>
     </div>
-        
+    </Col>
+    <Col>
       {createProgramsList()}
-      <br />
-      </div>
+      </Col>
+      </Row>
       }
     </div>
   )

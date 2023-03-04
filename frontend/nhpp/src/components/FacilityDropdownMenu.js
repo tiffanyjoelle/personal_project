@@ -25,11 +25,14 @@ function FacilityDropdownMenu() {
   }
 
   return (
+
     <NavDropdown title="Facilities">
           {facilities ? (
             facilities.map((item) => {
               return (
-                <NavDropdown.Item key={item['id']} href={`/permit/${item['office_code']}`}>
+                <NavDropdown.Item key={item['id']} href={`/permit/${item['office_code']}`} onClick={() => {
+                  localStorage.setItem('activeTab', 'demographics');
+                }}>
                   {item['city']}, {item['state_abbrev']}
                 </NavDropdown.Item>
               );

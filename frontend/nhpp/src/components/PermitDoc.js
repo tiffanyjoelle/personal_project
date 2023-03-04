@@ -10,7 +10,7 @@ function PermitDoc(props) {
           count++;
           letter = String.fromCharCode('A'.charCodeAt(0) + count - 1);
           return (
-            <tr>
+            <tr key={item.id}>
               <td colSpan={2} style={{width: '2.4in', border: 'none', padding: '0in 5.4pt', height: '0.45in', verticalAlign: 'top'}}>
                 <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginTop: '0in', marginRight: '0in', marginBottom: '6.0pt', marginLeft: '.5in', textIndent: '-.25in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>{letter}. &nbsp; {item.source}</span></p>
               </td>
@@ -37,9 +37,7 @@ function PermitDoc(props) {
           count++;
           letter = String.fromCharCode('A'.charCodeAt(0) + count - 1);
           return (
-            <tr>
-              <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginTop: '0in', marginRight: '0in', marginBottom: '6.0pt', marginLeft: '.5in', textIndent: '-.25in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>{letter}. &nbsp; {item.use}.</span></p>
-            </tr>
+              <p key={item.id} style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginTop: '0in', marginRight: '0in', marginBottom: '6.0pt', marginLeft: '.5in', textIndent: '-.25in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>{letter}. &nbsp; {item.use}.</span></p>
           );
         });
         return useList;
@@ -52,7 +50,7 @@ function PermitDoc(props) {
       try {
         const userList = props.permitInfo.authorized_user.map((item) => {
           return (
-            <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginTop: '0in', marginRight: '0in', marginBottom: '6.0pt', marginLeft: '.5in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>{item.full_name}, {item.credentials} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></p>
+            <p key={item.id} style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginTop: '0in', marginRight: '0in', marginBottom: '6.0pt', marginLeft: '.5in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>{item.full_name}, {item.credentials} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></p>
           );
         });
         return userList;
@@ -65,7 +63,7 @@ function PermitDoc(props) {
       <div>
       {props &&
       <div>
-        <div align="center" style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif'}}>
+        <div style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif'}}>
           <table style={{width: '5.2e+2pt', borderCollapse: 'collapse', border: 'none'}}>
             <tbody>
               <tr>
@@ -126,18 +124,18 @@ function PermitDoc(props) {
             </tbody>
           </table>
         </div>
-        <div align="center" style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif'}}>
-          <table style={{width: '5.2e+2pt', borderCollapse: 'collapse', border: 'none'}}>
+        <div style={{width: '5.2e+2pt', alignContent: 'center', borderCollapse: 'collapse', border: 'none', margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif'}}>
+          {/* <table style={{width: '5.2e+2pt', borderCollapse: 'collapse', border: 'none'}}>
             <tbody>
               
-              <tr>
+              <tr> */}
         <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginTop: '6.0pt', marginRight: '0in', marginBottom: '6.0pt', marginLeft: '.25in', textIndent: '-.25in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif', color: 'white'}}>9.</span><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>&nbsp; &nbsp;Authorized Use.</span></p>
 
         {createAuthorizedUseList()}
 
-        <div style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', border: 'none', borderTop: 'solid windowtext 1.5pt', padding: '1.0pt 0in 0in 0in'}}>
-          <h4 style={{margin: '0in', textAlign: 'center', fontSize: '16px', fontFamily: '"Arial",sans-serif', marginTop: '6.0pt', border: 'none', padding: '0in'}}>CONDITIONS</h4>
-        </div>
+        <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', border: 'none', borderTop: 'solid windowtext 1.5pt', padding: '1.0pt 0in 0in 0in'}}></p>
+          <p style={{margin: '0in', textAlign: 'center', fontSize: '16px', fontFamily: '"Arial",sans-serif', marginTop: '6.0pt', border: 'none', padding: '0in'}}>CONDITIONS</p>
+        
         <p style={{margin: '0in', fontSize: '5px', fontFamily: '"Times New Roman",serif', marginLeft: '.25in', textIndent: '-.25in'}}><span style={{fontSize: '5px', fontFamily: '"Arial",sans-serif'}}>&nbsp;</span></p>
         <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', marginTop: '0in', marginRight: '-4.5pt', marginBottom: '.0001pt', marginLeft: '.25in', textIndent: '-.25in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>10. &nbsp;Permitted material shall be used or stored only at the permittee’s facilities located at</span> <span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>{props.facilityInfo && props.facilityInfo.attributes.address.physical.address_1}, {props.facilityInfo && props.facilityInfo.attributes.address.physical.city}, {props.facilityInfo && props.facilityInfo.attributes.address.physical.state}.</span></p>
         <p style={{margin: '0in', fontSize: '10px', fontFamily: '"Times New Roman",serif', marginLeft: '.25in', textIndent: '-.25in'}}><span style={{fontSize: '10px', fontFamily: '"Arial",sans-serif'}}>&nbsp;</span></p>
@@ -172,17 +170,16 @@ function PermitDoc(props) {
         <p style={{margin: '0in', fontSize: '5px', fontFamily: '"Times New Roman",serif', marginLeft: '.25in', textIndent: '-.25in'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>15. &nbsp;Except as specifically provided otherwise in this permit, the permittee shall conduct its program in accordance with the statements, representations, and procedures contained in the documents, including any enclosures, listed below. This permit condition applies only to those statements, representations, and procedures required to be submitted in accordance with the regulations. Additionally, this permit condition does not limit the permittee’s ability to make changes to the radiation protection program as provided for in 10 CFR 35.26. The U.S. Nuclear Regulatory Commission’s regulations shall govern unless the statements, representations, and procedures in the permittee's application and correspondence impose on the permittee requirements that are more restrictive than or in addition to the regulations.</span></p>
         <p style={{margin: '0in', border: 'none', padding: '0in', fontSize: '15px', fontFamily: '"Arial",sans-serif'}}><span style={{fontSize: '13px'}}>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span></p>
         
-        <div style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', border: 'none', borderTop: 'solid windowtext 1.5pt', padding: '1.0pt 0in 0in 0in'}}>
-          <h5 style={{margin: '0in', textAlign: 'center', border: 'none', padding: '0in', fontSize: '16px', fontFamily: '"Arial",sans-serif'}}>FOR THE DEPARTMENT OF VETERANS AFFAIRS</h5>
-        </div>
+        <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif', border: 'none', borderTop: 'solid windowtext 1.5pt', padding: '1.0pt 0in 0in 0in'}}></p>
+          <p style={{margin: '0in', textAlign: 'center', border: 'none', padding: '0in', fontSize: '16px', fontFamily: '"Arial",sans-serif'}}>FOR THE DEPARTMENT OF VETERANS AFFAIRS</p>
         <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>&nbsp;</span></p>
         <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>&nbsp;</span></p>
         <p style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif'}}><span style={{fontSize: '13px', fontFamily: '"Arial",sans-serif'}}>Date _________________________________  &nbsp; &nbsp; &nbsp; &nbsp; By_________________________________________</span></p>
         <p style={{margin: '0in', border: 'none', padding: '0in', fontSize: '15px', fontFamily: '"Arial",sans-serif', marginLeft: '243.0pt'}}><span style={{fontSize: '13px'}}>Executive Director</span></p>
         <p style={{margin: '0in', border: 'none', padding: '0in', fontSize: '15px', fontFamily: '"Arial",sans-serif', marginLeft: '243.0pt'}}><span style={{fontSize: '13px'}}>VHA National Health Physics Program</span></p>
-        </tr>
+        {/* </tr>
         </tbody>
-        </table>
+        </table> */}
         </div>
       </div>
 }

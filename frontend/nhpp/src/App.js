@@ -9,7 +9,6 @@ import AddPermit from './pages/AddPermit';
 import EditPermit from './pages/EditPermit';
 import Login from './pages/UserLogin';
 import Signup from './pages/UserSignup';
-import AddRSO from './pages/AddRSO';
 import EditRSO from './pages/EditRSO';
 import AddAUForm from './pages/AddAU';
 import AddAuthorizedUseForm from './pages/AddAuthorizedUse';
@@ -26,7 +25,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/RSO" element={<RSO />} />
-        <Route path="/RSO/new" element={<AddRSO />} />
         <Route path="/RSO/:rsoID" element={<EditRSO />} />
         <Route path="/AU/new" element={<AddAUForm />} />
         <Route path="/use/new" element={<AddAuthorizedUseForm />} />

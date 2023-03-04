@@ -56,6 +56,7 @@ const EditRSOForm = () => {
         body: JSON.stringify(formData),
       });
       // console.log(JSON.stringify(formData))
+      
       window.history.back()
     } catch (err) {
       alert('An error occurred while adding RSO.');

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
 import PMNavBar from './PMNavBar';
 
 const AddRSOForm = (props) => {
+
   const [formData, setFormData] = useState({
     first_name: '',
     middle_name: '',
@@ -12,6 +13,7 @@ const AddRSOForm = (props) => {
     phone: '',
     alt_phone: '',
     consulting_firm: '',
+    notes: '',
   });
 
   const handleSubmit = async (e) => {
@@ -28,7 +30,7 @@ const AddRSOForm = (props) => {
       // console.log(JSON.stringify(formData))
       if (response.ok) {
         const data = await response.json()
-        const newRSOId = data.id
+        const newRSOId = data.id[0]
         const permitData = {
           primary_rso: newRSOId,
         }
@@ -37,9 +39,10 @@ const AddRSOForm = (props) => {
           headers: {
             'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(permitData),
     });
         alert('RSO added successfully!')
+        window.location.reload()
       } else {
         alert('An error occurred while adding RSO. Please check your form inputs.');
       }
@@ -54,7 +57,7 @@ const AddRSOForm = (props) => {
 
   return (
     <Container>
-      <Row><h1>New Radiation Safety Officer</h1></Row>
+      <Row><h3>Add New Radiation Safety Officer</h3></Row>
       <Row>
         <p><span style={{color: "red"}}>* required</span></p>
     <Form onSubmit={handleSubmit}>
@@ -99,6 +102,11 @@ const AddRSOForm = (props) => {
       <Form.Group>
         <Form.Label>Consulting Firm (if applicable):</Form.Label>
         <Form.Control name='consulting_firm' placeholder='Enter consulting firm' value={formData.consulting_firm} onChange={handleChange}></Form.Control>
+      </Form.Group>
+      <br />
+      <Form.Group>
+        <Form.Label>Notes:</Form.Label>
+        <Form.Control name='notes' placeholder='Enter notes' value={formData.notes} onChange={handleChange}></Form.Control>
       </Form.Group>
       <br />
       <Button type="submit">Add RSO</Button>
