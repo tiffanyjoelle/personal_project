@@ -20,7 +20,6 @@ function NavBar() {
             <NavDropdown title="Add New" id="basic-nav-dropdown">
               <NavDropdown.Item href="/use/new">Authorized Use</NavDropdown.Item>
               <NavDropdown.Item href="/AU/new">Authorized User (AU)</NavDropdown.Item>
-              <NavDropdown.Item href="/material/new">Material/Source</NavDropdown.Item>
               <NavDropdown.Item href="/permit/new">Permit</NavDropdown.Item>
               <NavDropdown.Item href="/permit_program/new">Program</NavDropdown.Item>
               <NavDropdown.Item href="/RSO/new">Radiation Safety Officer</NavDropdown.Item>

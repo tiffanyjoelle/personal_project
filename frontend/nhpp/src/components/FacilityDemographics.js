@@ -37,6 +37,7 @@ function FacilityDemographics(props) {
       {props.permitInfo &&
       <Row>
         <h2>Permit#: {props.permitInfo.permit_num}</h2>
+        <hr />
       <Col>
       {props.facilityInfo &&
       <div className="card" style={{marginBottom: "30px"}}>

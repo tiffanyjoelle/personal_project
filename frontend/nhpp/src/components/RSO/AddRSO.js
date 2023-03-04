@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
-import PMNavBar from './PMNavBar';
+import PMNavBar from '../PMNavBar';
 
 const AddRSOForm = (props) => {
 
@@ -57,7 +57,7 @@ const AddRSOForm = (props) => {
 
   return (
     <Container>
-      <Row><h3>Add New Radiation Safety Officer</h3></Row>
+      <Row><h4>New Radiation Safety Officer</h4></Row>
       <Row>
         <p><span style={{color: "red"}}>* required</span></p>
     <Form onSubmit={handleAddRsoSubmit}>

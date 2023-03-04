@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
-import PMNavBar from '../components/PMNavBar';
 
 const AddMaterialForm = () => {
+
   const [formData, setFormData] = useState({
     source: '',
     form: '',
     amount_of_source: '',
   });
 
-  const handleSubmit = async (e) => {
+  const handleAddMaterialSubmit = async (e) => {
     e.preventDefault();
     try {
       const base_url = process.env.REACT_APP_BASE_URL
@@ -24,7 +24,7 @@ const AddMaterialForm = () => {
       if (response.ok) {
         const confirmed = window.confirm('Material added successfully!')
         if (confirmed) {
-          window.history.back()
+          window.location.reload()
         }
       } else {
         alert('An error occurred while adding material. Please check your form inputs.');
@@ -40,11 +40,10 @@ const AddMaterialForm = () => {
 
   return (
     <Container>
-      <PMNavBar />
-      <Row><h1>New Material</h1></Row>
+      <Row><h4>New Material</h4></Row>
       <Row>
         <p><span style={{color: "red"}}>* required</span></p>
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleAddMaterialSubmit}>
       <Form.Group>
         <Form.Label><span style={{color: "red"}}>*</span> Source:</Form.Label>
         <Form.Control name='source' placeholder='Enter byproduct, source, and/or special nuclear material' value={formData.source} onChange={handleChange}></Form.Control>

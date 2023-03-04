@@ -52,7 +52,6 @@ const EditRSOForm = (props) => {
 
   return (
     <Container>
-      <Row><h3>Edit {editFormData.first_name} {editFormData.middle_name} {editFormData.last_name}'s Contact Information </h3></Row>
       <Row>
         <p><span style={{color: "red"}}>* required</span></p>
       <Form onSubmit={handleEditSubmit}>

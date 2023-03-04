@@ -5,16 +5,18 @@ import FacilityDemographics from "../components/FacilityDemographics";
 import FacilityRAM from "../components/FacilityRAM";
 import PMNavBar from "../components/PMNavBar";
 import PermitDoc from "../components/PermitDoc";
-import RSO from "./RSO";
-import MaterialsList from "../components/MaterialsList";
+import RSO from "../components/RSO/RSO";
+import MaterialsList from "../components/Materials/MaterialsList";
 import AuthorizedUsesList from "../components/AuthorizedUsesList";
 import AUList from "../components/AUList";
+import PermitDetails from "../components/PermitDetails/PermitDetails";
 
 function PermitView() {
 
   let { office_code }  = useParams()
   //used to hold current permit data from db
   const [permitInfo, setPermitInfo] = useState()
+  const [editPermitInfo, setEditPermitInfo] = useState()
   //used to hold info pulled from VA Facilities API
   const [facilityInfo, setFacilityInfo] = useState()
 
@@ -85,15 +87,15 @@ function PermitView() {
     getPermitInfo()
   }, [office_code])
 
-  // useEffect( () => {
-  //   async function getPermitInfo() {
-  //     const base_url = process.env.REACT_APP_BASE_URL
-  //     const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`)
-  //     const body = await response.json()
-  //     setPermitInfo(body.result)
-  //   }
-  //   getPermitInfo()
-  // }, [])
+  useEffect( () => {
+    async function getEditPermitInfo() {
+      const base_url = process.env.REACT_APP_BASE_URL
+      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`)
+      const body = await response.json()
+      setEditPermitInfo(body.result)
+    }
+    getEditPermitInfo()
+  }, [])
 
 
   return (
@@ -117,13 +119,13 @@ function PermitView() {
         <FacilityDemographics permitInfo={permitInfo} facilityInfo={facilityInfo}/>
       </Tab>
       <Tab eventKey="rso" title="Radiation Safety Officer">
-        <RSO rso={permitInfo.primary_rso} permitID={permitInfo.office_code}/>
+        <RSO permitInfo={permitInfo} editPermitInfo={editPermitInfo} rso={permitInfo.primary_rso} />
       </Tab>
       <Tab eventKey="info" title="Permit Details">
-      <FacilityRAM permitInfo={permitInfo}/>
+      <PermitDetails permitInfo={permitInfo} editPermitInfo={editPermitInfo}/>
       </Tab>
       <Tab eventKey="materials" title="Materials">
-      <MaterialsList permitInfo={permitInfo}/>
+      <MaterialsList permitInfo={permitInfo} editPermitInfo={editPermitInfo}/>
       </Tab>
       <Tab eventKey="authorized_uses" title="Authorized Uses">
       <AuthorizedUsesList permitInfo={permitInfo}/>

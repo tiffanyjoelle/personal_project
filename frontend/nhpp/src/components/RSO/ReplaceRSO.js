@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
-function ReplaceRsoForm() {
+function ReplaceRsoForm(props) {
 
   // states and params
   let { office_code } = useParams()
-  const [permitInfo, setPermitInfo] = useState()
+  const [editPermitInfo, setEditPermitInfo] = useState(props.editPermitInfo)
   const [permitData, setPermitData] = useState({
     primary_rso: "",
   });
@@ -18,23 +18,23 @@ function ReplaceRsoForm() {
     setPermitData({ ...permitData, [name]: value })
   }
   
-  useEffect( () => {
-    async function getPermitInfo() {
-      const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`)
-      const body = await response.json()
-      setPermitInfo(body.result)
-    }
-    getPermitInfo()
-  }, [])
+  // useEffect( () => {
+  //   async function getPermitInfo() {
+  //     const base_url = process.env.REACT_APP_BASE_URL
+  //     const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`)
+  //     const body = await response.json()
+  //     setPermitInfo(body.result)
+  //   }
+  //   getPermitInfo()
+  // }, [])
 
   useEffect(() => {
-    if (permitInfo) {
+    if (editPermitInfo) {
       setPermitData({
-        primary_rso: permitInfo.primary_rso,
+        primary_rso: editPermitInfo.primary_rso,
       });
     }
-  }, [permitInfo]);
+  }, [editPermitInfo]);
 
   useEffect(() => {
     async function fetchRSOs() {
@@ -72,8 +72,7 @@ function ReplaceRsoForm() {
     <Form>
       <Row>
       <Form.Group>
-        <Form.Label><span style={{color: "red"}}>*</span> Radiation Safety Officer:</Form.Label>
-        <Form.Select id="primary_rso" name='primary_rso' value={permitInfo.primary_rso} onChange={handleChange}>{rso.map(rso => (
+        <Form.Select id="primary_rso" name='primary_rso' value={permitData.primary_rso} onChange={handleChange}>{rso.map(rso => (
           <option key={rso.id} value={rso.id}>{rso.last_name}, {rso.first_name}</option>
         ))}</Form.Select>
       </Form.Group>

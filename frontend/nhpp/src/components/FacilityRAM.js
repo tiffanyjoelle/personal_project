@@ -27,15 +27,15 @@ function FacilityRAM(props) {
 
     //set initial values based on current permit info
     useEffect(() => {
-      if (props.permitInfo) {
+      if (props.editPermitInfo) {
         setPermitData({
-          docket_num: props.permitInfo.docket_num,
-          exp_date: props.permitInfo.exp_date,
-          inspection_priority: props.permitInfo.inspection_priority,
+          docket_num: props.editPermitInfo.docket_num,
+          exp_date: props.editPermitInfo.exp_date,
+          inspection_priority: props.editPermitInfo.inspection_priority,
         });
-        setSelectedProgramCodes(props.permitInfo.program_codes)
+        setSelectedProgramCodes(props.editPermitInfo.program_codes)
       }
-    }, [props.permitInfo]);
+    }, [props.editPermitInfo]);
 
     //function to grab current inspection priorities and assign to state
     useEffect(() => {
