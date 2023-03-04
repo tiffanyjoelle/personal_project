@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Accordion } from "react-bootstrap"
 import RSONotes from "../components/RSONotes";
 import { useParams } from "react-router-dom";
+import ReplaceRsoForm from "../components/ReplaceRSO";
 
 function RSO() {
 
@@ -48,7 +49,13 @@ function RSO() {
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
-        <Accordion.Header>Add New RSO</Accordion.Header>
+        <Accordion.Header>Assign Existing RSO to Permit</Accordion.Header>
+        <Accordion.Body>
+        <ReplaceRsoForm />
+        </Accordion.Body>
+      </Accordion.Item>
+      <Accordion.Item eventKey="2">
+        <Accordion.Header>Add New RSO to Permit</Accordion.Header>
         <Accordion.Body><AddRSOForm permitID={office_code}/></Accordion.Body>
         </Accordion.Item>
     </Accordion>

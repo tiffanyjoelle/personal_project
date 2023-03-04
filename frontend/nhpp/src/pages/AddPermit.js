@@ -135,13 +135,6 @@ function NewPermitForm() {
     const { name, value } = event.target
     setPermitData({ ...permitData, [name]: value })
   }
-  
-  // const handleMultipleOptionChange = (event) => {
-  //   const { name, value } = event.target
-  //   const valueArr = value ? value.split(',').map((v) => v.trim()) : null
-  //   setPermitData({ ...permitData, [name]: valueArr })
-  // }
-
 
   // handle form submission
   async function handleSubmit(event) {

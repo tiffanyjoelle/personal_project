@@ -13,9 +13,12 @@ import AUList from "../components/AUList";
 function PermitView() {
 
   let { office_code }  = useParams()
+  //used to hold current permit data from db
   const [permitInfo, setPermitInfo] = useState()
+  //used to hold info pulled from VA Facilities API
   const [facilityInfo, setFacilityInfo] = useState()
 
+  
   // keep track of active tab for reload purposes so we don't get thrown out of current tab
   const [activeTab, setActiveTab] = useState(
     localStorage.getItem("activeTab") || "demographics"
@@ -33,10 +36,12 @@ function PermitView() {
     localStorage.setItem("activeTab", tabKey);
   };
 
+  //button function to edit all information in permit at once
   function handleEditButtonClick(event) {
     window.location.href = `${office_code}/edit`
   }
 
+  //button function to delete permit
   async function handleDelete(event) {
     event.preventDefault();
     const confirmed = window.confirm('Are you sure you want to delete this permit?')
@@ -53,6 +58,7 @@ function PermitView() {
     }
   }
 
+  // 3rd party API call to get VA facility current name, address, phone number
   // useEffect( () => {
   //   async function getFacilityInfo() {
   //     if (office_code){
@@ -66,6 +72,7 @@ function PermitView() {
   //   getFacilityInfo()
   // }, [office_code])
 
+  //DRF API call to get current permit info
   useEffect( () => {
     async function getPermitInfo() {
       if (office_code){
@@ -77,8 +84,18 @@ function PermitView() {
     }
     getPermitInfo()
   }, [office_code])
-  // console.log(facilityInfo)
-  // console.log(permitInfo.primary_rso)
+
+  // useEffect( () => {
+  //   async function getPermitInfo() {
+  //     const base_url = process.env.REACT_APP_BASE_URL
+  //     const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`)
+  //     const body = await response.json()
+  //     setPermitInfo(body.result)
+  //   }
+  //   getPermitInfo()
+  // }, [])
+
+
   return (
     <div>
       <PMNavBar />
