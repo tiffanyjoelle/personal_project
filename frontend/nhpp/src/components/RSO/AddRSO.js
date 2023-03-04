@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
-import PMNavBar from '../PMNavBar';
 
 const AddRSOForm = (props) => {
 

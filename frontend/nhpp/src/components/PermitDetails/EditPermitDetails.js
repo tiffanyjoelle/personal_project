@@ -12,11 +12,14 @@ function EditPermitDetailsForm(props) {
     exp_date: "",
     program_codes: [],
     inspection_priority: "",
+    permit_program: [],
   });
 
   const [programCodes, setProgramCodes] = useState([]);
   const [selectedProgramCodes, setSelectedProgramCodes] = useState([]);
   const [inspectionPriorities, setInspectionPriorities] = useState([]);
+  const [permitPrograms, setPermitPrograms] = useState([]);
+  const [selectedPermitPrograms, setSelectedPermitPrograms] = useState([]);
 
   // useEffects and handleChanges
 
@@ -34,6 +37,7 @@ function EditPermitDetailsForm(props) {
         inspection_priority: permitInfo.inspection_priority,
       })
       setSelectedProgramCodes(permitInfo.program_codes)
+      setSelectedPermitPrograms(permitInfo.permit_program);
     }
   }, [permitInfo]);
   
@@ -62,6 +66,21 @@ function EditPermitDetailsForm(props) {
     setSelectedProgramCodes(selectedValues)
   }
 
+  useEffect(() => {
+    async function fetchPermitPrograms() {
+      const base_url = process.env.REACT_APP_BASE_URL
+      const response = await fetch(`http://127.0.0.1:8000/api/permit_programs`)
+      const data = await response.json();
+      setPermitPrograms(data.result)
+    }
+    fetchPermitPrograms();
+  }, []);
+  
+  function handlePermitProgramSelect(event) {
+    const selectedValues = Array.from(event.target.selectedOptions, option => option.value);
+    setSelectedPermitPrograms(selectedValues)
+  }
+
   // handle submit
   async function handleSubmit(event) {
     event.preventDefault();
@@ -71,6 +90,7 @@ function EditPermitDetailsForm(props) {
       exp_date: permitData.exp_date,
       program_codes: selectedProgramCodes,
       inspection_priority: permitData.inspection_priority,
+      permit_program: selectedPermitPrograms,
     }
     const base_url = process.env.REACT_APP_BASE_URL
       const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`, {
@@ -88,6 +108,7 @@ function EditPermitDetailsForm(props) {
   return (
     <div>
       <Container>
+      <p><span style={{color: "red"}}>* required</span></p>
     <Form>
       <Form.Group>
         <Form.Label>Docket Number:</Form.Label>
@@ -114,7 +135,13 @@ function EditPermitDetailsForm(props) {
         ))}
         </Form.Select>
       </Form.Group>
-        <hr />
+      <Form.Group>
+        <Form.Label>Notable Program(s):</Form.Label>
+        <Form.Select id="permit_program" name='permit_program' multiple value={selectedPermitPrograms} onChange={handlePermitProgramSelect}>{permitPrograms.map(program => (
+          <option key={program.id} value={program.id}>{program.title}</option>
+        ))}
+        </Form.Select>
+      </Form.Group>
         <Button onClick={handleSubmit}>Update Permit</Button>
       </Form>
     </Container>

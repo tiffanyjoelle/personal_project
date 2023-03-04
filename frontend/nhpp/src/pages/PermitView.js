@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Row, Col, Container, Tab, Tabs, Button } from 'react-bootstrap';
 import FacilityDemographics from "../components/FacilityDemographics";
-import FacilityRAM from "../components/FacilityRAM";
 import PMNavBar from "../components/PMNavBar";
 import PermitDoc from "../components/PermitDoc";
 import RSO from "../components/RSO/RSO";
 import MaterialsList from "../components/Materials/MaterialsList";
-import AuthorizedUsesList from "../components/AuthorizedUsesList";
-import AUList from "../components/AUList";
+import AuthorizedUsesList from "../components/AuthorizedUses/AuthorizedUses";
+import AUList from "../components/AuthorizedUsers/AUList";
 import PermitDetails from "../components/PermitDetails/PermitDetails";
 
 function PermitView() {
@@ -128,10 +127,10 @@ function PermitView() {
       <MaterialsList permitInfo={permitInfo} editPermitInfo={editPermitInfo}/>
       </Tab>
       <Tab eventKey="authorized_uses" title="Authorized Uses">
-      <AuthorizedUsesList permitInfo={permitInfo}/>
+      <AuthorizedUsesList permitInfo={permitInfo} editPermitInfo={editPermitInfo}/>
       </Tab>
       <Tab eventKey="authorized_users" title="Authorized Users (AUs)">
-      <AUList permitInfo={permitInfo}/>
+      <AUList permitInfo={permitInfo} editPermitInfo={editPermitInfo}/>
       </Tab>
       <Tab eventKey="permit" title="View Permit">
       <PermitDoc facilityInfo={facilityInfo} permitInfo={permitInfo}/>

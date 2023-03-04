@@ -69,6 +69,7 @@ function ReplaceRsoForm(props) {
   return (
     <div>
       <Container>
+        {permitData &&
     <Form>
       <Row>
       <Form.Group>
@@ -84,6 +85,7 @@ function ReplaceRsoForm(props) {
         </Col>
       </Row>
       </Form>
+}
     </Container>
     </div>
   );

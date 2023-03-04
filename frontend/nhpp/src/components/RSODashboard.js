@@ -1,8 +1,9 @@
 import FacilityDemographics from "./FacilityDemographics"
 import React from "react";
 import { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Accordion } from "react-bootstrap";
 import NavBar from "./NavBar";
+import EditRSOForm from "./RSO/EditRSO";
 
 function RSODashboard(props) {
 
@@ -41,6 +42,14 @@ function RSODashboard(props) {
       <Container>
       <h1>Radiation Safety Officer Dashboard</h1>
       <FacilityDemographics permitInfo={permitInfo} facilityInfo={facilityInfo}/>
+      {permitInfo && <Accordion>
+      <Accordion.Item eventKey="0">
+        <Accordion.Header>Edit {permitInfo.primary_rso.first_name} {permitInfo.primary_rso.last_name}'s Information</Accordion.Header>
+        <Accordion.Body>
+        <EditRSOForm rso={permitInfo.primary_rso} />
+        </Accordion.Body>
+      </Accordion.Item>
+      </Accordion>}
       </Container>
     </div>
   )

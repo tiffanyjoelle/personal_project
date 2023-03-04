@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
 
-const AddMaterialForm = () => {
+function AddMaterialForm () {
 
   const [formData, setFormData] = useState({
     source: '',

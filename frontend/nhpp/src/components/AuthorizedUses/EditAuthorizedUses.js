@@ -2,39 +2,41 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
-function EditMaterialsForm(props) {
+function EditAuthorizedUsesForm(props) {
 
   // states and params
   let { office_code } = useParams()
   const [permitInfo, setPermitInfo] = useState(props.editPermitInfo)
   const [permitData, setPermitData] = useState({
-    material: [],
+    authorized_use: [],
   });
 
-  const [materials, setMaterials] = useState([]);
-  const [selectedMaterials, setSelectedMaterials] = useState([]);
+  const [authorizedUse, setAuthorizedUses] = useState([]);
+  const [selectedAuthorizedUses, setSelectedAuthorizedUses] = useState([]);
+  
 
   // useEffects and handleChanges
+  
 
   useEffect(() => {
     if (permitInfo) {
-      setSelectedMaterials(permitInfo.material);
+      setSelectedAuthorizedUses(permitInfo.authorized_use);
     }
   }, [permitInfo]);
 
   useEffect(() => {
-    async function fetchMaterials() {
+    async function fetchAuthorizedUses() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/materials`)
+      const response = await fetch(`http://127.0.0.1:8000/api/authorized_uses`)
       const data = await response.json();
-      setMaterials(data.result)
+      setAuthorizedUses(data.result)
     }
-    fetchMaterials();
+    fetchAuthorizedUses();
   }, []);
   
-  function handleMaterialSelect(event) {
+  function handleAuthorizedUseSelect(event) {
     const selectedValues = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedMaterials(selectedValues)
+    setSelectedAuthorizedUses(selectedValues)
   }
 
   // handle submit
@@ -42,7 +44,7 @@ function EditMaterialsForm(props) {
     event.preventDefault();
     //compile data to send
     const data = {
-      material: selectedMaterials,
+      authorized_use: selectedAuthorizedUses,
     }
     const base_url = process.env.REACT_APP_BASE_URL
       const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`, {
@@ -59,21 +61,21 @@ function EditMaterialsForm(props) {
 
   return (
     <div>
-      {selectedMaterials &&
+      {selectedAuthorizedUses &&
     <Form>
       <Form.Group>
-        <Form.Label>Material(s):</Form.Label>
-        <Form.Select id="material" name='material' multiple value={selectedMaterials} onChange={handleMaterialSelect}>{materials.map(material => (
-          <option key={material.id} value={material.id}>{material.source}, {material.form}, {material.amount_of_source} </option>
+        <Form.Label>Authorized Use(s):</Form.Label>
+        <Form.Select id="authorized_use" name='authorized_use' multiple value={selectedAuthorizedUses} onChange={handleAuthorizedUseSelect}>{authorizedUse.map(use => (
+          <option key={use.id} value={use.id}>{use.use}</option>
         ))}
         </Form.Select>
       </Form.Group>
-      <br />
-        <Button onClick={handleSubmit}>Update Materials</Button>
+        <hr />
+        <Button onClick={handleSubmit}>Update Authorized Uses</Button>
       </Form>
-}
+    }
     </div>
   );
 }
 
-export default EditMaterialsForm;
+export default EditAuthorizedUsesForm;

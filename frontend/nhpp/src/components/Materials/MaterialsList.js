@@ -25,6 +25,7 @@ function MaterialsList(props) {
     <br />
     {props.permitInfo && 
     <div>
+      <h4>Materials:</h4>
       <Table bordered hover>
         <thead>
           <tr>

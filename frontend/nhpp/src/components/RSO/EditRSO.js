@@ -40,7 +40,7 @@ const EditRSOForm = (props) => {
         },
         body: JSON.stringify(editFormData),
       });
-      console.log(JSON.stringify(editFormData))
+      window.location.reload()
     } catch (err) {
       alert('An error occurred while adding RSO.');
     }

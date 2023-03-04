@@ -73,9 +73,6 @@ function FacilityDemographics(props) {
         <p className="card-text">
           Consulting Firm: {props.permitInfo.primary_rso.consulting_firm}
         </p>
-        <p className="card-text">
-        <Link to={`/RSO/${props.permitInfo.primary_rso.id}`}>Edit contact information</Link>
-        </p>
       </div>
     </div>
     </Col>
