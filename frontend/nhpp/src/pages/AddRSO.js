@@ -36,6 +36,7 @@ const AddRSOPage = () => {
       }
     } catch (err) {
       alert('An error occurred while adding RSO.');
+      console.error(err)
     }
   };
 

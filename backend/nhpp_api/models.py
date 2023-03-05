@@ -2,7 +2,7 @@ from django.db import models
 
 class AuthorizedUser(models.Model):
   full_name = models.CharField(max_length=50)
-  credentials = models.CharField(max_length=50)
+  credentials = models.CharField(max_length=50, default='M.D.')
 
   def __str__(self):
     return f'{self.full_name}'

@@ -7,18 +7,6 @@ function PermitDetails(props) {
   const [permitInfo, setPermitInfo] = useState(props.permitInfo)
   const [editPermitInfo, setEditPermitInfo] = useState(props.editPermitInfo)
   
-  // useEffect( () => {
-  //   async function getPermitInfo() {
-  //     if (office_code){
-  //       const base_url = process.env.REACT_APP_BASE_URL
-  //     const res = await fetch(`http://127.0.0.1:8000/api/${office_code}`)
-  //     const body = await res.json()
-  //     setPermitInfo(body.result)
-  //     }
-  //   }
-  //   getPermitInfo()
-  // }, [office_code])
-
     //function to map out list of current permit program codes
     function createProgramCodeList() {
       return (
@@ -32,20 +20,6 @@ function PermitDetails(props) {
         </div>
       );
     }
-
-    function createProgramsList() {
-      return (
-        <div>
-          <h4>Notable Programs:</h4>
-          {props.permitInfo.permit_program.map((item) => (
-            <div key={item.id}>
-              <li>{item.title}</li>
-            </div>
-          ))}
-        </div>
-      );
-    }
-  
 
   return (
     <div>

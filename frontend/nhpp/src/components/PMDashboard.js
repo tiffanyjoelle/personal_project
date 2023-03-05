@@ -1,4 +1,3 @@
-import FacilityDropdownMenu from "./FacilityDropdownMenu"
 import { useState, useEffect } from "react";
 import { Row, Carousel } from 'react-bootstrap';
 import PMNavBar from "./PMNavBar";
@@ -11,7 +10,7 @@ function PMDashboard() {
   useEffect( () => {
     async function getFacilities() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch('http://127.0.0.1:8000/api/')
+      const res = await fetch(`http://${base_url}/api/`)
       const body = await res.json()
       // console.log(body.result)
       setFacilities(body.result)
@@ -19,20 +18,20 @@ function PMDashboard() {
     getFacilities()
   }, [])
 
-  // useEffect( () => {
-  //   async function getNRCArticles() {
-  //     try {
-  //     const base_url = process.env.REACT_APP_BASE_URL
-  //     const res = await fetch(`http://127.0.0.1:8000/api/nrc`)
-  //     const body = await res.json()
-  //     // console.log(body.result)
-  //     setArticles(body.documents.slice(0,10))
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  //   getNRCArticles()
-  // }, [])
+  useEffect( () => {
+    async function getNRCArticles() {
+      try {
+      const base_url = process.env.REACT_APP_BASE_URL
+      const res = await fetch(`http://${base_url}/api/nrc`)
+      const body = await res.json()
+      // console.log(body.result)
+      setArticles(body.documents.slice(0,10))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getNRCArticles()
+  }, [])
 
   return (
     <div>
@@ -41,7 +40,7 @@ function PMDashboard() {
           <h1>Program Manager Dashboard</h1>
         </Row>
         <Row>
-        <Carousel>
+        {/* <Carousel>
       <Carousel.Item>
         <img
           className="d-block w-100"
@@ -79,7 +78,7 @@ function PMDashboard() {
           </p>
         </Carousel.Caption>
       </Carousel.Item>
-    </Carousel>
+    </Carousel> */}
         </Row>
         <hr />
      

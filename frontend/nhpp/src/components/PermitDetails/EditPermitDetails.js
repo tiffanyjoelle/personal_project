@@ -44,7 +44,7 @@ function EditPermitDetailsForm(props) {
   useEffect(() => {
     async function fetchInspectionPriorities() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/inspection_priorities`)
+      const response = await fetch(`http://${base_url}/api/inspection_priorities`)
       const data = await response.json();
       setInspectionPriorities(data.result)
     }
@@ -54,7 +54,7 @@ function EditPermitDetailsForm(props) {
   useEffect(() => {
     async function fetchProgramCodes() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/program_codes`)
+      const response = await fetch(`http://${base_url}/api/program_codes`)
       const data = await response.json();
       setProgramCodes(data.result)
     }
@@ -69,7 +69,7 @@ function EditPermitDetailsForm(props) {
   useEffect(() => {
     async function fetchPermitPrograms() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/permit_programs`)
+      const response = await fetch(`http://${base_url}/api/permit_programs`)
       const data = await response.json();
       setPermitPrograms(data.result)
     }
@@ -84,25 +84,35 @@ function EditPermitDetailsForm(props) {
   // handle submit
   async function handleSubmit(event) {
     event.preventDefault();
+    try {
     //compile data to send
-    const data = {
-      docket_num: permitData.docket_num,
-      exp_date: permitData.exp_date,
-      program_codes: selectedProgramCodes,
-      inspection_priority: permitData.inspection_priority,
-      permit_program: selectedPermitPrograms,
-    }
-    const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+      const data = {
+        docket_num: permitData.docket_num,
+        exp_date: permitData.exp_date,
+        program_codes: selectedProgramCodes,
+        inspection_priority: permitData.inspection_priority,
+        permit_program: selectedPermitPrograms,
+      }
+      const base_url = process.env.REACT_APP_BASE_URL
+        const response = await fetch(`http://${base_url}/api/${office_code}/edit`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
     });
     const result = await response.json();
-    // console.log(result)
-    window.location.reload()
+      // console.log(result)
+      if (response.ok) {
+        alert('Details updated successfully!')
+        window.location.reload()
+      } else {
+        alert('An error occurred while updating details. Please check your form inputs.');
+      }
+    } catch (err) {
+      alert('An error occurred while updating details.');
+      console.error(err)
+    }
   }
 
   return (

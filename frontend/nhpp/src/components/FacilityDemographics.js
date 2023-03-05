@@ -1,23 +1,8 @@
-import { Link } from 'react-router-dom'
-import PermitDoc from "./PermitDoc";
-import ReactDOM from 'react-dom';
 import { Row,Col } from "react-bootstrap";
 
 function FacilityDemographics(props) {
 
-  // function openPermitWindow(props) {
-  //   const permitWindow = window.open('', 'permitWindow', 'width=600,height=400');
-  //   permitWindow.document.write('<html><head><title>Permit Document</title></head><body>');
-  //   permitWindow.document.write('<div>');
-  //   permitWindow.document.write('<br /><br />');
-  //   permitWindow.document.write('<div id="permitContainer"></div>');
-  //   permitWindow.document.write('</div>');
-  //   permitWindow.document.write('</body></html>');
 
-  //   const permitContainer = permitWindow.document.getElementById('permitContainer');
-  //   ReactDOM.render(<PermitDoc facilityInfo={props.facilityInfo} permitInfo={props.permitInfo}/>, permitContainer);
-
-  // }
 
   function createProgramsList() {
     return (

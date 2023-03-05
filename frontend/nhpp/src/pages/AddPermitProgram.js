@@ -11,7 +11,7 @@ const AddPermitProgramForm = () => {
     e.preventDefault();
     try {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/permit_programs`, {
+      const response = await fetch(`http://${base_url}/api/permit_programs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,6 +29,7 @@ const AddPermitProgramForm = () => {
       }
     } catch (err) {
       alert('An error occurred while adding program.');
+      console.error(err)
     }
   };
 

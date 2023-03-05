@@ -25,7 +25,7 @@ function EditMaterialsForm(props) {
   useEffect(() => {
     async function fetchMaterials() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/materials`)
+      const response = await fetch(`http://${base_url}/api/materials`)
       const data = await response.json();
       setMaterials(data.result)
     }
@@ -40,21 +40,31 @@ function EditMaterialsForm(props) {
   // handle submit
   async function handleSubmit(event) {
     event.preventDefault();
-    //compile data to send
-    const data = {
-      material: selectedMaterials,
-    }
-    const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+    try {
+      //compile data to send
+      const data = {
+        material: selectedMaterials,
+      }
+      const base_url = process.env.REACT_APP_BASE_URL
+        const response = await fetch(`http://${base_url}/api/${office_code}/edit`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
     });
     const result = await response.json();
-    // console.log(result)
-    window.location.reload()
+      // console.log(result)
+      if (response.ok) {
+        alert('Permit materials updated successfully!')
+        window.location.reload()
+      } else {
+        alert('An error occurred while updating permit materials Please check your form inputs.');
+      }
+    } catch (err) {
+      alert('An error occurred while updating permit materials.');
+      console.error(err)
+    }
   }
 
   return (

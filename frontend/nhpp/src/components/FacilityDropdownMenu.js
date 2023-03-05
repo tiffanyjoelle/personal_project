@@ -12,7 +12,7 @@ function FacilityDropdownMenu() {
   useEffect( () => {
     async function getFacilities() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch('http://127.0.0.1:8000/api/')
+      const res = await fetch(`http://${base_url}/api/`)
       const body = await res.json()
       // console.log(body.result)
       setFacilities(body.result)

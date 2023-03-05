@@ -23,8 +23,6 @@ function AUList(props) {
 
   return (
     <div>
-    {props.permitInfo && 
-    <div>
       <Accordion>
       <Accordion.Item eventKey="0">
         <Accordion.Header>Edit Permit Authorized Users</Accordion.Header>
@@ -43,8 +41,6 @@ function AUList(props) {
     </Accordion>
     <br />
       {createAuthorizedUsersList()}
-    </div>
-    }
     </div>
   )
 }

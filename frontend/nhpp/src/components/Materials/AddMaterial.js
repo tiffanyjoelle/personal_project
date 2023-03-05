@@ -13,7 +13,7 @@ function AddMaterialForm () {
     e.preventDefault();
     try {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/materials`, {
+      const response = await fetch(`http://${base_url}/api/materials`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -21,16 +21,17 @@ function AddMaterialForm () {
         body: JSON.stringify(formData),
       });
       // console.log(JSON.stringify(formData))
+      const result = await response.json();
+      // console.log(result)
       if (response.ok) {
-        const confirmed = window.confirm('Material added successfully!')
-        if (confirmed) {
-          window.location.reload()
-        }
+        alert('Material added successfully!')
+        window.location.reload()
       } else {
         alert('An error occurred while adding material. Please check your form inputs.');
       }
     } catch (err) {
       alert('An error occurred while adding material.');
+      console.error(err)
     }
   };
 

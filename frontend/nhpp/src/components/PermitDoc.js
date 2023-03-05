@@ -1,6 +1,15 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
+import ReactDOM from 'react-dom';
 
 function PermitDoc(props) {
+
+  function openPermitWindow() {
+    const permitWindow = window.open('', 'permitWindow', 'width=600,height=400');
+    permitWindow.document.write('<html><head><title>Permit Document</title></head><body>');
+    ReactDOM.render(<PermitDoc />, permitWindow.document.body);
+    permitWindow.print();
+}
     
     function createMaterialList() {
       try {
@@ -23,9 +32,9 @@ function PermitDoc(props) {
             </tr>
           );
         });
-        return materialList;
+        return materialList
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     }
 
@@ -63,6 +72,9 @@ function PermitDoc(props) {
       <div>
       {props &&
       <div>
+        {<PermitDoc /> &&
+        <Button onClick={openPermitWindow}>Print Permit</Button>
+        }
         <div style={{margin: '0in', fontSize: '16px', fontFamily: '"Times New Roman",serif'}}>
           <table style={{width: '5.2e+2pt', borderCollapse: 'collapse', border: 'none'}}>
             <tbody>

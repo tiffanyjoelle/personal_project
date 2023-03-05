@@ -48,7 +48,7 @@ function PermitView() {
     const confirmed = window.confirm('Are you sure you want to delete this permit?')
     if (confirmed) {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`, {
+      const response = await fetch(`http://${base_url}/api/${office_code}/edit`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -60,25 +60,25 @@ function PermitView() {
   }
 
   // 3rd party API call to get VA facility current name, address, phone number
-  // useEffect( () => {
-  //   async function getFacilityInfo() {
-  //     if (office_code){
-  //       const base_url = process.env.REACT_APP_BASE_URL
-  //     const res = await fetch(`http://127.0.0.1:8000/api/facility/${office_code}`)
-  //     const body = await res.json()
-  //     setFacilityInfo(body.data)
-  //     // console.log(body)
-  //     }
-  //   }
-  //   getFacilityInfo()
-  // }, [office_code])
+  useEffect( () => {
+    async function getFacilityInfo() {
+      if (office_code){
+        const base_url = process.env.REACT_APP_BASE_URL
+      const res = await fetch(`http://${base_url}/api/facility/${office_code}`)
+      const body = await res.json()
+      setFacilityInfo(body.data)
+      // console.log(body)
+      }
+    }
+    getFacilityInfo()
+  }, [office_code])
 
   //DRF API call to get current permit info
   useEffect( () => {
     async function getPermitInfo() {
       if (office_code){
         const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch(`http://127.0.0.1:8000/api/${office_code}`)
+      const res = await fetch(`http://${base_url}/api/${office_code}`)
       const body = await res.json()
       setPermitInfo(body.result)
       }
@@ -89,7 +89,7 @@ function PermitView() {
   useEffect( () => {
     async function getEditPermitInfo() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`)
+      const response = await fetch(`http://${base_url}/api/${office_code}/edit`)
       const body = await response.json()
       setEditPermitInfo(body.result)
     }
@@ -100,11 +100,11 @@ function PermitView() {
   return (
     <div>
       <PMNavBar />
-      {permitInfo &&
+      {(permitInfo && editPermitInfo) &&
       <Container>
-        <Row style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '20vh', backgroundColor: '#4682B4', color: 'whitesmoke'}}>
+        <Row className="text-center" style={{ display: 'flex', alignItems: 'center', height: '20vh', backgroundColor: '#4682B4', color: 'whitesmoke'}}>
           <h1 style={{ textAlign: 'center' }}>Facility #{office_code} {permitInfo && permitInfo.city}, {permitInfo && permitInfo.state_abbrev}</h1>
-          <Button onClick={handleEditButtonClick}>Edit RAM info</Button> <Button onClick={handleDelete}>Delete this RAM Permit</Button>
+          <Col className="text-center"><Button variant="secondary" onClick={handleEditButtonClick}>Edit RAM info</Button> <Button variant="secondary" onClick={handleDelete}>Delete this RAM Permit</Button></Col>
         </Row>
         <hr />
         <Tabs

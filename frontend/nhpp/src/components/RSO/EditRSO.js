@@ -33,16 +33,24 @@ const EditRSOForm = (props) => {
     e.preventDefault();
     try {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/RSO/${props.rso.id}`, {
+      const response = await fetch(`http://${base_url}/api/RSO/${props.rso.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(editFormData),
       });
-      window.location.reload()
+      const result = await response.json();
+      // console.log(result)
+      if (response.ok) {
+        alert('RSO information updated successfully!')
+        window.location.reload()
+      } else {
+        alert('An error occurred while updating RSO information. Please check your form inputs.');
+      }
     } catch (err) {
-      alert('An error occurred while adding RSO.');
+      alert('An error occurred while updating RSO information.');
+      console.error(err)
     }
   };
 

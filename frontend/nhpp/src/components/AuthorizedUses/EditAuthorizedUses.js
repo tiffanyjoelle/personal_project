@@ -7,19 +7,51 @@ function EditAuthorizedUsesForm(props) {
   // states and params
   let { office_code } = useParams()
   const [permitInfo, setPermitInfo] = useState(props.editPermitInfo)
+
+  // for some reason, the db isn't letting me PUT w only authorized uses, so adding all fields
   const [permitData, setPermitData] = useState({
+    city: "",
+    state_abbrev: "",
+    office_code: "",
+    permit_num: "",
+    docket_num: "",
+    exp_date: "",
+    program_codes: [],
+    inspection_priority: "",
+    primary_rso: "",
+    material: [],
     authorized_use: [],
+    authorized_user: [],
+    permit_program: [],
   });
 
   const [authorizedUse, setAuthorizedUses] = useState([]);
   const [selectedAuthorizedUses, setSelectedAuthorizedUses] = useState([]);
-  
+
 
   // useEffects and handleChanges
-  
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setPermitData({ ...permitData, [name]: value })
+  }
 
   useEffect(() => {
     if (permitInfo) {
+      setPermitData({
+        city: permitInfo.city,
+        state_abbrev: permitInfo.state_abbrev,
+        office_code: permitInfo.office_code,
+        permit_num: permitInfo.permit_num,
+        docket_num: permitInfo.docket_num,
+        exp_date: permitInfo.exp_date,
+        inspection_priority: permitInfo.inspection_priority,
+        primary_rso: permitInfo.primary_rso,
+        program_codes: permitInfo.program_codes,
+        authorized_user: permitInfo.authorized_user,
+        material: permitInfo.material,
+        permit_program: permitInfo.permit_program,
+      });
       setSelectedAuthorizedUses(permitInfo.authorized_use);
     }
   }, [permitInfo]);
@@ -27,7 +59,7 @@ function EditAuthorizedUsesForm(props) {
   useEffect(() => {
     async function fetchAuthorizedUses() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/authorized_uses`)
+      const response = await fetch(`http://${base_url}/api/authorized_uses`)
       const data = await response.json();
       setAuthorizedUses(data.result)
     }
@@ -42,12 +74,25 @@ function EditAuthorizedUsesForm(props) {
   // handle submit
   async function handleSubmit(event) {
     event.preventDefault();
+    try {
     //compile data to send
     const data = {
+      city: permitData.city,
+      state_abbrev: permitData.state_abbrev,
+      office_code: permitData.office_code,
+      permit_num: permitData.permit_num,
+      docket_num: permitData.docket_num,
+      exp_date: permitData.exp_date,
+      program_codes: permitData.program_codes,
+      inspection_priority: permitData.inspection_priority,
+      primary_rso: permitData.primary_rso,
+      material: permitData.material,
       authorized_use: selectedAuthorizedUses,
+      authorized_user: permitData.authorized_user,
+      permit_program: permitData.permit_program,
     }
     const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`, {
+      const response = await fetch(`http://${base_url}/api/${office_code}/edit`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -56,12 +101,20 @@ function EditAuthorizedUsesForm(props) {
     });
     const result = await response.json();
     // console.log(result)
-    window.location.reload()
+    if (response.ok) {
+      alert('Permit authorized uses updated successfully!');
+      window.location.reload()
+    } else {
+        alert('An error occurred while updating permit authorized uses. Please check your form inputs.');
+      }
+    } catch (err) {
+      alert('An error occurred while updating permit authorized uses.')
+      console.error(err)
+    }
   }
 
   return (
     <div>
-      {selectedAuthorizedUses &&
     <Form>
       <Form.Group>
         <Form.Label>Authorized Use(s):</Form.Label>
@@ -70,10 +123,8 @@ function EditAuthorizedUsesForm(props) {
         ))}
         </Form.Select>
       </Form.Group>
-        <hr />
-        <Button onClick={handleSubmit}>Update Authorized Uses</Button>
+        <Button onClick={handleSubmit}>Update Permit</Button>
       </Form>
-    }
     </div>
   );
 }

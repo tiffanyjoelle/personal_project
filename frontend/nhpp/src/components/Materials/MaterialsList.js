@@ -15,7 +15,7 @@ function MaterialsList(props) {
       </Accordion.Item>
     </Accordion>
     <Accordion>
-      <Accordion.Item eventKey="0">
+      <Accordion.Item eventKey="1">
         <Accordion.Header>Add New Material to Selection List</Accordion.Header>
         <Accordion.Body>
         <AddMaterialForm />

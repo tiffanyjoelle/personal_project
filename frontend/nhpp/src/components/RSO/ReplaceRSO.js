@@ -17,16 +17,6 @@ function ReplaceRsoForm(props) {
     const { name, value } = event.target
     setPermitData({ ...permitData, [name]: value })
   }
-  
-  // useEffect( () => {
-  //   async function getPermitInfo() {
-  //     const base_url = process.env.REACT_APP_BASE_URL
-  //     const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`)
-  //     const body = await response.json()
-  //     setPermitInfo(body.result)
-  //   }
-  //   getPermitInfo()
-  // }, [])
 
   useEffect(() => {
     if (editPermitInfo) {
@@ -39,7 +29,7 @@ function ReplaceRsoForm(props) {
   useEffect(() => {
     async function fetchRSOs() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/RSO`)
+      const response = await fetch(`http://${base_url}/api/RSO`)
       const data = await response.json();
       setRSO(data.result)
     }
@@ -49,21 +39,31 @@ function ReplaceRsoForm(props) {
   // handle submit
   async function handleReplaceRsoSubmit(event) {
     event.preventDefault();
-    //compile data to send
-    const data = {
-      primary_rso: permitData.primary_rso,
-    }
-    const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://127.0.0.1:8000/api/${office_code}/edit`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+    try {
+      //compile data to send
+      const data = {
+        primary_rso: permitData.primary_rso,
+      }
+      const base_url = process.env.REACT_APP_BASE_URL
+        const response = await fetch(`http://${base_url}/api/${office_code}/edit`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
     });
     const result = await response.json();
-    // console.log(result)
-    window.location.reload()
+      // console.log(result)
+      if (response.ok) {
+        alert('Permit RSO updated successfully!')
+        window.location.reload()
+      } else {
+        alert('An error occurred while updating permit RSO. Please check your form inputs.');
+      }
+    } catch (err) {
+      alert('An error occurred while updating permit RSO.');
+      console.error(err)
+    }
   }
 
   return (
