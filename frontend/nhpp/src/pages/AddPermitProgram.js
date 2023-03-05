@@ -20,15 +20,13 @@ const AddPermitProgramForm = () => {
       });
       // console.log(JSON.stringify(formData))
       if (response.ok) {
-        const confirmed = window.confirm('Program added successfully!')
-        if (confirmed) {
-          window.history.back()
-        }
+        alert('Program added successfully!')
+        window.location.reload()
       } else {
         alert('An error occurred while adding program. Please check your form inputs.');
       }
     } catch (err) {
-      alert('An error occurred while adding program.');
+      alert('An error occurred while adding program.')
       console.error(err)
     }
   };

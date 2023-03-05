@@ -52,6 +52,7 @@ function HomePage() {
   // console.log(RSO)
   return (
     <div>
+      {user ? 
       <Container>
       {staff &&
         <Row>
@@ -68,6 +69,9 @@ function HomePage() {
         </Row>
       }
        </Container>
+       :
+       <div>Loading...</div>
+    }
     </div>
   )
 }

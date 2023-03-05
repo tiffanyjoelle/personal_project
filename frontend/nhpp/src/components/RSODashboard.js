@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Container, Accordion } from "react-bootstrap";
 import NavBar from "./NavBar";
 import EditRSOForm from "./RSO/EditRSO";
+import { Link } from "react-router-dom";
 
 function RSODashboard(props) {
 
@@ -27,8 +28,8 @@ function RSODashboard(props) {
   useEffect( () => {
     async function getPermitInfo() {
       // if (office_code){
-        const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch(`http://127.0.0.1:8000/api/${props.office_code}`)
+      const base_url = process.env.REACT_APP_BASE_URL
+      const res = await fetch(`http://${base_url}/api/${props.office_code}`)
       const body = await res.json()
       setPermitInfo(body.result)
       // }
@@ -50,6 +51,8 @@ function RSODashboard(props) {
         </Accordion.Body>
       </Accordion.Item>
       </Accordion>}
+      <br />
+      <a href="mailto:vhconhpp@va.gov">Contact NHPP</a>
       </Container>
     </div>
   )

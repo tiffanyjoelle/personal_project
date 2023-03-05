@@ -4,7 +4,7 @@ function NavBar() {
 
   function handleLogoutBtnClick() {
     localStorage.setItem('token', '');
-    window.location.href = "/"
+    window.location.href = "/login"
   }
 
 

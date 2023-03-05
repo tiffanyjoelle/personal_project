@@ -37,9 +37,10 @@ function Login() {
         window.location.href = '/'
       } else {
         localStorage.removeItem('token');
-        throw new Error('Login failed');
+        alert('Login failed');
       }
     } catch (error) {
+      alert('Something went wrong.')
       console.error(error);
     } finally {
       setLoading(false)

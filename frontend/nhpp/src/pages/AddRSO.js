@@ -27,15 +27,13 @@ const AddRSOPage = () => {
       });
       // console.log(JSON.stringify(formData))
       if (response.ok) {
-        const confirmed = window.confirm('RSO added successfully!')
-        if (confirmed) {
-          window.history.back()
-        }
+        alert('RSO added successfully!')
+        window.location.reload()
       } else {
         alert('An error occurred while adding RSO. Please check your form inputs.');
       }
     } catch (err) {
-      alert('An error occurred while adding RSO.');
+      alert('An error occurred while adding RSO.')
       console.error(err)
     }
   };

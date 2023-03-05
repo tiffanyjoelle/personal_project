@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import { Row, Col, Container, Tab, Tabs, Button } from 'react-bootstrap';
 import FacilityDemographics from "../components/FacilityDemographics";
 import PMNavBar from "../components/PMNavBar";
-import PermitDoc from "../components/PermitDoc";
 import RSO from "../components/RSO/RSO";
 import MaterialsList from "../components/Materials/MaterialsList";
 import AuthorizedUsesList from "../components/AuthorizedUses/AuthorizedUses";
 import AUList from "../components/AuthorizedUsers/AUList";
 import PermitDetails from "../components/PermitDetails/PermitDetails";
+import PermitDocComponent from "../components/PermitDoc/PermitDocComponent";
 
 function PermitView() {
 
@@ -100,7 +100,7 @@ function PermitView() {
   return (
     <div>
       <PMNavBar />
-      {(permitInfo && editPermitInfo) &&
+      {(permitInfo && editPermitInfo) ?
       <Container>
         <Row className="text-center" style={{ display: 'flex', alignItems: 'center', height: '20vh', backgroundColor: '#4682B4', color: 'whitesmoke'}}>
           <h1 style={{ textAlign: 'center' }}>Facility #{office_code} {permitInfo && permitInfo.city}, {permitInfo && permitInfo.state_abbrev}</h1>
@@ -133,10 +133,12 @@ function PermitView() {
       <AUList permitInfo={permitInfo} editPermitInfo={editPermitInfo}/>
       </Tab>
       <Tab eventKey="permit" title="View Permit">
-      <PermitDoc facilityInfo={facilityInfo} permitInfo={permitInfo}/>
+      <PermitDocComponent facilityInfo={facilityInfo} permitInfo={permitInfo}/>
       </Tab>
       </Tabs>
       </Container>
+      :
+      <div>Loading...</div>
       }
     </div>
   )
