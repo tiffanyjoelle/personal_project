@@ -5,10 +5,13 @@ import { Form, Button } from 'react-bootstrap';
 function EditAUForm(props) {
 
   // states and params
+
   let { office_code } = useParams()
+  // state to hold all of the permit info from db
   const [permitInfo, setPermitInfo] = useState(props.editPermitInfo)
 
   // for some reason, the db isn't letting me PUT w only authorized users, so adding all fields
+  // state to hold edited data to send in PUT request
   const [permitData, setPermitData] = useState({
     city: "",
     state_abbrev: "",
@@ -25,16 +28,20 @@ function EditAUForm(props) {
     permit_program: [],
   });
 
+  // state to get list of all available AUs in db
   const [authorizedUser, setAuthorizedUsers] = useState([]);
+  // state to hold multiple selected values for PUT request
   const [selectedAuthorizedUsers, setSelectedAuthorizedUsers] = useState([]);
   
   // useEffects and handleChanges
 
+  // reactively set formData state with any change in input if applicable
   const handleChange = (event) => {
     const { name, value } = event.target
     setPermitData({ ...permitData, [name]: value })
   }
 
+  // automatically set default data for PUT request with current permit info
   useEffect(() => {
     if (permitInfo) {
       setPermitData({
@@ -55,6 +62,7 @@ function EditAUForm(props) {
     }
   }, [permitInfo]);
 
+  // grab all of db's available AUs
   useEffect(() => {
     async function fetchAuthorizedUsers() {
       const base_url = process.env.REACT_APP_BASE_URL
@@ -65,6 +73,7 @@ function EditAUForm(props) {
     fetchAuthorizedUsers();
   }, []);
   
+  // store selected values from form
   function handleAuthorizedUserSelect(event) {
     const selectedValues = Array.from(event.target.selectedOptions, option => option.value);
     setSelectedAuthorizedUsers(selectedValues)

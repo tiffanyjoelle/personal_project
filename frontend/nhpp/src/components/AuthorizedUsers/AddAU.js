@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { Container, Row, Form, Button, Alert } from 'react-bootstrap';
 
 const AddAUForm = () => {
+
+  // state to hold form inputs to send in POST request
   const [formData, setFormData] = useState({
     full_name: '',
     credentials: '',
   });
 
+  // form submission POST request
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -33,6 +36,7 @@ const AddAUForm = () => {
     }
   };
 
+  // reactively set formData state with any change in input
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };

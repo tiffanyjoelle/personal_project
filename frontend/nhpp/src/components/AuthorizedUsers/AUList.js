@@ -4,6 +4,7 @@ import { Accordion } from "react-bootstrap"
 
 function AUList(props) {
 
+  // create list of AUs from permit
   function createAuthorizedUsersList() {
     if (props.permitInfo.authorized_user.length > 0) {
       return (

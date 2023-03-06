@@ -2,8 +2,6 @@ import { Row,Col } from "react-bootstrap";
 
 function FacilityDemographics(props) {
 
-
-
   function createProgramsList() {
     return (
       <div>
