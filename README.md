@@ -24,6 +24,7 @@ RSOs can:
 ## Third Party APIs
 
 [VA Facilities API](https://developer.va.gov/explore/facilities/docs/facilities?version=current) - for most current facility name, address, and phone number
+
 [ADAMS API](https://www.nrc.gov/site-help/developers/wba-api-developer-guide.pdf) - for list of documents that reference "Veterans Affairs"
 
 ## Stretch Goals
