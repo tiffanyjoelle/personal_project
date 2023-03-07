@@ -4,6 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 
 function EditAUForm(props) {
 
+  const token = 'Token ' + localStorage.getItem('token')
   // states and params
 
   let { office_code } = useParams()
@@ -66,7 +67,11 @@ function EditAUForm(props) {
   useEffect(() => {
     async function fetchAuthorizedUsers() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/authorized_users`)
+      const response = await fetch(`http://${base_url}/api/authorized_users`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setAuthorizedUsers(data.result)
     }
@@ -104,6 +109,7 @@ function EditAUForm(props) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': token
       },
       body: JSON.stringify(data),
     });

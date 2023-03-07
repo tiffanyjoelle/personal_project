@@ -3,6 +3,8 @@ import { Container, Row, Form, Button } from 'react-bootstrap';
 
 const AddRSOForm = (props) => {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   const [rsoFormData, setRsoFormData] = useState({
     first_name: '',
     middle_name: '',
@@ -23,6 +25,7 @@ const AddRSOForm = (props) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token
         },
         body: JSON.stringify(rsoFormData),
       });
@@ -37,6 +40,7 @@ const AddRSOForm = (props) => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': token
       },
       body: JSON.stringify(permitData),
     });

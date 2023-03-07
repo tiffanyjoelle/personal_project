@@ -2,16 +2,23 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Signup() {
+
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [loading, setLoading] = useState(false);
   // const [officeCode, setOfficeCode] = useState("");
   
   // console.log(username, password)
   async function getMatchingFacilities(firstName, lastName) {
+    const token = 'Token ' + localStorage.getItem('token')
     const base_url = process.env.REACT_APP_BASE_URL
-    const res = await fetch(`http://${base_url}/api/`);
+    const res = await fetch(`http://${base_url}/api/`, {
+      headers: {
+        'Authorization': token
+      }
+    })
     const body = await res.json();
   
     // Filter facilities based on first and last name matches
@@ -25,39 +32,83 @@ function Signup() {
 
   async function signupSubmit(e) {
     e.preventDefault();
-    // handleValidation();
-    // find office_code associated with user registration
+    setLoading(true)
+    // handleValidation(); - did not have time to add validation
+    //create user account
     try {
-      const matchingFacilities = await getMatchingFacilities(firstName, lastName);
-      console.log(matchingFacilities);
-      if (matchingFacilities.length === 1) {
-        const officeCode = matchingFacilities[0].office_code;
-        const base_url = process.env.REACT_APP_BASE_URL
-        const response = await fetch(`http://${base_url}/api/accounts/register`, {
+      const base_url = process.env.REACT_APP_BASE_URL
+      const response = await fetch(`http://${base_url}/api/accounts/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+          first_name: firstName,
+          last_name: lastName,
+          office_code: null
+        })
+      })
+      // get auth token and set to local storage
+      if (response.ok) {
+        const tokenResponse = await fetch(`http://${base_url}/api/accounts/api-token-auth`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             username: username,
-            password: password,
-            first_name: firstName,
-            last_name: lastName,
-            office_code: officeCode
+            password: password
           })
-        });
-        if (response.ok) {
-          //set success message
-          window.location.href = '/';
+        })
+        if (tokenResponse.ok) {
+          const data = await tokenResponse.json();
+          localStorage.setItem('token', data.token);
+
+          // get facilities that match user's first and last name
+          const matchingFacilities = await getMatchingFacilities(firstName, lastName);
+          if (matchingFacilities.length === 1) {
+            const token = 'Token ' + localStorage.getItem('token')
+            // console.log(token)
+            // console.log(matchingFacilities)
+            const officeCode = matchingFacilities[0].office_code;
+            console.log(officeCode)
+
+            // assign facility office code to user
+            const userResponse = await fetch(`http://${base_url}/api/accounts/details`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+              },
+              body: JSON.stringify({
+                office_code: officeCode
+              })
+            });
+
+            // redirect back to login or handle errors
+            if (userResponse.ok) {
+              localStorage.removeItem('token');
+              alert('Account successfully created!')
+              window.location.href = '/'
+            } else {
+              localStorage.removeItem('token');
+              alert('Failed to update user account with office code.');
+            }
+          } else {
+            localStorage.removeItem('token');
+            alert('Cannot create account. Username and/or facility may be taken.');
+          }
         } else {
           localStorage.removeItem('token');
-          throw new Error('Cannot create account. Username and/or facility may be taken.');
+          alert('Cannot locate your assigned facility; please reach out to NHPP for assistance.');
         }
-      } else {
-        alert('Cannot locate your assigned facility; please reach out to NHPP for assistance.');
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false)
     }
   }
   
@@ -117,6 +168,7 @@ function Signup() {
               <button type="submit" className="btn btn-primary">
                 Submit
               </button>
+              {loading && <div>Loading...</div>}
             </form>
           </div>
         </div>

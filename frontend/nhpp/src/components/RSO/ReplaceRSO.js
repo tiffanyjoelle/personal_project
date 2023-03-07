@@ -4,6 +4,8 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 function ReplaceRsoForm(props) {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   // states and params
   let { office_code } = useParams()
   const [editPermitInfo, setEditPermitInfo] = useState(props.editPermitInfo)
@@ -29,7 +31,11 @@ function ReplaceRsoForm(props) {
   useEffect(() => {
     async function fetchRSOs() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/RSO`)
+      const response = await fetch(`http://${base_url}/api/RSO`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setRSO(data.result)
     }
@@ -49,6 +55,7 @@ function ReplaceRsoForm(props) {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token
         },
         body: JSON.stringify(data),
     });

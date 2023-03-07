@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
 
 const AddAuthorizedUseForm = () => {
+
+  const token = 'Token ' + localStorage.getItem('token')
+
   const [formData, setFormData] = useState({
     use: '',
   });
@@ -14,6 +17,7 @@ const AddAuthorizedUseForm = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token
         },
         body: JSON.stringify(formData),
       });

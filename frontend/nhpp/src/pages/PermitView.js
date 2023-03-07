@@ -12,6 +12,8 @@ import PermitDocComponent from "../components/PermitDoc/PermitDocComponent";
 
 function PermitView() {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   let { office_code }  = useParams()
   //used to hold current permit data from db
   const [permitInfo, setPermitInfo] = useState()
@@ -52,6 +54,7 @@ function PermitView() {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': token
       },
     });
     // console.log(result)
@@ -64,7 +67,11 @@ function PermitView() {
     async function getFacilityInfo() {
       if (office_code){
         const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch(`http://${base_url}/api/facility/${office_code}`)
+      const res = await fetch(`http://${base_url}/api/facility/${office_code}`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const body = await res.json()
       setFacilityInfo(body.data)
       // console.log(body)
@@ -78,7 +85,11 @@ function PermitView() {
     async function getPermitInfo() {
       if (office_code){
         const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch(`http://${base_url}/api/${office_code}`)
+      const res = await fetch(`http://${base_url}/api/${office_code}`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const body = await res.json()
       setPermitInfo(body.result)
       }
@@ -89,7 +100,11 @@ function PermitView() {
   useEffect( () => {
     async function getEditPermitInfo() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/${office_code}/edit`)
+      const response = await fetch(`http://${base_url}/api/${office_code}/edit`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const body = await response.json()
       setEditPermitInfo(body.result)
     }

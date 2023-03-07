@@ -4,6 +4,8 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 function EditPermitDetailsForm(props) {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   // states and params
   let { office_code } = useParams()
   const [permitInfo, setPermitInfo] = useState(props.editPermitInfo)
@@ -44,7 +46,11 @@ function EditPermitDetailsForm(props) {
   useEffect(() => {
     async function fetchInspectionPriorities() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/inspection_priorities`)
+      const response = await fetch(`http://${base_url}/api/inspection_priorities`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setInspectionPriorities(data.result)
     }
@@ -54,7 +60,11 @@ function EditPermitDetailsForm(props) {
   useEffect(() => {
     async function fetchProgramCodes() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/program_codes`)
+      const response = await fetch(`http://${base_url}/api/program_codes`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setProgramCodes(data.result)
     }
@@ -69,7 +79,11 @@ function EditPermitDetailsForm(props) {
   useEffect(() => {
     async function fetchPermitPrograms() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/permit_programs`)
+      const response = await fetch(`http://${base_url}/api/permit_programs`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setPermitPrograms(data.result)
     }
@@ -98,6 +112,7 @@ function EditPermitDetailsForm(props) {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token
         },
         body: JSON.stringify(data),
     });

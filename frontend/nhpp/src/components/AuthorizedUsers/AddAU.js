@@ -3,6 +3,8 @@ import { Container, Row, Form, Button, Alert } from 'react-bootstrap';
 
 const AddAUForm = () => {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   // state to hold form inputs to send in POST request
   const [formData, setFormData] = useState({
     full_name: '',
@@ -18,6 +20,7 @@ const AddAUForm = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token
         },
         body: JSON.stringify(formData),
       });

@@ -18,9 +18,6 @@ class RegisterSerializer(serializers.ModelSerializer):
   )
   password = serializers.CharField(
     write_only=True, required=True)
-
-  office_code = serializers.CharField(
-    validators=[UniqueValidator(queryset=CustomUser.objects.all())])
   
   class Meta:
     model = CustomUser

@@ -4,6 +4,8 @@ import PMNavBar from "../components/PMNavBar";
 
 function NewPermitForm() {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   // states
   // const [token, setToken] = useState(localStorage.getItem('token'))
   const [permitData, setPermitData] = useState({
@@ -39,7 +41,11 @@ function NewPermitForm() {
   useEffect(() => {
     async function fetchInspectionPriorities() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/inspection_priorities`)
+      const response = await fetch(`http://${base_url}/api/inspection_priorities`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setInspectionPriorities(data.result)
     }
@@ -49,7 +55,11 @@ function NewPermitForm() {
   useEffect(() => {
     async function fetchRSOs() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/RSO`)
+      const response = await fetch(`http://${base_url}/api/RSO`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setRSO(data.result)
     }
@@ -59,7 +69,11 @@ function NewPermitForm() {
   useEffect(() => {
     async function fetchProgramCodes() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/program_codes`)
+      const response = await fetch(`http://${base_url}/api/program_codes`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setProgramCodes(data.result)
     }
@@ -74,7 +88,11 @@ function NewPermitForm() {
   useEffect(() => {
     async function fetchMaterials() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/materials`)
+      const response = await fetch(`http://${base_url}/api/materials`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setMaterials(data.result)
     }
@@ -89,7 +107,11 @@ function NewPermitForm() {
   useEffect(() => {
     async function fetchAuthorizedUses() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/authorized_uses`)
+      const response = await fetch(`http://${base_url}/api/authorized_uses`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setAuthorizedUses(data.result)
     }
@@ -104,7 +126,11 @@ function NewPermitForm() {
   useEffect(() => {
     async function fetchAuthorizedUsers() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/authorized_users`)
+      const response = await fetch(`http://${base_url}/api/authorized_users`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setAuthorizedUsers(data.result)
     }
@@ -119,7 +145,11 @@ function NewPermitForm() {
   useEffect(() => {
     async function fetchPermitPrograms() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/permit_programs`)
+      const response = await fetch(`http://${base_url}/api/permit_programs`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setPermitPrograms(data.result)
     }
@@ -160,6 +190,7 @@ function NewPermitForm() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': token
       },
       body: JSON.stringify(data),
     });

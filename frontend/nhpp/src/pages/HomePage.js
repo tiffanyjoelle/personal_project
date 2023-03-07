@@ -7,7 +7,7 @@ function HomePage() {
 
   const [user, setUser] = useState()
   const [staff, setStaff] = useState()
-  const [RSO, setRSO] = useState()
+  const [officeCode, setOfficeCode] = useState()
 
   useEffect( () => {
     async function fetchUserDetails() {
@@ -25,7 +25,7 @@ function HomePage() {
             const data = await response.json();
             setUser(data);
           } else {
-            throw new Error('Failed to fetch user details');
+            alert('Failed to fetch user details');
           }
         } catch (error) {
           console.error(error);
@@ -37,19 +37,19 @@ function HomePage() {
     }
     fetchUserDetails();
   }, []);
-
+  console.log(user)
   useEffect( () => {
     if(user) {
       if (user.is_staff) {
         setStaff("True")
       } else {
         const office_code = user.office_code
-        setRSO(office_code)
+        setOfficeCode(office_code)
       }
     }
   }, [user]);
  
-  // console.log(RSO)
+  console.log(officeCode)
   return (
     <div>
       {user ? 
@@ -61,10 +61,10 @@ function HomePage() {
           </Col>
         </Row>
       }
-      {RSO &&
+      {officeCode &&
         <Row>
           <Col>
-          <RSODashboard office_code={RSO}/>
+          <RSODashboard office_code={officeCode}/>
           </Col>
         </Row>
       }

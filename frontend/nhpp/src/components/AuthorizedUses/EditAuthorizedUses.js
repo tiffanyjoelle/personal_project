@@ -4,6 +4,8 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 function EditAuthorizedUsesForm(props) {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   // states and params
   let { office_code } = useParams()
   const [permitInfo, setPermitInfo] = useState(props.editPermitInfo)
@@ -59,7 +61,11 @@ function EditAuthorizedUsesForm(props) {
   useEffect(() => {
     async function fetchAuthorizedUses() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/authorized_uses`)
+      const response = await fetch(`http://${base_url}/api/authorized_uses`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setAuthorizedUses(data.result)
     }
@@ -96,6 +102,7 @@ function EditAuthorizedUsesForm(props) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': token
       },
       body: JSON.stringify(data),
     });

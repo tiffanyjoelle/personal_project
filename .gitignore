@@ -2,3 +2,4 @@ venv/
 extracode.py
 .env
 __pycache__
+personal_project.pem

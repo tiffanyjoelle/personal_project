@@ -4,18 +4,23 @@ import { useState, useEffect } from "react";
 import { Container, Accordion } from "react-bootstrap";
 import NavBar from "./NavBar";
 import EditRSOForm from "./RSO/EditRSO";
-import { Link } from "react-router-dom";
 
 function RSODashboard(props) {
+
+  const token = 'Token ' + localStorage.getItem('token')
 
   const [permitInfo, setPermitInfo] = useState()
   const [facilityInfo, setFacilityInfo] = useState()
 
   useEffect( () => {
     async function getFacilityInfo() {
-      if (props.office_code){
+      if (props){
         const base_url = process.env.REACT_APP_BASE_URL
-        const response = await fetch(`http://${base_url}/api/facility/${props.office_code}`)
+        const response = await fetch(`http://${base_url}/api/facility/${props.office_code}`, {
+          headers: {
+            'Authorization': token
+          }
+        })
       const body = await response.json()
       setFacilityInfo(body.data)
       // console.log(body)
@@ -29,7 +34,11 @@ function RSODashboard(props) {
     async function getPermitInfo() {
       // if (office_code){
       const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch(`http://${base_url}/api/${props.office_code}`)
+      const res = await fetch(`http://${base_url}/api/${props.office_code}`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const body = await res.json()
       setPermitInfo(body.result)
       // }

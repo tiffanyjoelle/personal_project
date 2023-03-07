@@ -3,6 +3,8 @@ import { Row, Col, Form, Button } from "react-bootstrap"
 
 function RSONotes(props) {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   const [editFormData, setEditFormData] = useState({
     notes: '',
   });
@@ -24,6 +26,7 @@ function RSONotes(props) {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token
         },
         body: JSON.stringify(editFormData),
       });

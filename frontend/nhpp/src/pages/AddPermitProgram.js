@@ -3,6 +3,9 @@ import { Container, Row, Form, Button } from 'react-bootstrap';
 import PMNavBar from '../components/PMNavBar';
 
 const AddPermitProgramForm = () => {
+
+  const token = 'Token ' + localStorage.getItem('token')
+
   const [formData, setFormData] = useState({
     title: '',
   });
@@ -15,6 +18,7 @@ const AddPermitProgramForm = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token
         },
         body: JSON.stringify(formData),
       });

@@ -4,13 +4,19 @@ import PMNavBar from "./PMNavBar";
 
 function PMDashboard() {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   const [facilities, setFacilities] = useState('')
   const [articles, setArticles] = useState()
 
   useEffect( () => {
     async function getFacilities() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch(`http://${base_url}/api/`)
+      const res = await fetch(`http://${base_url}/api/`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const body = await res.json()
       // console.log(body.result)
       setFacilities(body.result)
@@ -22,7 +28,11 @@ function PMDashboard() {
     async function getNRCArticles() {
       try {
       const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch(`http://${base_url}/api/nrc`)
+      const res = await fetch(`http://${base_url}/api/nrc`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const body = await res.json()
       // console.log(body.result)
       setArticles(body.documents.slice(0,10))

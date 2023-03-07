@@ -3,6 +3,9 @@ import { Container, Row, Form, Button } from 'react-bootstrap';
 import PMNavBar from '../components/PMNavBar';
 
 const AddRSOPage = () => {
+
+  const token = 'Token ' + localStorage.getItem('token')
+
   const [formData, setFormData] = useState({
     first_name: '',
     middle_name: '',
@@ -22,6 +25,7 @@ const AddRSOPage = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token
         },
         body: JSON.stringify(formData),
       });

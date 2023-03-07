@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
 
 const EditRSOForm = (props) => {
+
+  const token = 'Token ' + localStorage.getItem('token')
+
   const [editFormData, setEditFormData] = useState({
     first_name: '',
     middle_name: '',
@@ -37,6 +40,7 @@ const EditRSOForm = (props) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token
         },
         body: JSON.stringify(editFormData),
       });

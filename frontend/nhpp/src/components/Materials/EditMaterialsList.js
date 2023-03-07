@@ -4,6 +4,8 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 function EditMaterialsForm(props) {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   // states and params
   let { office_code } = useParams()
   const [permitInfo, setPermitInfo] = useState(props.editPermitInfo)
@@ -25,7 +27,11 @@ function EditMaterialsForm(props) {
   useEffect(() => {
     async function fetchMaterials() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const response = await fetch(`http://${base_url}/api/materials`)
+      const response = await fetch(`http://${base_url}/api/materials`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const data = await response.json();
       setMaterials(data.result)
     }
@@ -50,6 +56,7 @@ function EditMaterialsForm(props) {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token
         },
         body: JSON.stringify(data),
     });

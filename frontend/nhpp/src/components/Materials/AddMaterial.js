@@ -3,6 +3,8 @@ import { Container, Row, Form, Button } from 'react-bootstrap';
 
 function AddMaterialForm () {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   const [formData, setFormData] = useState({
     source: '',
     form: '',
@@ -17,6 +19,7 @@ function AddMaterialForm () {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token
         },
         body: JSON.stringify(formData),
       });

@@ -6,13 +6,19 @@ import { NavDropdown } from 'react-bootstrap';
 
 function FacilityDropdownMenu() {
 
+  const token = 'Token ' + localStorage.getItem('token')
+
   const [value, setValue] = useState('')
   const [facilities, setFacilities] = useState('')
 
   useEffect( () => {
     async function getFacilities() {
       const base_url = process.env.REACT_APP_BASE_URL
-      const res = await fetch(`http://${base_url}/api/`)
+      const res = await fetch(`http://${base_url}/api/`, {
+        headers: {
+          'Authorization': token
+        }
+      })
       const body = await res.json()
       // console.log(body.result)
       setFacilities(body.result)

@@ -28,6 +28,7 @@ RSOs can:
 
 ## Stretch Goals
 
+- Add ability to handle RSOs with multiple facilities and function to update the user's office code when changing facilities
 - Add full CRUD capabilities for all nested information within the permit (ie. materials, AUs, etc)
 - Add related table for permit conditions due to varying permit templates
 - Add multiple permit templates based on program code(s)

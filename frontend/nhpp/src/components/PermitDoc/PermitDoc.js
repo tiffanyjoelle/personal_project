@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 
 function PermitDoc(props) {
-    
+
     function createMaterialList() {
       try {
         let letter = "A"
