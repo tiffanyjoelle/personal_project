@@ -39,8 +39,8 @@ RSOs can:
 
 ## Installation
 
-Before running this application, you must obtain a key for the VA Facilities API. It is an open source API and the dev key is easily obtained here (link to where to get key).
+Before running this application, you must obtain a key for the VA Facilities API. It is an open source API and the dev key is easily obtained [here](https://developer.va.gov/onboarding/request-sandbox-access).
 
 This project is compiled using Docker compose. To build and run the images locally, make sure you have Docker installed, navigate to the root of Personal_Project, and run: 
 
-(`./run-compose.dev.sh va-api-key`)
+(`./run-compose.dev.sh <va-api-key>`)
