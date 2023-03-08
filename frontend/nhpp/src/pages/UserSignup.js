@@ -119,7 +119,8 @@ function Signup() {
       <div className="container">
         <div className="row d-flex justify-content-center">
           <div className="col-md-4">
-            <h1>Signup</h1>
+            <h1>RAM Tracker</h1>
+            <h4>Radiation Safety Officer Signup</h4>
             <p>When signing up, please make sure to enter name exactly as it appears on the permit.</p>
             <form id="loginform" onSubmit={signupSubmit}>
               <div className="form-group">

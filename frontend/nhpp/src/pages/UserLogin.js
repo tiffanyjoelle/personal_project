@@ -53,7 +53,7 @@ function Login() {
       <div className="container">
         <div className="row d-flex justify-content-center">
           <div className="col-md-4">
-            <h1>Login</h1>
+            <h1>RAM Tracker</h1>
             <form id="loginform" onSubmit={loginSubmit}>
               <div className="form-group">
                 <label>Username</label>
