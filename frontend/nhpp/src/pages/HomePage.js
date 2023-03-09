@@ -37,7 +37,7 @@ function HomePage() {
     }
     fetchUserDetails();
   }, []);
-  console.log(user)
+  // console.log(user)
   useEffect( () => {
     if(user) {
       if (user.is_staff) {
@@ -49,7 +49,7 @@ function HomePage() {
     }
   }, [user]);
  
-  console.log(officeCode)
+  // console.log(officeCode)
   return (
     <div>
       {user ? 

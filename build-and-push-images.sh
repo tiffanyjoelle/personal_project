@@ -12,7 +12,7 @@
 
 BASE_URL=$1
 NEW_VERSION=$2
-# ./build-and-push-images.sh 34.224.2.200 1.0
+# ./build-and-push-images.sh 44.195.22.5 1.0.4
 # pass these in as parameters in the run command, use the url from the ec2 instance
 
 docker buildx build --platform linux/amd64 --build-arg REACT_APP_BASE_URL=$BASE_URL -t tiffanyjoelle/webserver-prod:$NEW_VERSION -f webserver/Dockerfile . --no-cache
